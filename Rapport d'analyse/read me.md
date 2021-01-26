@@ -2,5 +2,5 @@ Le rapport d'analyse doit contenir une description de tout le travail prélimina
 
     une analyse des besoins
     les spécifications
-    une conception préliminaire
+    une conception préliminaire: pseudo-code de chaque fonction
     une conception détaillée
