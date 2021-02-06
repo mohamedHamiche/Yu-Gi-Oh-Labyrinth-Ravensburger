@@ -1,0 +1,28 @@
+Jouer au labyrinthe Ravensburger:
+
+- Définir le nombre de joueurs (2 à 4).
+- Poser le plateau:
+     1. On remarque qu'il y a des tuiles fixes.
+     2. Remplir le plateau avec les tuiles couloir au hasard.
+     3. Il reste une tuile en dehors du plateau.
+- Attribuer un pion à chaque joueur.
+- Poser les pions sur les coins respectifs des joueurs. 
+- Distribuer les cartes trésor: chaque joueur a une pile de cartes face cachée.
+- Qui commence la partie ? Disons le joueur 1.
+- Dans quel sens faire le tour ? Joueur 2..1.
+- Le joueur 1 à la tuile à jouer en main.
+- Le joueur 1 regarde la tête de sa pile.
+- Le joueur 1 doit choisir parmi les 12 couloirs où insérer la tuile qu'il a en main.
+- Une autre tuile sort de l'autre cote du couloir.
+- Cette tuile passe à la main du joueur suivant (joueur 2).
+- Le joueur 1 doit déplacer son pion ou pas.
+- Si joueur 1 à atteint son trésor:
+     1. il dépile la tête de ses cartes trésor.
+     2. il regarde son prochain objectif.
+- C'est au tour du joueur 2. 
+- Si un joueur a atteint tous ses trésors:
+     il ramène son pion au point de départ et il gagne la partie.
+- La partie est terminé si un joueur a gagné.
+
+
+ 
