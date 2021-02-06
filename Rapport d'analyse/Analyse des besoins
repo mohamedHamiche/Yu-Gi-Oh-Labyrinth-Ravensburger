@@ -13,16 +13,19 @@ Jouer au labyrinthe Ravensburger:
 - Le joueur 1 à la tuile à jouer en main.
 - Le joueur 1 regarde la tête de sa pile.
 - Le joueur 1 doit choisir parmi les 12 couloirs où insérer la tuile qu'il a en main.
+     le couloir choisi ne doit pas être l'opposé du coup précedent.
 - Une autre tuile sort de l'autre cote du couloir.
 - Cette tuile passe à la main du joueur suivant (joueur 2).
 - Le joueur 1 doit déplacer son pion ou pas.
-- Si joueur 1 à atteint son trésor:
+- Vérifier si le coup est valable: si le joueur n'a pas franchi un mur.
+- Si joueur 1 a atteint son trésor:
      1. il dépile la tête de ses cartes trésor.
      2. il regarde son prochain objectif.
 - C'est au tour du joueur 2. 
-- Si un joueur a atteint tous ses trésors:
-     il ramène son pion au point de départ et il gagne la partie.
-- La partie est terminé si un joueur a gagné.
+- Si un joueur a atteint tous ses trésors: (sa pile est vide)
+     son objectif n'est plus d'atteindre un trésor,
+     il doit ramener son pion au point de départ pour gagner la partie.
+- La partie est terminé si un des joueurs a gagné.
 
 
  
