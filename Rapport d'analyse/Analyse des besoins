@@ -25,7 +25,7 @@ Jouer au labyrinthe Ravensburger: les étapes
 - Si un joueur a atteint tous ses trésors: (sa pile est vide)
      son objectif n'est plus d'atteindre un trésor,
      il doit ramener son pion au point de départ pour gagner la partie.
-- La partie est terminé si un des joueurs a gagné.
+- La partie est terminée si un des joueurs a gagné.
 
 
  
