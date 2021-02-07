@@ -3,4 +3,11 @@
     sous-problème: choisir des pseudos.
 
 2- Poser le plateau :
+    - initialisation du plateau, avec les tuiles fixes.
+    - distribition aléatoire des tuiles couloirs.
+    
+
+
+        
+
     
