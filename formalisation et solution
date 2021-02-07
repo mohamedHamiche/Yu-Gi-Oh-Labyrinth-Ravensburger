@@ -6,7 +6,9 @@
     - initialisation du plateau, avec les tuiles fixes.
     - distribition aléatoire des tuiles couloirs.
     - mémoriser la tuile restante.
-    
+
+3- Attribution des pions:
+    - initialiser la position des pions de chaque joueurs 
 
 
         
