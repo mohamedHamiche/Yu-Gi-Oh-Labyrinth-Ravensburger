@@ -1,7 +1,5 @@
 1- Mode de jeu:
- 2 choix possibles :
- s
-
--choisir des pseudos.
+ solutions: (Humain Vs Humain, Humain Vs Machine)
+ sous-problème: choisir des pseudos.
 
 2- Poser le plateau :
