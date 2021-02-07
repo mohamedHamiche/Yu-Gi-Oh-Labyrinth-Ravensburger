@@ -5,6 +5,7 @@
 2- Poser le plateau :
     - initialisation du plateau, avec les tuiles fixes.
     - distribition aléatoire des tuiles couloirs.
+    - mémoriser la tuile restante.
     
 
 
