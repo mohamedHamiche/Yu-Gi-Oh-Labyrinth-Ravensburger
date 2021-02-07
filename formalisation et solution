@@ -20,6 +20,7 @@
     -si la partie n'a pas encore commencé, donner tour au hasard.
     -sinon, alterner :
         -pour passer d'un joueur à l'autre, il faut que le coup précendent de l'autre joueur soit valide.
+        
 7- Insertion de la tuile:
     -Choix du couloir (Impossible de l'endroit ou la tuile est sortie)
     -Choix de l'orientation (de la tuile : horizontalement ou verticalement etc...)
