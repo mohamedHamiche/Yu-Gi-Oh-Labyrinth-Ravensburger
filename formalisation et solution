@@ -1,16 +1,19 @@
 1- Mode de jeu:
     solutions: (Humain Vs Humain, Humain Vs Machine)
-    sous-problème: choisir des pseudos.
+    - sous-problème: choisir des pseudos.
 
-2- Poser le plateau :
+2- Poser le plateau:
     - initialisation du plateau, avec les tuiles fixes.
     - distribition aléatoire des tuiles couloirs.
     - mémoriser la tuile restante.
 
 3- Attribution des pions:
-    - initialiser la position des pions de chaque joueurs 
+    - initialiser la position des pions de chaque joueurs.
 
+4- Distribution des cartes:
+    - attribuer aléatoirement 12 cartes trésor à chacun des 2 joueurs. 
 
-        
+5- Le prochain trésor à trouver:
+    - afficher la première carte de la pile.
 
     
