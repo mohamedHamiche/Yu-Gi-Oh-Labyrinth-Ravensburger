@@ -15,5 +15,13 @@
 
 5- Le prochain trésor à trouver:
     - afficher la première carte de la pile.
+6- A qui le tour ?
+    -si la partie n'a pas encore commencé, donner tour au hasard.
+    -sinon, alterner :
+        -pour passer d'un joueur à l'autre, il faut que le coup précendent de l'autre joueur soit valide.
+
+
+
+
 
     
