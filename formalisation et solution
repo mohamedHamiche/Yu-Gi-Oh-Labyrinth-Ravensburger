@@ -34,6 +34,8 @@
             -validation du coup : existence d'un chemin valide entre la position initiale du joueur, et la position
             où il souhaite aller, et si ce chemin n'existe pas, lui demander de réessayer
 
+9- Verification si le trésor atteint
+    - Si le trésor est atteint dépiler le tresor de la pile du joueur corresepondant
 
 
 
