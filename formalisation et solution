@@ -12,6 +12,7 @@
 
 4- Distribution des cartes:
     - attribuer aléatoirement 12 cartes trésor à chacun des 2 joueurs. 
+    - le premier élément de la pile pointe vers la case de départ, suivi des 12 cartes trésor.
 
 5- Le prochain trésor à trouver:
     - afficher la première carte de la pile.
@@ -37,6 +38,7 @@
 9- Verification si le trésor atteint
     - Si le trésor est atteint dépiler le tresor de la pile du joueur corresepondant
 
+10- Si ma pile est vide j'ai gagné.
 
 
 
