@@ -29,11 +29,13 @@
     
 8- Déplacement du pion:
     -choix:
-        Passer le tour: ne pas déplacer.
-        Déplacer: donner les coordonnées du déplacment.
+        Passer le tour: ne pas déplacer, valider le coup.
+        Déplacer: donner les coordonnées du déplacement :
+            -validation du coup : existence d'un chemin valide entre la position initiale du joueur, et la position
+            où il souhaite aller.
 
-    - Validation du coup:
-        
+
+
 
 
 
