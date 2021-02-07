@@ -32,7 +32,7 @@
         Passer le tour: ne pas déplacer, valider le coup.
         Déplacer: donner les coordonnées du déplacement :
             -validation du coup : existence d'un chemin valide entre la position initiale du joueur, et la position
-            où il souhaite aller.
+            où il souhaite aller, et si ce chemin n'existe pas, lui demander de réessayer
 
 
 
