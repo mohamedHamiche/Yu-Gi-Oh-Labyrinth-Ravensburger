@@ -27,9 +27,13 @@
     -Décalage d'une case du couloir dans le sens de l'insertion
     -Mettre à jour la tuile sortante.
     
+8- Déplacement du pion:
+    -choix:
+        Passer le tour: ne pas déplacer.
+        Déplacer: donner les coordonnées du déplacment.
 
-
-
+    - Validation du coup:
+        
 
 
 
