@@ -1,0 +1,46 @@
+1- Mode de jeu:
+    solutions: (Humain Vs Humain, Humain Vs Machine)
+    - sous-problème: choisir des pseudos.
+
+2- Poser le plateau:
+    - initialisation du plateau, avec les tuiles fixes.
+    - distribition aléatoire des tuiles couloirs.
+    - mémoriser la tuile restante.
+
+3- Attribution des pions:
+    - initialiser la position des pions de chaque joueurs.
+
+4- Distribution des cartes:
+    - attribuer aléatoirement 12 cartes trésor à chacun des 2 joueurs. 
+    - le premier élément de la pile pointe vers la case de départ, suivi des 12 cartes trésor.
+
+5- Le prochain trésor à trouver:
+    - afficher la première carte de la pile.
+
+6- A qui le tour ?
+    -si la partie n'a pas encore commencé, donner tour au hasard.
+    -sinon, alterner :
+        -pour passer d'un joueur à l'autre, il faut que le coup précendent de l'autre joueur soit valide.
+        
+7- Insertion de la tuile:
+    -Choix du couloir (Impossible de l'endroit ou la tuile est sortie)
+    -Choix de l'orientation (de la tuile : horizontalement ou verticalement etc...)
+    -Décalage d'une case du couloir dans le sens de l'insertion
+    -Mettre à jour la tuile sortante.
+    
+8- Déplacement du pion:
+    -choix:
+        Passer le tour: ne pas déplacer, valider le coup.
+        Déplacer: donner les coordonnées du déplacement :
+            -validation du coup : existence d'un chemin valide entre la position initiale du joueur, et la position
+            où il souhaite aller, et si ce chemin n'existe pas, lui demander de réessayer
+
+9- Verification si le trésor atteint
+    - Si le trésor est atteint dépiler le tresor de la pile du joueur corresepondant
+
+10- Si ma pile est vide j'ai gagné.
+
+
+
+
+    
