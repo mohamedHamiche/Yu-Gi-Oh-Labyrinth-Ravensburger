@@ -1,6 +1,8 @@
 Jouer au labyrinthe Ravensburger: les étapes
 
-- Définir le nombre de joueurs (2 à 4).
+- Définir le mode de jeu (1 vs 1 ou 1 vs machine).
+-Mode : 1 vs 1 :
+
 - Poser le plateau:
      1. On remarque qu'il y a des tuiles fixes.
      2. Remplir le plateau avec les tuiles couloir au hasard.
@@ -8,8 +10,7 @@ Jouer au labyrinthe Ravensburger: les étapes
 - Attribuer un pion à chaque joueur.
 - Poser les pions sur les coins respectifs des joueurs. 
 - Distribuer les cartes trésor: chaque joueur a une pile de cartes face cachée.
-- Qui commence la partie ? Disons le joueur 1.
-- Dans quel sens faire le tour ? Joueur 1-> 2-> ..-> 1.
+- Qui commence la partie ? l'humain si le mode de jeu est 1 vs machine, si 1 vs 1, Attribuer au hasard.
 - Le joueur 1 à la tuile à jouer en main.
 - Le joueur 1 regarde la tête de sa pile.
 - Le joueur 1 doit choisir parmi les 12 couloirs où insérer la tuile qu'il a en main.
@@ -17,6 +18,7 @@ Jouer au labyrinthe Ravensburger: les étapes
 - Une autre tuile sort de l'autre cote du couloir.
 - Cette tuile passe à la main du joueur suivant (joueur 2).
 - Le joueur 1 doit déplacer son pion ou pas.
+
 - Vérifier si le coup est valable: si le joueur n'a pas franchi un mur.
 - Si joueur 1 a atteint son trésor:
      1. il dépile la tête de ses cartes trésor.
