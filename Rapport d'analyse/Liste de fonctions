@@ -1,12 +1,11 @@
-struct tuile
+struct Tuile
     booléen fixe // 1 fixe  0 couloir
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
     booléen posée //si la tuile est posée ou pas sur le plateau
-tuile plateau [7][7] // tableau 2D de tuiles    
+tuile Plateau [7][7] // tableau 2D de tuiles    
 
-struct joueur
-    booléen mon_tour
+struct Joueur
     string pseudo
     coordonneés postion_actuelle
     struct pile trésors_à_trouver
@@ -16,23 +15,23 @@ Liste des fonctions:
 
 entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
 
-string lire_pseudo(joueur)
+string lirePseudo(Joueur)
 
-distribuer_cartes(joueur player1, joueur player2)
+distribuerCartes(Joueur player1, Joueur player2)
 
-    empiler(joueur)
+    empiler(Joueur)
+
+
+tuile initiPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
+    poserTuilesFixes(Tuile Plateau[7][7])
+    poserTuilesCouloir(Tuile Plateau[7][7])
+        initTuileEnMain(tuile *tuile_en_main)
     
 
-quiCommence() // retourne une valeur aleatoire (0 ou 1) qui permet de déterminer au début du jeu quel joueur commence 
+Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va commencer la partie
 
-tuile inititPlateau(tuile plateau[7][7], tuile *TuileEnMain)
-    poserTuilesFixes(tuile plateau[7][7])
-    poserTuilesCouloir(tuile plateau[7][7])
-        initTuileEnMain(tuile *TuileEnMain)
-    
+Joueur alterner(Joueur p1, Joueur p2) // retourne le joueur suivant
 
-    
-    
 
 
 
