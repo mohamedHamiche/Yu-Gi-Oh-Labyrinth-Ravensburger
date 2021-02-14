@@ -1,1 +1,5 @@
-
+string lire_pseduo(joueur)
+    afficher(donner votre pseudo)
+    lire(pseudo)
+    retourne pseudo
+---------------------
