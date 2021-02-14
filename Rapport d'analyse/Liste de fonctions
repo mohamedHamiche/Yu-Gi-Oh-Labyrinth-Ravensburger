@@ -6,6 +6,7 @@ struct tuile
 tuile plateau [7][7] // tableau 2D de tuiles    
 
 struct joueur
+    booléen mon_tour
     string pseudo
     coordonneés postion_actuelle
     struct pile trésors_à_trouver
@@ -13,7 +14,14 @@ struct joueur
 
 Liste des fonctions:
 
-modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+
+string lire_pseudo(joueur)
+
+distribuer_cartes(joueur player1, joueur player2)
+
+    empiler(joueur)
+    
 
 quiCommence() // retourne une valeur aleatoire (0 ou 1) qui permet de déterminer au début du jeu quel joueur commence 
 
