@@ -1,12 +1,21 @@
 struct tuile
     booléen fixe // 1 fixe  0 couloir
-    entier trésor //0 si pas de trésor, n si tresor avec 1<= n <=24, si postition de depart 25 ou 26
+    entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
 
 tuile plateau [7][7] // tableau 2D de tuiles
 
-struct joueur
+struct pile_joueur
+    coordonnées position
+    int nombre_de_points
+    pile trésors_à_trouver
+    
 
+
+struct joueur
+ string pseudo
+ coordonneés (x,y)
+ struct pile
 
 Liste des fonctions:
 
