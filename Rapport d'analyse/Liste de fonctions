@@ -49,7 +49,11 @@ choixDeplacement(Joueur)
     miseAJourPion(Joueur)
     
     
+booléen tresorAtteint(Plateau, Joueur)
 
+Dépiler(Joueur)
+
+booleéen pileVide(Joueur)
 
 
 
