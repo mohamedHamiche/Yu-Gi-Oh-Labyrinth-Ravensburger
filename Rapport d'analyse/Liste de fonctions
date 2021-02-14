@@ -38,9 +38,18 @@ insererTuile (Plateau, tuile_en_main, choix_precedent)
             coordonnées opposé (coordonnées choixCouloir) 
                 Théoreme d'Ahmed.
 
+
 choixOrientationTuile(Tuile *tuile_en_main) //on a le choix entre laisser comme elle est ou la tourner
     touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction) //direction 'g' ou 'd' 
-             
+            
+decalerCouloir(Tuile Plateau, coordonneesChoixCouloir())
+
+choixDeplacement(Joueur) 
+    validationCoup(coordonnees)
+    miseAJourPion(Joueur)
+    
+    
+
 
 
 
