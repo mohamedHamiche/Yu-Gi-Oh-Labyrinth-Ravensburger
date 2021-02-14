@@ -32,6 +32,12 @@ Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va 
 
 Joueur alterner(Joueur p1, Joueur p2) // retourne le joueur suivant
 
+void insererTuile (plateau, tuile_en_main)
+    coordonnées choixCouloir()
+         Bool validationCouloir(coordonnées)
+         
+
+
 
 
 
