@@ -1,4 +1,9 @@
-struct plateau
+struct tuile
+    booléen fixe // 1 fixe  0 couloir
+    entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
+    booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
+
+tuile plateau [7][7]
 
 struct joueur
 
