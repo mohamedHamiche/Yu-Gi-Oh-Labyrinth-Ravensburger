@@ -3,19 +3,13 @@ struct tuile
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
 
-tuile plateau [7][7] // tableau 2D de tuiles
-
-struct pile_joueur
-    coordonnées position
-    int nombre_de_points
-    pile trésors_à_trouver
-    
-
+tuile plateau [7][7] // tableau 2D de tuiles    
 
 struct joueur
- string pseudo
- coordonneés (x,y)
- struct pile
+    string pseudo
+    coordonneés postion_actuelle
+    struct pile trésors_à_trouver
+    entier nombre_de_points
 
 Liste des fonctions:
 
