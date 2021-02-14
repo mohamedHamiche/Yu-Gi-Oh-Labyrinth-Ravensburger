@@ -55,21 +55,8 @@ Dépiler(Joueur)
 
 booleéen pileVide(Joueur)
 
-
-
-
-
-
-
 affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
 
-coordonnees() // cette fonction demandera les coordonnées au joueur pour insérer la tuile ou pour déplacer le pion et retournera dans la struct
-
-insertionTuile() // cette fonction demandera les coordonnées au joueur pour insérer la tuile et validera ou pas le coup, et effectuera la modification du plateau (du tableau 2D de type plateau)
-
-deplacementPion() //  la fonction verifiera si il y a un chemin si oui elle modifiera la position du joueur et mettra à jour le plateau pour afficher le joueur au bon endroit
-
-tresorAtteint() // cette fonction vérifiera si le trésor est atteint lorsque le joueur à jouer son coup, si c'est le cas il renverra un booléen qui permetra a la fonction ci dessous de procéder au dépilement de la pile au trésor.
 
 depileTresor() // cette fonction depilera chaque pile attribué aux joueurs lorsque celui ci aura trouvé un trésor
 
