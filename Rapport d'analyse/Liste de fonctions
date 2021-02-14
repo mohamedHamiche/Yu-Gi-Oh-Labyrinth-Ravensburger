@@ -2,7 +2,7 @@ struct tuile
     booléen fixe // 1 fixe  0 couloir
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
-
+    booléen posée //si la tuile est posée ou pas sur le plateau
 tuile plateau [7][7] // tableau 2D de tuiles    
 
 struct joueur
@@ -25,7 +25,15 @@ distribuer_cartes(joueur player1, joueur player2)
 
 quiCommence() // retourne une valeur aleatoire (0 ou 1) qui permet de déterminer au début du jeu quel joueur commence 
 
-inititPlateau() //initialisation du jeu (plateau (tuiles tirées aleatoirement sur le plateau, 33 tuiles à placer, le reste elles sont fixes sur le plateau), attribution des cartes aux trésors pour chaque joueurs) tout sera renvoyés dans les variables de type plateau et joueur pour stocker tout ça)
+tuile inititPlateau(tuile plateau[7][7], tuile *TuileEnMain)
+    poserTuilesFixes(tuile plateau[7][7])
+    poserTuilesCouloir(tuile plateau[7][7])
+        initTuileEnMain(tuile *TuileEnMain)
+    
+
+
+
+
 
 affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
 
