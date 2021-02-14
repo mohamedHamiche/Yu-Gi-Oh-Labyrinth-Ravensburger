@@ -1,3 +1,7 @@
+struct coordonnees
+    entier x
+    entier y
+
 struct Tuile
     booléen fixe // 1 fixe  0 couloir
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
