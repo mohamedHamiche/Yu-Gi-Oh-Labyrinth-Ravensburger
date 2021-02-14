@@ -12,3 +12,19 @@ string lire_pseduo(joueur)
     lire(pseudo)
     retourne pseudo
 ---------------------
+distribuerCartes(Joueur player1, Joueur player2){
+    i=0
+    j=0
+    tant que i < 25{
+        remplir aléatoirement tableau[26] = (1<=26)
+        tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau de sorte à ce que la pile ne contienne pas les mêmes trésors.
+            if(t[i] != t[j])
+            j++
+        if(i==j)
+            i++
+    }
+    //remplir la pile avec le tableau[26] de valeur aléatoire comprises entre 1 et 26.
+    retourne tableau[26]
+}
+
+
