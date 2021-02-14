@@ -51,14 +51,11 @@ choixDeplacement(Joueur)
     
 booléen tresorAtteint(Plateau, Joueur)
 
-Dépiler(Joueur)
+depilerTresor(Joueur)
 
 booleéen pileVide(Joueur)
 
 affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
 
 
-depileTresor() // cette fonction depilera chaque pile attribué aux joueurs lorsque celui ci aura trouvé un trésor
-
-à remplir
 
