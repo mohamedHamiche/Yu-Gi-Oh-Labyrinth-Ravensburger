@@ -13,7 +13,7 @@ inititPlateau() //initialisation du jeu (plateau (tuiles tirées aleatoirement s
 
 affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
 
-coordonnees() // cette fonction demandera les coordonnées au joueur pour insérer la tuile ou pour déplacer le pion 
+coordonnees() // cette fonction demandera les coordonnées au joueur pour insérer la tuile ou pour déplacer le pion et retournera dans la struct
 
 insertionTuile() // cette fonction demandera les coordonnées au joueur pour insérer la tuile et validera ou pas le coup, et effectuera la modification du plateau (du tableau 2D de type plateau)
 
