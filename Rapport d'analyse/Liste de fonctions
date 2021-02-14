@@ -3,7 +3,7 @@ struct tuile
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
 
-tuile plateau [7][7]
+tuile plateau [7][7] // tableau 2D de tuiles
 
 struct joueur
 
