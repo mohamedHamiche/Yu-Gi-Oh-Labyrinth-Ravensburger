@@ -1,0 +1,26 @@
+struct plateau
+
+struct joueur
+
+
+Liste des fonctions:
+
+modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+
+quiCommence() // retourne une valeur aleatoire (0 ou 1) qui permet de déterminer au début du jeu quel joueur commence 
+
+inititPlateau() //initialisation du jeu (plateau (tuiles tirées aleatoirement sur le plateau, 33 tuiles à placer, le reste elles sont fixes sur le plateau), attribution des cartes aux trésors pour chaque joueurs) tout sera renvoyés dans les variables de type plateau et joueur pour stocker tout ça)
+
+affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
+
+coordonnees() cette fonction demandera les coordonnées au joueur pour insérer la tuile ou pour déplacer le pion 
+
+insertionTuile() // cette fonction demandera les coordonnées au joueur pour insérer la tuile et validera ou pas le coup, et effectuera la modification du plateau (du tableau 2D de type plateau)
+
+deplacementPion() //  la fonction verifiera si il y a un chemin si oui elle modifiera la position du joueur et mettra à jour le plateau pour afficher le joueur au bon endroit
+
+tresorAtteint() // cette fonction vérifiera si le trésor est atteint lorsque le joueur à jouer son coup, si c'est le cas il renverra un booléen qui permetra a la fonction ci dessous de procéder au dépilement de la pile au trésor.
+
+depileTresor() // cette fonction depilera chaque pile attribué aux joueurs lorsque celui ci aura trouvé un trésor
+
+
