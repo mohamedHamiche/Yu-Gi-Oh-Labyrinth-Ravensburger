@@ -1,3 +1,12 @@
+entier modeDeJeu(){ //demande au joueur de jouer contre joueur ou de jouer contre machine
+    int res;
+    res = Affiche(Quel mode voulez vous ? 1- JvsJ ou  2-JvsMachine)
+    si res = 1
+        retourner 0
+    sinon
+        retourner 1
+}
+---------------------
 string lire_pseduo(joueur)
     afficher(donner votre pseudo)
     lire(pseudo)
