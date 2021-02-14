@@ -26,5 +26,12 @@ distribuerCartes(Joueur player1, Joueur player2){
     //remplir la pile avec le tableau[26] de valeur aléatoire comprises entre 1 et 26.
     retourne tableau[26]
 }
-
+-----------------
+joueur QuiCommence (joueur1, joueur2)
+ enrier x = random entre 1 et 2
+ si x=1
+    retourner joueur1
+sinon 
+    retourner joueur2
+---------------   
 
