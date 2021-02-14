@@ -32,9 +32,13 @@ Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va 
 
 Joueur alterner(Joueur p1, Joueur p2) // retourne le joueur suivant
 
-void insererTuile (plateau, tuile_en_main)
+void insererTuile (plateau, tuile_en_main, choix_precedent)
     coordonnées choixCouloir()
-         Bool validationCouloir(coordonnées)
+         Bool validationCouloir(coordonnées, coordonnées choix_precedent)
+            coordonnées opposé (coordonnées choixCouloir) 
+                Théoreme d'Ahmed.
+
+
          
 
 
