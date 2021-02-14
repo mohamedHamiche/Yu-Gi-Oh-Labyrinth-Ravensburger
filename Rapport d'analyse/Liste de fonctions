@@ -3,12 +3,12 @@ struct Tuile
     entier trésor //0 si pas de trésor, n sinon avec 1<= n <=24
     booléen gauche, droite, haut, bas    //0 si mur, 1 si ouverture
     booléen posée //si la tuile est posée ou pas sur le plateau
-tuile Plateau [7][7] // tableau 2D de tuiles    
+Tuile Plateau [7][7] // tableau 2D de tuiles    
 
 struct Joueur
     string pseudo
     coordonneés postion_actuelle
-    struct pile trésors_à_trouver
+    struct pile pile_trésor
     entier nombre_de_points
 
 Liste des fonctions:
@@ -22,7 +22,7 @@ distribuerCartes(Joueur player1, Joueur player2)
     empiler(Joueur)
 
 
-tuile initiPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
+tuile initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
     poserTuilesFixes(Tuile Plateau[7][7])
     poserTuilesCouloir(Tuile Plateau[7][7])
         initTuileEnMain(tuile *tuile_en_main)
@@ -32,17 +32,17 @@ Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va 
 
 Joueur alterner(Joueur p1, Joueur p2) // retourne le joueur suivant
 
-insererTuile (Plateau, tuile_en_main, choix_precedent)
+insererTuile (Plateau,Tuile &tuile_en_main,coordonnées &choix_precedent)
     coordonnées choixCouloir()
-         booléen validationCouloir(coordonnées, coordonnées choix_precedent)
+         booléen validationCouloir(coordonnées, &choix_precedent)
             coordonnées opposé (coordonnées choixCouloir) 
                 Théoreme d'Ahmed.
 
 
-choixOrientationTuile(Tuile *tuile_en_main) //on a le choix entre laisser comme elle est ou la tourner
-    touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction) //direction 'g' ou 'd' 
+    choixOrientationTuile(Tuile *tuile_en_main) //on a le choix entre laisser comme elle est ou la tourner
+            touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction) //direction 'g' ou 'd' 
             
-decalerCouloir(Tuile Plateau, coordonneesChoixCouloir())
+    decalerCouloir(Tuile Plateau, coordonneesChoixCouloir())
 
 choixDeplacement(Joueur) 
     validationCoup(coordonnees)
@@ -56,6 +56,31 @@ depilerTresor(Joueur)
 booleéen pileVide(Joueur)
 
 affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
+
+
+Programme principal:
+
+modeDeJeu();
+Joueur p1,p2;
+pseudo(p1);     pseudo(p2);
+distribuerCartes(p1,p2);
+Tuile plateau [7][7] // tableau 2D de tuiles 
+Tuile tuile_en_main; 
+initPlateau(plateau, &tuile_en_main);
+
+Joueur joueur_actuel=quiCommence(p1,p2);
+coordonnees choix_precedent=(-1,-1);
+tant que (!pileVide(p1) && !pileVide(p2)) faire
+{
+    insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
+    choixDeplacement(joueur_actuel)
+    si tresorAtteint(joueur_actuel) 
+        depilerTresor(joueur_actuel)
+    fin_si    
+    alterner(p1,p2,joueur_actuel)
+}
+
+
 
 
 
