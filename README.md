@@ -1,4 +1,5 @@
 -Objectifs: 
+
           -Jouer au Labyrinthe Humain Vs Humain
 
           -Créer un algorithme Machine Vs Humain
