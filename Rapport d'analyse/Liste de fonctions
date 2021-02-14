@@ -30,6 +30,8 @@ tuile inititPlateau(tuile plateau[7][7], tuile *TuileEnMain)
     poserTuilesCouloir(tuile plateau[7][7])
         initTuileEnMain(tuile *TuileEnMain)
     
+
+    
     
 
 
