@@ -23,4 +23,5 @@ tresorAtteint() // cette fonction vérifiera si le trésor est atteint lorsque l
 
 depileTresor() // cette fonction depilera chaque pile attribué aux joueurs lorsque celui ci aura trouvé un trésor
 
+à remplir
 
