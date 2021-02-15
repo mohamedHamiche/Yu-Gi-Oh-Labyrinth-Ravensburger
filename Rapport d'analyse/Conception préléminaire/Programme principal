@@ -20,7 +20,7 @@ tant que (!pileVide(p1) && !pileVide(p2)) faire
     si tresorAtteint(joueur_actuel) 
         depilerTresor(joueur_actuel)
     fin_si    
-    alterner(p1,p2,joueur_actuel)
+    alterner(p1,p2,&joueur_actuel)
 }fin tant que
 
 affichageGagnant(p1,p2)
