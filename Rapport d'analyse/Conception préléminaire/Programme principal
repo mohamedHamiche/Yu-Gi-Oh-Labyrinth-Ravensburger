@@ -1,26 +1,26 @@
 Programme principal:
+DEBUT
+    modeDeJeu()
+    Joueur p1,p2
+    pseudo(p1)     pseudo(p2)
+    distribuerCartes(p1,p2)
+    Tuile plateau [7][7] // tableau 2D de tuiles 
+    Tuile tuile_en_main 
+    initPlateau(plateau, &tuile_en_main)
 
-modeDeJeu()
-Joueur p1,p2
-pseudo(p1)     pseudo(p2)
-distribuerCartes(p1,p2)
-Tuile plateau [7][7] // tableau 2D de tuiles 
-Tuile tuile_en_main 
-initPlateau(plateau, &tuile_en_main)
-
-Joueur joueur_actuel=quiCommence(p1,p2)
-coordonnees choix_precedent=(-1,-1)
-tant que (!pileVide(p1) && !pileVide(p2)) faire
-{
-    affichageJeu()
-    insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
-    affichageJeu()
-    choixDeplacement(joueur_actuel)
-    affichageJeu()
-    si tresorAtteint(joueur_actuel) 
-        depilerTresor(joueur_actuel)
-    fin_si    
-    alterner(p1,p2,&joueur_actuel)
-}fin tant que
-
-affichageGagnant(p1,p2)
+    Joueur joueur_actuel=quiCommence(p1,p2)
+    coordonnees choix_precedent=(-1,-1)
+    Tantque (!pileVide(p1) && !pileVide(p2)) faire
+    Debut
+        affichageJeu()
+        insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
+        affichageJeu()
+        choixDeplacement(joueur_actuel)
+        affichageJeu()
+        si tresorAtteint(joueur_actuel) 
+            depilerTresor(joueur_actuel)
+        fin_si    
+        alterner(p1,p2,&joueur_actuel)
+    finTantque
+    affichageGagnant(p1,p2)
+FIN
