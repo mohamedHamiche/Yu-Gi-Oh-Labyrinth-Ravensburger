@@ -28,7 +28,7 @@ distribuerCartes(Joueur player1, Joueur player2)
 
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
     poserTuilesFixes(Tuile Plateau[7][7])
-    poserTuilesCouloir(Tuile Plateau[7][7])
+    poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
         initTuileEnMain(tuile *tuile_en_main)
     
 
