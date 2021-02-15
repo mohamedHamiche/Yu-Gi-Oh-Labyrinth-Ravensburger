@@ -23,7 +23,7 @@ string lirePseudo(Joueur)
 
 distribuerCartes(Joueur player1, Joueur player2)
 
-    empiler(Joueur)
+    empiler(Joueur, entier x)
 
 
 tuile initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
