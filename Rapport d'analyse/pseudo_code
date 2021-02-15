@@ -130,4 +130,5 @@ DEBUT
     choixOrientationTuile(Tuile *tuile_en_main)
 
 FIN
+------------------------------
 
