@@ -34,9 +34,9 @@ DEBUT
 
     //initialiser la pile des deux joueurs à leur position de départ 
     empiler(player1, 25)
-    player1.position_actuelle=25
+    player1.position_actuelle=(0,0) // (0,0)<-25
     empiler(player2, 26)
-    player2.position_actuelle=26
+    player2.position_actuelle=(6,6)// (6,6)<-26
 
     //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
     Pour (i=0, i<12, i++)
