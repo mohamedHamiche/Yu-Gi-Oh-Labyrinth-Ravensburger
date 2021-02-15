@@ -34,7 +34,7 @@ initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
 
 Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va commencer la partie
 
-Joueur alterner(Joueur p1, Joueur p2) // retourne le joueur suivant
+Joueur alterner(Joueur p1, Joueur p2, Joueur *joueurActuel) // retourne le joueur suivant
 
 insererTuile (Plateau,Tuile &tuile_en_main,coordonnées &choix_precedent)
     coordonnées choixCouloir()
