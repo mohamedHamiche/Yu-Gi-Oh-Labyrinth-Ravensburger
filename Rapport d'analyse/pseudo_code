@@ -57,4 +57,58 @@ DEBUT
  finSi
 FIN
 ---------------   
+initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
+DEBUT
+ Pour(i=0, i<6, i++)
+    Pour(j=0, j<6, j++)
+        Plateau[i][j].posee=0
+    finPour
+ finPour
+
+ poserTuilesFixes(Plateau[7][7])
+ poserTuilesCouloir(Tuile Plateau[7][7])
+
+FIN
+----------------
+poserTuilesFixes(Tuile Plateau[7][7])
+DEBUT
+Plateau[0][0].fixe=1
+Plateau[0][0].tresor= 25
+Plateau[0][0].g=0
+Plateau[0][0].d=1
+Plateau[0][0].h=0
+Plateau[0][0].b=1
+Plateau[0][0].posee=1
+.
+. // 16 fixes au total
+.
+Plateau[6][6].fixe= 1
+Plateau[6][6].tresor= 26
+Plateau[6][6].g=1
+Plateau[6][6].d=0
+Plateau[6][6].h=1
+Plateau[6][6].b=0
+Plateau[6][6].posee=1
+FIN
+-------------------
+poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
+DEBUT
+Tuile tuilesCouloir[34] 
+...
+// A remplir à la main 
+coordonnées pos_aleatoire
+entier i=0
+Tant que (!plateauRempl ET i<33)
+    Debut
+    pos_aleatoire.x= valeur aléatoire entre 0 et 6
+    pos_aleatoire.y= valeur aléatoire entre 0 et 6
+
+    si (Plateau[pos_aleatoire.x][pos_aleatoire.y].posee==0)
+        Plateau[pos_aleatoire.x][pos_aleatoire.y]=tuilesCouloir[i]
+        i++
+    finSi
+tuile_en_main=tuilesCouloir[34]
+finTantque
+FIN
+-----------------------------
 
