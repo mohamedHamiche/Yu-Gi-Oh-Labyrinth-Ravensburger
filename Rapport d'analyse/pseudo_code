@@ -1,20 +1,23 @@
-entier modeDeJeu(){ //demande au joueur de jouer contre joueur ou de jouer contre machine
-    entier choix;
+entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+DEBUT
+    entier choix
     Affiche(Quel mode voulez vous ? 1- JvsJ ou  2-JvsMachine)
     Lire(choix)
     si choix = 1
         retourner 1
     sinon
         retourner 2
-}
+FIN
 ---------------------
 string lire_pseduo(joueur)
+DEBUT 
     afficher(donner votre pseudo)
     lire(pseudo)
     retourne pseudo
+FIN
 ---------------------
 distribuerCartes(Joueur player1, Joueur player2)
-{
+DEBUT
    entier i=0
    entier j=0
     tant que i < 25{
@@ -42,13 +45,16 @@ distribuerCartes(Joueur player1, Joueur player2)
     Pour (i=12, i<24, i++)
         empiler(player2, tab[i])
     finPour
-}
+FIN
 -----------------
 joueur QuiCommence (joueur1, joueur2)
+DEBUT 
  enrier x = random entre 1 et 2
  si x=1
     retourner joueur1
-sinon 
-    retourner joueur2
+    sinon 
+        retourner joueur2
+ finSi
+FIN
 ---------------   
 
