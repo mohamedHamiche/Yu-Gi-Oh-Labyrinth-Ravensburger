@@ -1,10 +1,11 @@
 entier modeDeJeu(){ //demande au joueur de jouer contre joueur ou de jouer contre machine
-    int res;
-    res = Affiche(Quel mode voulez vous ? 1- JvsJ ou  2-JvsMachine)
-    si res = 1
-        retourner 0
-    sinon
+    entier choix;
+    Affiche(Quel mode voulez vous ? 1- JvsJ ou  2-JvsMachine)
+    Lire(choix)
+    si choix = 1
         retourner 1
+    sinon
+        retourner 2
 }
 ---------------------
 string lire_pseduo(joueur)
@@ -12,19 +13,35 @@ string lire_pseduo(joueur)
     lire(pseudo)
     retourne pseudo
 ---------------------
-distribuerCartes(Joueur player1, Joueur player2){
-    i=0
-    j=0
+distribuerCartes(Joueur player1, Joueur player2)
+{
+   entier i=0
+   entier j=0
     tant que i < 25{
         remplir aléatoirement tableau[26] = (1<=26)
-        tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau de sorte à ce que la pile ne contienne pas les mêmes trésors.
-            if(t[i] != t[j])
-            j++
-        if(i==j)
+        tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau   
+                        //de sorte à ce que la pile ne contienne pas les mêmes trésors.
+            si(t[i] != t[j])
+                 j++   
+            finSi
+        si(i==j)
             i++
-    }
-    //remplir la pile avec le tableau[26] de valeur aléatoire comprises entre 1 et 26.
-    retourne tableau[26]
+        finSi
+    finTantque}
+
+    //initialiser la pile des deux joueurs à leur position de départ 
+    empiler(player1, 25)
+    player1.position_actuelle=25
+    empiler(player2, 26)
+    player2.position_actuelle=26
+
+    //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
+    Pour (i=0, i<12, i++)
+        empiler(player1, tab[i])
+    finPour
+    Pour (i=12, i<24, i++)
+        empiler(player2, tab[i])
+    finPour
 }
 -----------------
 joueur QuiCommence (joueur1, joueur2)
