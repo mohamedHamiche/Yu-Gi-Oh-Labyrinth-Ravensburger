@@ -231,8 +231,8 @@ DEBUT
             tmp = plateau[1][choixCouloir.y]
             plateau[1][choixCouloir.y] = tuile_en_main
             Pour i allant de 2 à 6:
-                plateau[1][i] = tmp
-                tmp = plateau[1][i+1]
+                plateau[i][choixCouloir.y] = tmp
+                tmp = plateau[i][choixCouloir.y]
         si choixCouloir.x == 7
             tmp = plateau[7][choixCouloir.y]
             plateau[7][choixCouloir.y] = tuile_en_main
