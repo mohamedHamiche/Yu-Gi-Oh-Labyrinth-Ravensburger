@@ -257,3 +257,24 @@ DEBUT
             
     tuile_en_main = &tmp
 FIN
+
+----------------------
+booléen validationCoup(coordonnées a,int compt)
+DEBUT
+    Si(tresorAtteit)
+        retourne 1
+        Sinon si (compt== 100) // supposons que le plus long chemin est de taille 100
+            rerourne 0 
+                 Sinon Si (tab[a.x][a.y].d==1) 
+                        a.y++
+                        Sinon Si(tab[a.x][a.y].h==1) 
+                            a.x--
+                            Sinon Si(tab[a.x][a.y].g==1) 
+                                a.y--
+                                Sinon Si(tab[a.x][a.y].b==1) 
+                                    a.x++
+    fin Si    
+
+  retourne validationCoup(a,compt++)
+FIN
+-------------------------
