@@ -287,7 +287,7 @@ DEBUT
     si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees
         retourne 0
 
-    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y] != case) // Si le trésor n'est pas atteint et que la case précédente n'est pas égale à la case actuel
+    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y] != case) // Si le trésor n'est pas atteint et que la case précédente n'est pas égale à la case actuel et la case adjacente est ouverte (il y a un chemin possible entre la case actuel et celle-ci)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
         res =validationCoup(tab[a.x][a.y--],a,compt++) // Appel récursif 
 
