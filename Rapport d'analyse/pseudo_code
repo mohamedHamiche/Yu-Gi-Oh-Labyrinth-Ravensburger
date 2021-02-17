@@ -222,11 +222,11 @@ DEBUT
     finSi    
 FIN
 ------------------
-decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile tuile_en_main)
+decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
 DEBUT
     Tuile tmp 
     entier i = 0
-    si choixCouloir.x == 1 OU choixCouloir.x == 7:
+    si choixCouloir.x == 1 OU choixCouloir.x == 7: //
         si choixCouloir.x == 1
             tmp = plateau[1][choixCouloir.y]
             plateau[1][choixCouloir.y] = tuile_en_main
@@ -255,5 +255,5 @@ DEBUT
                 plateau[i][7] = tmp
                 tmp = plateau[i-1][7]
             
-    tuile_en_main = tmp
+    tuile_en_main = &tmp
 FIN
