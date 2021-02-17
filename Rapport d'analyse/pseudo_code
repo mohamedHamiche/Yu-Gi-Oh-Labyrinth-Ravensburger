@@ -134,7 +134,7 @@ FIN
 ------------------------------
 
 booléen opposé(coordonnées, &choix_precedent)
-debut fonction
+DEBUT fonction
  coordonnees tmp
  si(a.x==0 et a.y==1 )
      DEBUT 
@@ -163,4 +163,61 @@ sinon si (a.x==6 et a.y== 1)
 sinon 
     retourner 0;
 -------------------------------------
+coordonnées choixCouloir()
+DEBUT
+    afficher(donnez coordonnées du couloir ou inserer)
+    coordonnées a
+    lire(a.x)
+    lire(a.y)
+    retourne a
+FIN
+-------------------
+booléen validationCouloir(coordonnées choix_actuel,coordonnées &choix_precedent)
+DEBUT
+    si (opposé(choix_actuel,choix_precedent))
+        *choix_precedent=choix_actuel
+         retourne 1
+    finSi
+    sinon
+        retourne 0
+FIN
+
+----------------
+choixOrientationTuile(Tuile *tuile_en_main)
+DEBUT
+    entier choix
+    afficher(1.inserer la tuile telle qu'elle est)
+    afficher(2.tourner la tuile)
+    si (choix==2)
+        afficher('g' pour gauche 'd' pour droite)
+        char direction
+        lire(direction)
+        entier nbTours
+        afficher(combien de tours)
+        lire(nbTours)
+        tourner(tuile_en_main,nbTours,direction)
+    finSi
+FIN
+
+-------------------
+touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
+DEBUT
+    entier nbTours= nombre_de_tours mod 4 
+    si (direction== 'g')
+        Pour (entier i=0, i<nbTours, i++)
+            tuile_en_main.g=tuile_en_main.h
+            tuile_en_main.h=tuile_en_main.d
+            tuile_en_main.d=tuile_en_main.b
+            tuile_en_main.b=tuile_en_main.g
+        finPour
+     
+     sinon Si (direction== 'd')
+                Pour (entier i=0, i<nbTours, i++)
+                    tuile_en_main.g=tuile_en_main.b
+                    tuile_en_main.h=tuile_en_main.g
+                    tuile_en_main.d=tuile_en_main.h
+                    tuile_en_main.b=tuile_en_main.d
+                finPour
+    finSi    
+FIN
 
