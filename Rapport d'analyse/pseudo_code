@@ -280,21 +280,25 @@ DEBUT
   retourne validationCoup(a,compt++)
 FIN
 -------------------------
-booléen validationCoup(coordonnees a,int compt)
+booléen validationCoup(Tuile *case,coordonnees a,int compt)
 DEBUT
     si(tresorAtteit)
         retourne 1
     si(compt == 300)
         retourne 0
 
-    si (tab[a.x][a.y].d == 1)
-        res =validationCoup(tab[a.x][a.y+1],compt++)
-    si (tab[a.x][a.y].h == 1)
-        res= validationCoup(tab[a.x-1][a.y],compt++)
-    si (tab[a.x][a.y].g == 1)
-        res= validationCoup(tab[a.x][a.y-1],compt++)
-    si (tab[a.x][a.y].b == 1)
-        res= validationCoup(tab[a.x+1][a.y],compt++)
+    si (tab[a.x][a.y].d == 1 ET tab[a.x][a.y] != case)
+        a.y++
+        res =validationCoup(tab[a.x][a.y],a,compt++)
+    si (tab[a.x][a.y].h == 1 ET tab[a.x][a.y] != case)
+        a.x--
+        res= validationCoup(tab[a.x][a.y],a,compt++)
+    si (tab[a.x][a.y].g == 1 ET tab[a.x][a.y] != case)
+        a.y--
+        res= validationCoup(tab[a.x][a.y],a,compt++)
+    si (tab[a.x][a.y].b == 1 ET tab[a.x][a.y] != case)
+        a.x++
+        res= validationCoup(tab[a.x][a.y],a,compt++)
         
     retourne res
 FIN
