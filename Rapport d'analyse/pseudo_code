@@ -228,8 +228,8 @@ DEBUT
     entier i = 0
     si choixCouloir.x == 1 OU choixCouloir.x == 7: //
         si choixCouloir.x == 1
-            tmp = plateau[1][choixCouloir.y]
-            plateau[1][choixCouloir.y] = tuile_en_main
+            tmp = plateau[choixCouloir.x][choixCouloir.y]
+            plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
             Pour i allant de 2 à 6:
                 plateau[i][choixCouloir.y] = tmp
                 tmp = plateau[i+1][choixCouloir.y]
