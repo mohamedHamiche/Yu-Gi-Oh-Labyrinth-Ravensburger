@@ -188,6 +188,7 @@ DEBUT
     entier choix
     afficher(1.inserer la tuile telle qu'elle est)
     afficher(2.tourner la tuile)
+    lire(choix)
     si (choix==2)
         afficher('g' pour gauche 'd' pour droite)
         char direction
