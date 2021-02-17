@@ -124,6 +124,7 @@ FIN
 insererTuile (Plateau,Tuile *tuile_en_main,coordonnées *choix_precedent)
 DEBUT
     coordonnées entré = choixCouloir()
+    choix_precedent = entré
     tant que(!validationCouloir(entré,&choixprécédent))
         entré = choixCouloir()
     FIN TANT QUE
