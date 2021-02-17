@@ -133,4 +133,37 @@ DEBUT
 FIN
 ------------------------------
 
+booléen opposé(coordonnées, &choix_precedent)
+debut fonction
+ coordonnees tmp
+ si(a.x==0 et a.y==1 )
+ debut si
+   tmp.x=6
+   tmp.y=1
+ finsi
+ sinon si(a.x==0 et a.y==3 )
+ debut si
+    tmp.x=6;
+    tmp.y=3;
+ finsi
+ sinon si (a.x==0 et a.y==5 )
+ debut si
+    tmp.x=6;
+    tmp.y=5;
+ finsi
+ .
+ .
+ .
+sinon si (a.x==6 et a.y== 1)
+ {
+    tmp.x=0
+   tmp.y=1
+ }
+ sinon{
+    return 0;
+ }
+ si(tmp.x==b.x et tmp.y == b.y)
+  retourner 1;
+  sinon retourner 0;
+-------------------------------------
 
