@@ -304,10 +304,12 @@ DEBUT
         Lire (choix.x)
         Lire (choix.y)
     Tant que(!validationCoup(plateau[P1->position_actuelle.x][P1->position_actuelle.y],P1->position_actuelle,choix,0))
-        choixDeplacement(p1)
+        choixDeplacement(p1, plateau)
+    Fin Tant que
 
     retourne 1
 FIN
 ------------------------
+
 
         
