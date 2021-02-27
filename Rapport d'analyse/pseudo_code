@@ -121,7 +121,7 @@ DEBUT
         joueurActuel = p1
 FIN
 -----------------------------
-insererTuile (Plateau,Tuile *tuile_en_main,coordonnées *choix_precedent)
+insererTuile (plateau,Tuile *tuile_en_main,coordonnées *choix_precedent)
 DEBUT
     coordonnées entré = choixCouloir()
     tant que(!validationCouloir(entré,&choixprécédent))
@@ -133,9 +133,9 @@ DEBUT
 FIN
 ------------------------------
 
-booléen opposé(coordonnées, &choix_precedent)
+booléen opposé(coordonnées a, coordonnées choix_precedent)// on veut savoir si a est choix sont opposés 
 DEBUT fonction
- coordonnees tmp
+ coordonnees tmp // pour trouver l'opposé de a 
  si(a.x==0 et a.y==1 )
      DEBUT 
         tmp.x=6
@@ -157,8 +157,8 @@ sinon si (a.x==6 et a.y== 1)
  
  sinon
     return 0;
- si
-    (tmp.x==b.x et tmp.y == b.y)
+ si // l'opposé de a (tmp) est le choix_actuel alors OUI 
+    (tmp.x==choix_precedent.x et tmp.y == choix_precedent.y)
         retourner 1;
 sinon 
     retourner 0;
