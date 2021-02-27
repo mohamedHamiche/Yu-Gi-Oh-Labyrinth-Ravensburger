@@ -311,7 +311,13 @@ DEBUT
     retourne 1
 FIN
 ------------------------
-
-
+tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
+DEBUT
+    coordonnees a = P1->position_actuelle
+    si(plateau[a.x][a.y].tresor == P1->pileTresor)
+        retourne 1
+    sinon
+        retourne 0
+FIN
 
         
