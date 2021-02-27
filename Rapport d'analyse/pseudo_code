@@ -9,14 +9,14 @@ DEBUT
         retourner 2
 FIN
 ---------------------
-string lire_pseduo(joueur)
+string lire_pseudo()
 DEBUT 
     afficher(donner votre pseudo)
     lire(pseudo)
     retourne pseudo
 FIN
 ---------------------
-distribuerCartes(Joueur player1, Joueur player2)
+distribuerCartes(Joueur P1, Joueur P2)
 DEBUT
    entier i=0
    entier j=0
@@ -35,28 +35,28 @@ DEBUT
     finTantque
 
     //initialiser la pile des deux joueurs à leur position de départ 
-    empiler(player1, 25)
-    player1.position_actuelle=(0,0) // (0,0)<-25
-    empiler(player2, 26)
-    player2.position_actuelle=(6,6)// (6,6)<-26
+    empiler(P1, 25)
+    P1.position_actuelle=(0,0) // (0,0)<-25
+    empiler(P2, 26)
+    P2.position_actuelle=(6,6)// (6,6)<-26
 
     //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
     Pour (i=0, i<12, i++)
-        empiler(player1, tab[i])
+        empiler(P1, tab[i])
     finPour
     Pour (i=12, i<24, i++)
-        empiler(player2, tab[i])
+        empiler(P2, tab[i])
     finPour
 FIN
 -----------------
-joueur QuiCommence (joueur1, joueur2)
+Joueur quiCommence (Joueur *P1, Joueur *P2)
 DEBUT 
- enrier x = random entre 1 et 2
+ entier x = random entre 1 et 2
  si x=1
-    retourner joueur1
-    sinon 
-        retourner joueur2
- finSi
+    retourner P1
+ sinon 
+    retourner P2
+finSi
 FIN
 ---------------   
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
@@ -67,8 +67,8 @@ DEBUT
     finPour
  finPour
 
- poserTuilesFixes(Plateau[7][7])
- poserTuilesCouloir(Tuile Plateau[7][7])
+ poserTuilesFixes(Plateau)
+ poserTuilesCouloir(Plateau, tuile_en_main)
 
 FIN
 ----------------
@@ -92,7 +92,7 @@ Plateau[6][6].h=1
 Plateau[6][6].b=0
 Plateau[6][6].posee=1
 FIN
--------------------
+----------------------------
 poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
 DEBUT
 Tuile tuilesCouloir[34] 
@@ -121,15 +121,15 @@ DEBUT
         joueurActuel = p1
 FIN
 -----------------------------
-insererTuile (plateau,Tuile *tuile_en_main,coordonnées *choix_precedent)
+insererTuile (Tuile plateau[7][7],Tuile *tuile_en_main,coordonnées *choix_precedent)
 DEBUT
     coordonnées entré = choixCouloir()
     tant que(!validationCouloir(entré,&choixprécédent))
         entré = choixCouloir()
     FIN TANT QUE
     choixOrientationTuile(Tuile *tuile_en_main)
-    choix_precedent = entré
-
+    (*choix_precedent) = entré
+    decalerCouloir(plateau, entré, tuile_en_main)
 FIN
 ------------------------------
 
@@ -162,6 +162,7 @@ sinon si (a.x==6 et a.y== 1)
         retourner 1;
 sinon 
     retourner 0;
+FIN
 -------------------------------------
 coordonnées choixCouloir()
 DEBUT
