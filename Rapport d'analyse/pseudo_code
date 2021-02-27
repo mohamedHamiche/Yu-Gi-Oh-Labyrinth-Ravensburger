@@ -212,7 +212,7 @@ DEBUT
             tuile_en_main.b=tuile_en_main.g
         finPour
      
-     sinon Si (direction== 'd')
+    sinon Si (direction== 'd')
                 Pour (entier i=0, i<nbTours, i++)
                     tuile_en_main.g=tuile_en_main.b
                     tuile_en_main.h=tuile_en_main.g
@@ -270,16 +270,16 @@ FIN
 
 -------------------
 booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt) 
-// Tuile *case : adresse de la case précedente appelé dans l'appel précedent
-// coordonnees a : position de actuel de l'appel de la fonction
-// coordonnees choix : La case à atteindre
-// entier compt : nombre actuel des appels récursif de la fonction
+    // Tuile *case : adresse de la case précedente appelé dans l'appel précedent
+    // coordonnees a : position de actuel de l'appel de la fonction
+    // coordonnees choix : La case à atteindre
+    // entier compt : nombre actuel des appels récursif de la fonction
 DEBUT
     si(a.x == choix.x ET a.y == choix.y)
         retourne 1
     Fin si
 
-    si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et pour que ça s'arrête.
+    si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
         retourne 0
     Fin si
 
