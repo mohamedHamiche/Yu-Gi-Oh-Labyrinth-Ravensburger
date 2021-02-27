@@ -51,46 +51,46 @@ FIN
 -----------------
 Joueur quiCommence (Joueur *P1, Joueur *P2)
 DEBUT 
- entier x = random entre 1 et 2
- si x=1
-    retourner P1
- sinon 
-    retourner P2
-finSi
+    entier x = random entre 1 et 2
+    si x=1
+        retourner P1
+    sinon 
+        retourner P2
+    finSi
 FIN
 ---------------   
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
 DEBUT
- Pour(i=0, i<6, i++)
-    Pour(j=0, j<6, j++)
-        Plateau[i][j].posee=0
+    Pour(i=0, i<6, i++)
+        Pour(j=0, j<6, j++)
+            Plateau[i][j].posee=0
+        finPour
     finPour
- finPour
 
- poserTuilesFixes(Plateau)
- poserTuilesCouloir(Plateau, tuile_en_main)
+    poserTuilesFixes(Plateau)
+    poserTuilesCouloir(Plateau, tuile_en_main)
 
 FIN
 ----------------
 poserTuilesFixes(Tuile Plateau[7][7])
 DEBUT
-Plateau[0][0].fixe=1
-Plateau[0][0].tresor= 25
-Plateau[0][0].g=0
-Plateau[0][0].d=1
-Plateau[0][0].h=0
-Plateau[0][0].b=1
-Plateau[0][0].posee=1
-.
-. // 16 fixes au total
-.
-Plateau[6][6].fixe= 1
-Plateau[6][6].tresor= 26
-Plateau[6][6].g=1
-Plateau[6][6].d=0
-Plateau[6][6].h=1
-Plateau[6][6].b=0
-Plateau[6][6].posee=1
+    Plateau[0][0].fixe=1
+    Plateau[0][0].tresor= 25
+    Plateau[0][0].g=0
+    Plateau[0][0].d=1
+    Plateau[0][0].h=0
+    Plateau[0][0].b=1
+    Plateau[0][0].posee=1
+    .
+    . // 16 fixes au total
+    .
+    Plateau[6][6].fixe= 1
+    Plateau[6][6].tresor= 26
+    Plateau[6][6].g=1
+    Plateau[6][6].d=0
+    Plateau[6][6].h=1
+    Plateau[6][6].b=0
+    Plateau[6][6].posee=1
 FIN
 ----------------------------
 poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
