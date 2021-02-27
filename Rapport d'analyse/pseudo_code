@@ -113,12 +113,12 @@ tuile_en_main=tuilesCouloir[34]
 finTantque
 FIN
 -----------------------------
-alterner(Joueur p1, Joueur p2,Joueur *joueurActuel)
+alterner(Joueur *p1, Joueur *p2,Joueur *joueurActuel)
 DEBUT
-    si joueurActuel == &p1
-        joueurActuel = &p2
+    si joueurActuel == p1
+        joueurActuel = p2
     sinon
-        joueurActuel = &p1
+        joueurActuel = p1
 FIN
 -----------------------------
 insererTuile (Plateau,Tuile *tuile_en_main,coordonnées *choix_precedent)
