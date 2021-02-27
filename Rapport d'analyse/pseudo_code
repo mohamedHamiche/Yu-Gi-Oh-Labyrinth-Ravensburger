@@ -260,52 +260,54 @@ DEBUT
     tuile_en_main = &tmp
 FIN
 
-----------------------
-booléen validationCoup(coordonnées a,int compt)
+-------------------
+booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt) 
+// Tuile *case : adresse de la case précedente appelé dans l'appel précedent
+// coordonnees a : position de actuel de l'appel de la fonction
+// coordonnees choix : La case à atteindre
+// entier compt : nombre actuel des appels récursif de la fonction
 DEBUT
-    Si(tresorAtteit)
+    si(a.x == choix.x ET a.y == choix.y)
         retourne 1
-        Sinon si (compt== 100) // supposons que le plus long chemin est de taille 100
-            rerourne 0 
-                 Sinon Si (tab[a.x][a.y].d==1) 
-                        a.y++
-                        Sinon Si(tab[a.x][a.y].h==1) 
-                            a.x--
-                            Sinon Si(tab[a.x][a.y].g==1) 
-                                a.y--
-                                Sinon Si(tab[a.x][a.y].b==1) 
-                                    a.x++
-    fin Si    
-
-  retourne validationCoup(a,compt++)
-FIN
--------------------------
-booléen validationCoup(Tuile *case,coordonnees a,int compt)
-DEBUT
-    si(tresorAtteit)
-        retourne 1
-    si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees
+    si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et pour que ça s'arrête.
         retourne 0
 
-    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y] != case) // Si le trésor n'est pas atteint et que la case précédente n'est pas égale à la case actuel et la case adjacente est ouverte (il y a un chemin possible entre la case actuel et celle-ci)
+    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
-        res =validationCoup(tab[a.x][a.y--],a,compt++) // Appel récursif 
+        res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
 
-    si ((tab[a.x][a.y].h == 1 ET tab[a.x--][a.y].b == 1) ET tab[a.x][a.y] != case) //...
+    si ((tab[a.x][a.y].h == 1 ET tab[a.x--][a.y].b == 1) ET tab[a.x--][a.y] != case) //...
         a.x--                                          //... 
-        res= validationCoup(tab[a.x++][a.y],a,compt++) //...
+        res= validationCoup(tab[a.x++][a.y],a,choix,compt++) //...
 
-    si ((tab[a.x][a.y].g == 1 ET tab[a.x][a.y--].d ==1) ET tab[a.x][a.y] != case)
+    si ((tab[a.x][a.y].g == 1 ET tab[a.x][a.y--].d ==1) ET tab[a.x][a.y--] != case)
         a.y--
-        res= validationCoup(tab[a.x][a.y++],a,compt++)
+        res= validationCoup(tab[a.x][a.y++],a,choix,compt++)
         
-    si ((tab[a.x][a.y].b == 1 ET tab[a.x++][a.y].h == 1) ET tab[a.x][a.y] != case)
+    si ((tab[a.x][a.y].b == 1 ET tab[a.x++][a.y].h == 1) ET tab[a.x++][a.y] != case)
         a.x++
-        res= validationCoup(tab[a.x--][a.y],a,compt++)
+        res= validationCoup(tab[a.x--][a.y],a,choix,compt++)
         
     retourne res
 FIN
------------------------   
+-----------------------  
+choixDeplacement(joueur *P1, Tuile plateau[7][7])
+DEBUT
+    booleen deplacement
+    coordonnees choix
 
+    Afficher (Entrer 1 pour déplacer, 0 pour rester à la case actuelle)
+    Lire (deplacement)
+    si deplacement = 0
+        retourne 1
+    sinon
+        Lire (choix.x)
+        Lire (choix.y)
+    Tant que(!validationCoup(plateau[P1->position_actuelle.x][P1->position_actuelle.y],P1->position_actuelle,choix,0))
+        choixDeplacement(p1)
+
+    retourne 1
+FIN
+------------------------
 
         
