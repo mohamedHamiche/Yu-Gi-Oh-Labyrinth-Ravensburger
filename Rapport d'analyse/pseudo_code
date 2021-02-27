@@ -36,9 +36,9 @@ DEBUT
 
     //initialiser la pile des deux joueurs à leur position de départ 
     empiler(P1, 25)
-    P1.position_actuelle=(0,0) // (0,0)<-25
+    P1.positionActuelle=(0,0) // (0,0)<-25
     empiler(P2, 26)
-    P2.position_actuelle=(6,6)// (6,6)<-26
+    P2.positionActuelle=(6,6)// (6,6)<-26
 
     //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
     Pour (i=0, i<12, i++)
@@ -304,7 +304,7 @@ DEBUT
     sinon
         Lire (choix.x)
         Lire (choix.y)
-    Tant que(!validationCoup(plateau[P1->position_actuelle.x][P1->position_actuelle.y],P1->position_actuelle,choix,0))
+    Tant que(!validationCoup(plateau[P1->positionActuelle.x][P1->positionActuelle.y],P1->positionActuelle,choix,0))
         choixDeplacement(p1, plateau)
     Fin Tant que
 
@@ -313,7 +313,7 @@ FIN
 ------------------------
 tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
 DEBUT
-    coordonnees a = P1->position_actuelle
+    coordonnees a = P1->positionActuelle
     si(plateau[a.x][a.y].tresor == P1->pileTresor)
         retourne 1
     sinon
