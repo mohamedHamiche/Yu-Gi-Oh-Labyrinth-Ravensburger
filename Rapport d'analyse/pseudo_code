@@ -32,7 +32,7 @@ DEBUT
     Debut
         tableau[i] = remplir aléatoirement avec un entier entre 1 et 24
         j=0
-        tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau   
+        Tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau   
                         //de sorte à ce que la pile ne contienne pas les mêmes trésors.
             si(t[i] != t[j])
                  j++   
@@ -40,7 +40,7 @@ DEBUT
         si(i==j)
             i++
         finSi
-    finTantque
+    fin tant que
 
     //initialiser la pile des deux joueurs à leur position de départ 
     empiler(P1, 25)
@@ -131,7 +131,7 @@ DEBUT
     coordonnées entré = choixCouloir()
     tant que(!validationCouloir(entré,&choixprécédent))
         entré = choixCouloir()
-    FIN TANT QUE
+    Fin tant que
     choixOrientationTuile(Tuile *tuile_en_main)
     (*choix_precedent) = entré
     decalerCouloir(plateau, entré, tuile_en_main)
@@ -163,7 +163,7 @@ DEBUT fonction
     si // l'opposé de a (tmp) est le choix_actuel alors OUI 
         (tmp.x==choix_precedent.x et tmp.y == choix_precedent.y)
         retourner 1;
-    Fin si
+    fin si
 
     sinon 
         retourner 0;
@@ -183,7 +183,7 @@ DEBUT
     si (opposé(choix_actuel,(*choix_precedent))
         (*choix_precedent) = choix_actuel
          retourne 1
-    finSi
+    fin Si
     sinon
         retourne 0
 FIN
@@ -203,7 +203,7 @@ DEBUT
         afficher(combien de tours)
         lire(nbTours)
         tourner(tuile_en_main,nbTours,direction)
-    finSi
+    fin Si
 FIN
 
 -------------------
@@ -219,7 +219,7 @@ DEBUT
             tuile_en_main.h=tuile_en_main.d
             tuile_en_main.d=tuile_en_main.b
             tuile_en_main.b=tuile_en_main.g
-        finPour
+        fin Pour
      
     sinon si (direction== 'd')
                 Pour (entier i=0, i<nbTours, i++)
@@ -227,8 +227,8 @@ DEBUT
                     tuile_en_main.h=tuile_en_main.g
                     tuile_en_main.d=tuile_en_main.h
                     tuile_en_main.b=tuile_en_main.d
-                finPour
-    finSi    
+                fin Pour
+    fin Si    
 FIN
 ------------------
 decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
