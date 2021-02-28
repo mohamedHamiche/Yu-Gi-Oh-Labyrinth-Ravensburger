@@ -8,19 +8,19 @@ DEBUT
     Tuile tuile_en_main 
     initPlateau(plateau, &tuile_en_main)
 
-    Joueur joueur_actuel=quiCommence(p1,p2)
+    Joueur joueurActuel=quiCommence(p1,p2)
     coordonnees choix_precedent=(-1,-1)
     Tantque (!pileVide(p1) && !pileVide(p2)) faire
     Debut
         affichageJeu()
         insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
         affichageJeu()
-        choixDeplacement(joueur_actuel)
+        choixDeplacement(joueurActuel)
         affichageJeu()
-        si tresorAtteint(joueur_actuel) 
-            depilerTresor(joueur_actuel)
+        si tresorAtteint(joueurActuel) 
+            depilerTresor(joueurActuel)
         fin_si    
-        alterner(p1,p2,&joueur_actuel)
+        alterner(p1,p2,&joueurActuel)
     finTantque
     affichageGagnant(p1,p2)
 FIN
