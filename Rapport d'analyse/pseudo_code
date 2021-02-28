@@ -248,8 +248,8 @@ DEBUT
 
         sinon si choixCouloir.y == 1 OU choixCouloir.y == 7:
             si choixCouloir.y == 1
-               tmp = plateau[choixCouloir.x][1]
-               plateau[choixCouloir.x][1] = tuile_en_main
+                tmp = plateau[choixCouloir.x][1]
+                plateau[choixCouloir.x][1] = tuile_en_main
             Pour i allant de 2 à 6:
                 plateau[i][1] = tmp
                 tmp = plateau[i+1][1]
@@ -283,14 +283,15 @@ DEBUT
         retourne 0
     Fin si
 
-    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
+    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
+                                                    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
         res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
     Fin si
 
     si ((tab[a.x][a.y].h == 1 ET tab[a.x--][a.y].b == 1) ET tab[a.x--][a.y] != case) //...
-        a.x--                                          //... 
-        res= validationCoup(tab[a.x++][a.y],a,choix,compt++) //...
+        a.x--                                                                        //... 
+        res= validationCoup(tab[a.x++][a.y],a,choix,compt++)                         //...
     Fin si
 
     si ((tab[a.x][a.y].g == 1 ET tab[a.x][a.y--].d ==1) ET tab[a.x][a.y--] != case)
