@@ -19,7 +19,7 @@ struct Joueur
     entier nombre_de_points
 
 Liste des fonctions:
-entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+entier modeDeJeu()
 
 string lire_pseudo()
 
