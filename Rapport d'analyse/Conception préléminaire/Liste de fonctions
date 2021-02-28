@@ -38,6 +38,7 @@ poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
 alterner(Joueur *p1, Joueur *p2,Joueur *joueurActuel)
 
 insererTuile (Tuile plateau[7][7],Tuile *tuile_en_main,coordonnées *choix_precedent)
+
 booléen opposé(coordonnées a, coordonnées choix_precedent)// on veut savoir si a est choix sont opposés 
 coordonnées choixCouloir()
 booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
