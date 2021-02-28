@@ -3,6 +3,7 @@ DEBUT
     modeDeJeu()
     Joueur p1,p2
     pseudo(p1)     pseudo(p2)
+    initPosition(p1,p2)
     distribuerCartes(p1,p2)
     Tuile plateau [7][7] // tableau 2D de tuiles 
     Tuile tuile_en_main 
