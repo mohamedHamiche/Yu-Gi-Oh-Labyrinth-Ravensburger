@@ -1,7 +1,6 @@
 struct coordonnees
     entier x
     entier y
-    
 
 struct Tuile
     booléen fixe // 1 fixe 0 couloir   
