@@ -26,6 +26,7 @@ distribuerCartes(Joueur player1, Joueur player2)
 
     empiler(Joueur, entier x)
 
+initPosition(Joueur *P1, Joueur *P2)
 
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
     poserTuilesFixes(Tuile Plateau[7][7])
