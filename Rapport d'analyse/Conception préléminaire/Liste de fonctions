@@ -20,6 +20,7 @@ struct Joueur
 
 Liste des fonctions:
 entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
+
 string lire_pseudo()
 initPosition(Joueur *P1, Joueur *P2)
 distribuerCartes(Joueur P1, Joueur P2)
