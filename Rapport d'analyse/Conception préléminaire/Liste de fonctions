@@ -28,6 +28,7 @@ initPosition(Joueur *P1, Joueur *P2)
 distribuerCartes(Joueur P1, Joueur P2)
 
 Joueur quiCommence (Joueur *P1, Joueur *P2)
+
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
 poserTuilesFixes(Tuile Plateau[7][7])
 poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
