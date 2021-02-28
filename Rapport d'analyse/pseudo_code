@@ -226,6 +226,9 @@ DEBUT
 FIN
 ------------------
 decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
+    // Principe de la fonction: 4 orientations de décalage d'un couloir, par exemple si on insert coté 'Ouest' il y aura un décalage du couloir de 
+    //...gauche vers la droite ainsi on modifie la ligne du plateau correspondant.
+    // Autre exemple: Si on insert coté Nord il y aura un décalage du haut vers le bas donc la fonction va modifier la colonne en partant du haut ...
 DEBUT
     Tuile tmp 
     entier i = 0
