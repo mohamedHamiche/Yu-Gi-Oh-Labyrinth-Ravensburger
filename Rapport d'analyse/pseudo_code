@@ -16,7 +16,7 @@ DEBUT
     retourne pseudo
 FIN
 ----------------------
-inirPosition(Joueur *P1, Joueur *P2)
+initPosition(Joueur *P1, Joueur *P2)
 DEBUT
     P1.x = 0
     P1.y = 0
