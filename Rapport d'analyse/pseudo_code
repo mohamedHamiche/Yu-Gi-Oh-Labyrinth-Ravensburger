@@ -202,9 +202,12 @@ FIN
 
 -------------------
 touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
+    // tuile_en_main: adresse de la tuile en main
+    // nombre_de_tours: entier entre 0 et 3
+    // direction: g pour gauche, d pour droite
 DEBUT
     entier nbTours= nombre_de_tours mod 4 
-    si (direction== 'g')
+    si (direction == 'g')
         Pour (entier i=0, i<nbTours, i++)
             tuile_en_main.g=tuile_en_main.h
             tuile_en_main.h=tuile_en_main.d
@@ -212,7 +215,7 @@ DEBUT
             tuile_en_main.b=tuile_en_main.g
         finPour
      
-    sinon Si (direction== 'd')
+    sinon si (direction== 'd')
                 Pour (entier i=0, i<nbTours, i++)
                     tuile_en_main.g=tuile_en_main.b
                     tuile_en_main.h=tuile_en_main.g
@@ -233,8 +236,8 @@ DEBUT
             Pour i allant de 2 à 6:
                 tmp = plateau[i+1][choixCouloir]
                 plateau[i+1][choixCouloir.y] = tmp
-        Fin si
-    Fin si
+        fin si
+    fin si
 
         si choixCouloir.x == 7
             tmp = plateau[7][choixCouloir.y]
@@ -243,8 +246,8 @@ DEBUT
             Pour i allant de 7 à 2:
                 plateau[i][choixCouloir.y] = tmp
                 tmp = plateau[i-1][choixCouloir.y]
-            Fin pour
-        Fin si
+            fin pour
+        fin si
 
         sinon si choixCouloir.y == 1 OU choixCouloir.y == 7:
             si choixCouloir.y == 1
@@ -253,7 +256,7 @@ DEBUT
             Pour i allant de 2 à 6:
                 plateau[i][1] = tmp
                 tmp = plateau[i+1][1]
-            Fin pour
+            fin pour
 
         si choixCouloir.y == 7
             tmp = plateau[choixCouloir.x][7]
@@ -262,8 +265,8 @@ DEBUT
             Pour i allant de 6 à 2:
                 plateau[choixCouloir.x][i] = tmp
                 tmp = plateau[choixCouloir.x][i-1]
-            Fin pour
-        Fin si
+            fin pour
+        fin si
 
     tuile_en_main = &tmp
 FIN
@@ -281,28 +284,28 @@ DEBUT
 
     si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
         retourne 0
-    Fin si
+    fin si
 
     si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
                                                     //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
         res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
-    Fin si
+    fin si
 
     si ((tab[a.x][a.y].h == 1 ET tab[a.x--][a.y].b == 1) ET tab[a.x--][a.y] != case) //...
         a.x--                                                                        //... 
         res= validationCoup(tab[a.x++][a.y],a,choix,compt++)                         //...
-    Fin si
+    fin si
 
     si ((tab[a.x][a.y].g == 1 ET tab[a.x][a.y--].d ==1) ET tab[a.x][a.y--] != case)
         a.y--
         res= validationCoup(tab[a.x][a.y++],a,choix,compt++)
-    Fin si
+    fin si
 
     si ((tab[a.x][a.y].b == 1 ET tab[a.x++][a.y].h == 1) ET tab[a.x++][a.y] != case)
         a.x++
         res= validationCoup(tab[a.x--][a.y],a,choix,compt++)
-    Fin si
+    fin si
     retourne res
 FIN
 -----------------------  
@@ -315,13 +318,13 @@ DEBUT
     Lire (deplacement)
     si deplacement = 0
         retourne 1
-    Fin si
+    fin si
     sinon
         Lire (choix.x)
         Lire (choix.y)
     Tant que(!validationCoup(plateau[P1->positionActuelle.x][P1->positionActuelle.y],P1->positionActuelle,choix,0))
         choixDeplacement(p1, plateau)
-    Fin Tant que
+    fin Tant que
 
     retourne 1
 FIN
@@ -331,7 +334,7 @@ DEBUT
     coordonnees a = P1->positionActuelle
     si(plateau[a.x][a.y].tresor == P1->pileTresor)
         retourne 1
-    Fin si
+    fin si
 
     sinon
         retourne 0
