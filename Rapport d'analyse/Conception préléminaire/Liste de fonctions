@@ -1,3 +1,4 @@
+Les structures 
 struct coordonnees
     entier x
     entier y
