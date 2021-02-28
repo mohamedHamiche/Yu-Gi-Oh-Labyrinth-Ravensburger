@@ -17,57 +17,23 @@ struct Joueur
     entier nombre_de_points
 
 Liste des fonctions:
-
 entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
-
-string lirePseudo(Joueur)
-
-distribuerCartes(Joueur player1, Joueur player2)
-
-    empiler(Joueur, entier x)
-
+string lire_pseudo()
 initPosition(Joueur *P1, Joueur *P2)
-
+distribuerCartes(Joueur P1, Joueur P2)
+Joueur quiCommence (Joueur *P1, Joueur *P2)
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
-    poserTuilesFixes(Tuile Plateau[7][7])
-    poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
-        initTuileEnMain(tuile *tuile_en_main)
-    
-
-Joueur quiCommence(Joueur p1, Joueur p2) // retourne un des deux joueurs qui va commencer la partie
-
-Joueur alterner(Joueur p1, Joueur p2, Joueur *joueurActuel) // retourne le joueur suivant
-
-insererTuile (Plateau,Tuile &tuile_en_main,coordonnées &choix_precedent)
-    coordonnées choixCouloir()
-         
-         
-         
-         
-         booléen opposé(coordonnées, &choix_precedent)
-  
-
-}   choixOrientationTuile(Tuile *tuile_en_main) //on a le choix entre laisser comme elle est ou la tourner
-            touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction) //direction 'g' ou 'd' 
-            
-    decalerCouloir(Tuile Plateau, coordonneesChoixCouloir())
-
-choixDeplacement(Joueur) 
-    validationCoup(coordonnees)
-    miseAJourPion(Joueur)
-    
-    
-booléen tresorAtteint(Plateau, Joueur)
-
-depilerTresor(Joueur)
-
-booleéen pileVide(Joueur)
-
-affichageJeu() // cette fonction affichera le jeu sur le terminal ainsi que toutes les informations nécessaires (comme la tuile à insérer le nombres de trésor trouvés pour chaque joueur etc)
-
-affichageGagnant(Joueur Joueur)
-
-
-
-
+poserTuilesFixes(Tuile Plateau[7][7])
+poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
+alterner(Joueur *p1, Joueur *p2,Joueur *joueurActuel)
+insererTuile (Tuile plateau[7][7],Tuile *tuile_en_main,coordonnées *choix_precedent)
+booléen opposé(coordonnées a, coordonnées choix_precedent)// on veut savoir si a est choix sont opposés 
+coordonnées choixCouloir()
+booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
+choixOrientationTuile(Tuile *tuile_en_main)
+touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
+decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
+booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt) 
+choixDeplacement(joueur *P1, Tuile plateau[7][7])
+tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
 
