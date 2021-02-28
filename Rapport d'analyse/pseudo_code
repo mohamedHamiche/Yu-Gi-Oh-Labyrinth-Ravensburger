@@ -15,7 +15,15 @@ DEBUT
     lire(pseudo)
     retourne pseudo
 FIN
----------------------
+----------------------
+inirPosition(Joueur *P1, Joueur *P2)
+DEBUT
+    P1.x = 0
+    P1.y = 0
+    P2.x = 6
+    P2.y = 6
+FIN
+----------------------
 distribuerCartes(Joueur P1, Joueur P2)
 DEBUT
    entier i=0
@@ -36,9 +44,7 @@ DEBUT
 
     //initialiser la pile des deux joueurs à leur position de départ 
     empiler(P1, 25)
-    P1.positionActuelle=(0,0) // (0,0)<-25
     empiler(P2, 26)
-    P2.positionActuelle=(6,6)// (6,6)<-26
 
     //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
     Pour (i=0, i<12, i++)
