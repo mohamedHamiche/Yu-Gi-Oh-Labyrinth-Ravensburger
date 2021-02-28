@@ -178,10 +178,10 @@ DEBUT
     retourne a
 FIN
 -------------------
-booléen validationCouloir(coordonnées choix_actuel,coordonnées &choix_precedent)
+booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
 DEBUT
-    si (opposé(choix_actuel,choix_precedent))
-        *choix_precedent=choix_actuel
+    si (opposé(choix_actuel,(*choix_precedent))
+        (*choix_precedent) = choix_actuel
          retourne 1
     finSi
     sinon
