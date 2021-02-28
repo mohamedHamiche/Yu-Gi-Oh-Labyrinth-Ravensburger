@@ -1,4 +1,5 @@
-Les structures 
+Les structures :
+
 struct coordonnees
     entier x
     entier y
@@ -17,8 +18,9 @@ struct Joueur
     coordonneés postion_actuelle
     struct pile pile_trésor
     entier nombre_de_points
-
+-----------------------------------------
 Liste des fonctions:
+
 entier modeDeJeu()
 
 string lire_pseudo()
