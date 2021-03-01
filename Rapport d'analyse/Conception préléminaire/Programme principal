@@ -12,7 +12,7 @@ DEBUT
     Joueur joueurActuel = quiCommence(&p1,&p2)
     coordonnees choix_precedent=(-1,-1)
     Tantque (!pileVide(p1.pile_tresor) && !pileVide(p2.pile_tresor)) faire
-    Debut
+    Debut   
         affichageJeu()
         insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
         affichageJeu()
