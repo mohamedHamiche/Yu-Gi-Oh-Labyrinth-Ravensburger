@@ -20,7 +20,7 @@ DEBUT
         affichageJeu()
         si tresorAtteint(joueurActuel)   
             depilerTresor(joueurActuel)
-        fin si
+        fin si 
         alterner(p1,p2,&joueurActuel)
     finTantque
     affichageGagnant(p1,p2)
