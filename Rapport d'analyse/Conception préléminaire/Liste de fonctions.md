@@ -45,13 +45,10 @@ Liste des fonctions:
 
 - insererTuile (Tuile plateau[7][7],Tuile *tuile_en_main,coordonnées *choix_precedent)
     - coordonnées choixCouloir()
-
     - booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
         - booléen opposé(coordonnées a, coordonnées choix_precedent)
-
     - choixOrientationTuile(Tuile *tuile_en_main)
         - tourner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
-        
     - decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
 
 - choixDeplacement(joueur *P1, Tuile plateau[7][7])
