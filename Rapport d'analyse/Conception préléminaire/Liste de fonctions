@@ -39,6 +39,8 @@ depiler(Joueur *P1)
 
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
 
+affichageJeu(Tuile Plateau[7][7])
+
 poserTuilesFixes(Tuile Plateau[7][7])
 
 poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
@@ -65,3 +67,4 @@ choixDeplacement(joueur *P1, Tuile plateau[7][7])
 
 tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
 
+affichageGagnant(Joueur *gagnant)
