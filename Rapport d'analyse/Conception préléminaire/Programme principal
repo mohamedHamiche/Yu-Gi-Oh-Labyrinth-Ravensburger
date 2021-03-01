@@ -1,6 +1,6 @@
 Programme principal:
 DEBUT
-    modeDeJeu()
+    modeDeJeu()   
     Joueur p1,p2
     P1.pseudo = lire_pseudo()
     P2.pseudo = lire_pseudo()
