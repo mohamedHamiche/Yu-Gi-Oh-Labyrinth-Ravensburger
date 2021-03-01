@@ -4,7 +4,7 @@ DEBUT
     Joueur p1,p2 
     P1.pseudo = lire_pseudo()
     P2.pseudo = lire_pseudo()
-    initPosition(&p1,&p2)
+    initPosition(&p1,&p2) 
     distribuerCartes(&p1,&p2)
     Tuile plateau [7][7] // tableau 2D de tuiles    
     Tuile tuile_en_main 
