@@ -50,6 +50,7 @@ Liste des fonctions:
     - choixOrientationTuile(Tuile *tuile_en_main)
         - tourner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
     - decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
+    
 
 - choixDeplacement(joueur *P1, Tuile plateau[7][7])
     - booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt) 
