@@ -5,6 +5,7 @@ DEBUT
     Lire(choix)
     si choix = 1
         retourner 1
+    fin si
     sinon
         retourner 2
 FIN
@@ -113,7 +114,7 @@ DEBUT
     si (Plateau[pos_aleatoire.x][pos_aleatoire.y].posee==0)
         Plateau[pos_aleatoire.x][pos_aleatoire.y]=tuilesCouloir[i]
         i++
-    finSi
+    fin Si
     tuile_en_main=tuilesCouloir[34]
     Fin Tant que
 FIN
@@ -122,6 +123,7 @@ alterner(Joueur *p1, Joueur *p2,Joueur *joueurActuel)
 DEBUT
     si joueurActuel == p1
         joueurActuel = p2
+    fin si
     sinon
         joueurActuel = p1
 FIN
@@ -144,13 +146,13 @@ DEBUT fonction
     si(a.x==0 et a.y==1)
         tmp.x=6
         tmp.y=1
-    Fin si
+    fin si
  
  sinon:
     si(a.x==0 et a.y==3)
             tmp.x=6;
             tmp.y=3;
-    Fin si
+    fin si
  .
  .
  .
