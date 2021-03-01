@@ -31,6 +31,12 @@ distribuerCartes(Joueur *P1, Joueur *P2)
 
 Joueur quiCommence (Joueur *P1, Joueur *P2)
 
+booleen pileVide(struct pile)
+
+empiler(Joueur *P1, Entier n)
+
+depiler(Joueur *P1)
+
 initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
 
 poserTuilesFixes(Tuile Plateau[7][7])
