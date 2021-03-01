@@ -9,6 +9,8 @@
 -  Réunion 13/02/2021 14:00  Analyse descensante 
 -  Réunion 14/02/2021 13:30  Conception préleminaire
 -  Réunion 27/02/2021 22:00  Conception détaillée
+-  Réunion 01/03/2021 19:00  Redaction du rapport
+
 
 - Le plateau est composé de : 
     - 33 tuiles non fixes : 12 tuiles "ligne droite", 16 "tuiles tournant", 5 tuiles "ligne droite" + "tournant".
