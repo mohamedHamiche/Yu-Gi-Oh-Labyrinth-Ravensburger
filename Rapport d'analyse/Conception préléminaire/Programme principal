@@ -6,7 +6,7 @@ DEBUT
     P2.pseudo = lire_pseudo()
     initPosition(&p1,&p2)
     distribuerCartes(&p1,&p2)
-    Tuile plateau [7][7] // tableau 2D de tuiles 
+    Tuile plateau [7][7] // tableau 2D de tuiles    
     Tuile tuile_en_main 
     initPlateau(plateau, &tuile_en_main)
     Joueur joueurActuel = quiCommence(&p1,&p2)
