@@ -1,23 +1,23 @@
 Les structures :
 
-struct coordonnees
-    entier x
-    entier y
+-struct coordonnees
+   - entier x
+   - entier y
 
-struct Tuile
-    booléen fixe // 1 fixe 0 couloir   
-    entier trésor //0 si pas de trésor, n sinon avec  1<= n <=24  
-    booléen gauche, droite, haut, bas  //0 si mur, 1 si ouverture
-    booléen posée //si la tuile est posée ou pas sur le  plateau
+-struct Tuile
+  -  booléen fixe // 1 fixe 0 couloir   
+  -  entier trésor //0 si pas de trésor, n sinon avec  1<= n <=24  
+  -  booléen gauche, droite, haut, bas  //0 si mur, 1 si ouverture
+  -  booléen posée //si la tuile est posée ou pas sur le  plateau
     
-Tuile Plateau [7][7] // Matrice de tuiles    
+-Tuile Plateau [7][7] // Matrice de tuiles    
 
 
-struct Joueur
-    string pseudo
-    coordonneés postion_actuelle
-    struct pile pile_trésor
-    entier nombre_de_points
+-struct Joueur
+  -  string pseudo
+  -  coordonneés postion_actuelle
+  -  struct pile pile_trésor
+  -  entier nombre_de_points
 -----------------------------------------
 Liste des fonctions:
 
