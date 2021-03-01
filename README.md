@@ -11,7 +11,3 @@
 -  Réunion 27/02/2021 22:00  Conception détaillée
 -  Réunion 01/03/2021 19:00  Redaction du rapport 
 
-
-- Le plateau est composé de : 
-    - 33 tuiles non fixes : 12 tuiles "ligne droite", 16 "tuiles tournant", 5 tuiles "ligne droite" + "tournant".
-    - 16 tuiles fixes : 0 tuiles "ligne droite", 4 tuiles "tournant", 12 tuiles "tournant" + ligne droite".
