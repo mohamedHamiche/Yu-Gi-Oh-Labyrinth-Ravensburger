@@ -2,16 +2,17 @@ Programme principal:
 DEBUT
     modeDeJeu()
     Joueur p1,p2
-    pseudo(p1)     pseudo(p2)
+    P1.pseudo = lire_pseudo()
+    P2.pseudo = lire_pseudo()
     initPosition(p1,p2)
-    distribuerCartes(p1,p2)
+    distribuerCartes(&p1,&p2)
     Tuile plateau [7][7] // tableau 2D de tuiles 
     Tuile tuile_en_main 
     initPlateau(plateau, &tuile_en_main)
 
-    Joueur joueurActuel=quiCommence(p1,p2)
+    Joueur joueurActuel = quiCommence(&p1,&p2)
     coordonnees choix_precedent=(-1,-1)
-    Tantque (!pileVide(p1) && !pileVide(p2)) faire
+    Tantque (!pileVide(p1.pile_tresor) && !pileVide(p2.pile_tresor)) faire
     Debut
         affichageJeu()
         insererTuile(plateau,&tuile_en_main,&choix_precedent); //choix_precedent pour valider le choix actuel
@@ -20,7 +21,7 @@ DEBUT
         affichageJeu()
         si tresorAtteint(joueurActuel) 
             depilerTresor(joueurActuel)
-        fin_si    
+        fin si    
         alterner(p1,p2,&joueurActuel)
     finTantque
     affichageGagnant(p1,p2)
