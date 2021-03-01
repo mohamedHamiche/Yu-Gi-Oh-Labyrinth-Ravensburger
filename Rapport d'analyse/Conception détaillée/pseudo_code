@@ -24,7 +24,7 @@ DEBUT
     P2.y = 6
 FIN
 ----------------------
-distribuerCartes(Joueur P1, Joueur P2)
+distribuerCartes(Joueur *P1, Joueur *P2)
 DEBUT
    entier i=0
    entier j=0
