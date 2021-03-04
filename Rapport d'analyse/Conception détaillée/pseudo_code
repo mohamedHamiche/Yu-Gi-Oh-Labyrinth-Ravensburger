@@ -241,23 +241,24 @@ DEBUT
     Tuile tmp
     Tuile dec
     entier i = 0
-    si choixCouloir.x = 1 OU choixCouloir.x = 7: //
+    si choixCouloir.x = 1 OU choixCouloir.x = 7: 
         si choixCouloir.x = 1
             tmp = plateau[choixCouloir.x][choixCouloir.y]
             plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
-            Pour i allant de 1 à 6:
-                dec =plateau[i+1][choixCouloir]
-                plateau[i][choixCouloir] = tmp
+            Pour i allant de 1 à 5:
+                dec =plateau[i+1][choixCouloir.y]
+                plateau[i+1][choixCouloir.y] = tmp
                 tmp = dec
+            fin pour
         fin si
     
-
         si choixCouloir.x = 7
-            tmp = plateau[7][choixCouloir.y]
-            plateau[7][choixCouloir.y] = tuile_en_main
-            Pour i allant de 7 à 2:
-                plateau[i][choixCouloir.y] = tmp
-                tmp = plateau[i-1][choixCouloir.y]
+            tmp = plateau[choixCouloir.x][choixCouloir.y]
+            plateau[choixCouloir.y][choixCouloir.y] = tuile_en_main
+            Pour i allant de 5 à 1:
+                dec = plateau[i-1][choixCouloir.y]
+                plateau[i-1][choixCouloir.y] = tmp
+                tmp = dec
             fin pour
         fin si
         
@@ -265,22 +266,24 @@ DEBUT
 
         sinon si choixCouloir.y = 1 OU choixCouloir.y = 7:
             si choixCouloir.y = 1
-                tmp = plateau[choixCouloir.x][1]
-                plateau[choixCouloir.x][1] = tuile_en_main
-            Pour i allant de 2 à 6:
-                plateau[i][1] = tmp
-                tmp = plateau[i+1][1]
+                tmp = plateau[choixCouloir.x][choixCouloir.y]
+                plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
+            Pour i allant de 1 à 5:
+                dec = plateau[choixCouloir.x][i+1]
+                plateau[choixCouloir.x][i+1] = tmp
+                tmp = dec
             fin pour
-
-        si choixCouloir.y = 7
-            tmp = plateau[choixCouloir.x][7]
-            plateau[choixCouloir.x][7] = tuile_en_main
-            tmp = tuile_en_main
-            Pour i allant de 6 à 2:
-                plateau[choixCouloir.x][i] = tmp
-                tmp = plateau[choixCouloir.x][i-1]
-            fin pour
-        fin si
+        
+            si choixCouloir.y = 7
+                tmp = plateau[choixCouloir.x][choixCouloir.y]
+                plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
+                Pour i allant de 5 à 1:
+                    dec = plateau[choixCouloir.x][i-1]
+                    plateau[choixCouloir.x][i-1] = tmp
+                    tmp = dec
+                fin pour
+             fin si
+        fin sinon
 
     tuile_en_main = tmp
 FIN
@@ -300,25 +303,25 @@ DEBUT
         retourne 0
     fin si
 
-    si ((tab[a.x][a.y].d = 1 ET tab[a.x][a.y++].g = 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
+    si ((tab[a.x][a.y].d = 1 ET tab[a.x][a.y = a.y+1].g = 1)  ET tab[a.x][a.y = a.y + 1] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
                                                                                     //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
-        a.y++                                          // On déplace la coordonnees vers la "droite" ...
-        res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
+        a.y = a.y+1                                          // On déplace la coordonnees vers la "droite" ...
+        res =validationCoup(tab[a.x][a.y = a.y-1],a,choix,compt = compt +1) // Appel récursif 
     fin si
 
-    si ((tab[a.x][a.y].h = 1 ET tab[a.x--][a.y].b = 1) ET tab[a.x--][a.y] != case) //...
-        a.x--                                                                        //... 
-        res= validationCoup(tab[a.x++][a.y],a,choix,compt++)                         //...
+    si ((tab[a.x][a.y].h = 1 ET tab[a.x = a.x-1][a.y].b = 1) ET tab[a.x = a.x-1][a.y] != case) //...
+        a.x = a.x-1                                                                     //... 
+        res= validationCoup(tab[a.x = a.x+1][a.y],a,choix,comp = compt+1)                         //...
     fin si
 
-    si ((tab[a.x][a.y].g = 1 ET tab[a.x][a.y--].d =1) ET tab[a.x][a.y--] != case)
-        a.y--
-        res= validationCoup(tab[a.x][a.y++],a,choix,compt++)
+    si ((tab[a.x][a.y].g = 1 ET tab[a.x][a.y = a.y-1].d = 1) ET tab[a.x][a.y = a.y-1] != case)
+        a.y = a.y-1
+        res= validationCoup(tab[a.x][a.y = a.y+1],a,choix,compt = compt+1)
     fin si
 
-    si ((tab[a.x][a.y].b = 1 ET tab[a.x++][a.y].h = 1) ET tab[a.x++][a.y] != case)
-        a.x++
-        res= validationCoup(tab[a.x--][a.y],a,choix,compt++)
+    si ((tab[a.x][a.y].b = 1 ET tab[a.x = a.x+1][a.y].h = 1) ET tab[a.x = a.x+1][a.y] != case)
+        a.x = a.x-1
+        res= validationCoup(tab[a.x = a.x-1][a.y],a,choix,compt = compt+1)
     fin si
     retourne res
 FIN
