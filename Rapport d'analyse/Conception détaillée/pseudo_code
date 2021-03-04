@@ -17,7 +17,7 @@ DEBUT
     retourne pseudo
 FIN
 ----------------------
-initPosition(Joueur *P1, Joueur *P2)
+initPosition(Joueur P1, Joueur P2)
 DEBUT
     P1.x = 0
     P1.y = 0
@@ -25,7 +25,7 @@ DEBUT
     P2.y = 6
 FIN
 ----------------------
-distribuerCartes(Joueur *P1, Joueur *P2)
+distribuerCartes(Joueur P1, Joueur P2)
 DEBUT
    entier i=0
    entier j=0
@@ -36,10 +36,10 @@ DEBUT
         Tant que j < i: // verifie si la valeur entré n'est pas égale à une valeur déja entré auparavant dans le tableau   
                         //de sorte à ce que la pile ne contienne pas les mêmes trésors.
             si(t[i] != t[j])
-                 j++   
+                 j=j+1   
             finSi
-        si(i==j)
-            i++
+        si(i=j)
+            i=i+1
         finSi
     fin tant que
 
@@ -48,15 +48,15 @@ DEBUT
     empiler(P2, 26)
 
     //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
-    Pour (i=0, i<12, i++)
+    Pour (i=0, i<12, i=i+1)
         empiler(P1, tab[i])
     finPour
-    Pour (i=12, i<24, i++)
+    Pour (i=12, i<24,i=i+1 )
         empiler(P2, tab[i])
     finPour
 FIN
 -----------------
-Joueur quiCommence (Joueur *P1, Joueur *P2)
+Joueur quiCommence (Joueur P1, Joueur P2)
 DEBUT 
     entier x = random entre 1 et 2
     si x=1
@@ -66,10 +66,10 @@ DEBUT
     finSi
 FIN
 ---------------   
-initPlateau(Tuile Plateau[7][7], Tuile *tuile_en_main)
+initPlateau(Tuile Plateau[7][7], Tuile tuile_en_main)
 DEBUT
-    Pour(i=0, i<6, i++)
-        Pour(j=0, j<6, j++)
+    Pour(i=0, i<6, i=i+1)
+        Pour(j=0, j<6, j=j+1)
             Plateau[i][j].posee=0
         finPour
     finPour
@@ -100,7 +100,7 @@ DEBUT
     Plateau[6][6].posee=1
 FIN
 ----------------------------
-poserTuilesCouloir(Tuile Plateau[7][7],tuile *tuile_en_main)
+poserTuilesCouloir(Tuile Plateau[7][7],tuile tuile_en_main)
 DEBUT
     Tuile tuilesCouloir[34] 
     ...
@@ -111,30 +111,30 @@ DEBUT
     pos_aleatoire.x= valeur aléatoire entre 0 et 6
     pos_aleatoire.y= valeur aléatoire entre 0 et 6
 
-    si (Plateau[pos_aleatoire.x][pos_aleatoire.y].posee==0)
+    si (Plateau[pos_aleatoire.x][pos_aleatoire.y].posee=0)
         Plateau[pos_aleatoire.x][pos_aleatoire.y]=tuilesCouloir[i]
-        i++
+        i=i+1
     fin Si
     tuile_en_main=tuilesCouloir[34]
     Fin Tant que
 FIN
 -----------------------------
-alterner(Joueur *p1, Joueur *p2,Joueur *joueurActuel)
+alterner(Joueur p1, Joueur p2,Joueur joueurActuel)
 DEBUT
-    si joueurActuel == p1
+    si joueurActuel = p1
         joueurActuel = p2
     fin si
     sinon
         joueurActuel = p1
 FIN
 -----------------------------
-insererTuile (Tuile plateau[7][7],Tuile *tuile_en_main,coordonnées *choix_precedent)
+insererTuile (Tuile plateau[7][7],Tuile tuile_en_main,coordonnées choix_precedent)
 DEBUT
     coordonnées entré = choixCouloir()
     tant que(!validationCouloir(entré,&choixprécédent))
         entré = choixCouloir()
     Fin tant que
-    choixOrientationTuile(Tuile *tuile_en_main)
+    choixOrientationTuile(Tuile tuile_en_main)
     (*choix_precedent) = entré
     decalerCouloir(plateau, entré, tuile_en_main)
 FIN
@@ -143,27 +143,27 @@ FIN
 booléen opposé(coordonnées a, coordonnées choix_precedent)// on veut savoir si a est choix sont opposés 
 DEBUT fonction
     coordonnees tmp // pour trouver l'opposé de a 
-    si(a.x==0 et a.y==1)
+    si(a.x=0 et a.y=1)
         tmp.x=6
         tmp.y=1
     fin si
  
  sinon:
-    si(a.x==0 et a.y==3)
+    si(a.x=0 et a.y=3)
             tmp.x=6;
             tmp.y=3;
     fin si
  .
  .
  .
-    sinon si (a.x==6 et a.y== 1)
+    sinon si (a.x=6 et a.y= 1)
         tmp.x=0
         tmp.y=1
  
     sinon
         return 0;
     si // l'opposé de a (tmp) est le choix_actuel alors OUI 
-        (tmp.x==choix_precedent.x et tmp.y == choix_precedent.y)
+        (tmp.x=choix_precedent.x et tmp.y = choix_precedent.y)
         retourner 1;
     fin si
 
@@ -182,8 +182,8 @@ FIN
 -------------------
 booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
 DEBUT
-    si (opposé(choix_actuel,(*choix_precedent))
-        (*choix_precedent) = choix_actuel
+    si (opposé(choix_actuel,(choix_precedent))
+        (choix_precedent) = choix_actuel
          retourne 1
     fin Si
     sinon
@@ -197,7 +197,7 @@ DEBUT
     afficher(1.inserer la tuile telle qu'elle est)
     afficher(2.tourner la tuile)
     lire(choix)
-    si (choix==2)
+    si (choix=2)
         afficher('g' pour gauche 'd' pour droite)
         char direction
         lire(direction)
@@ -215,16 +215,16 @@ touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
     // direction: g pour gauche, d pour droite
 DEBUT
     entier nbTours= nombre_de_tours mod 4 
-    si (direction == 'g')
-        Pour (entier i=0, i<nbTours, i++)
+    si (direction = 'g')
+        Pour (entier i=0, i<nbTours, i=i+1)
             tuile_en_main.g=tuile_en_main.h
             tuile_en_main.h=tuile_en_main.d
             tuile_en_main.d=tuile_en_main.b
             tuile_en_main.b=tuile_en_main.g
         fin Pour
      
-    sinon si (direction== 'd')
-                Pour (entier i=0, i<nbTours, i++)
+    sinon si (direction = 'd')
+                Pour (entier i=0, i<nbTours, i=i+1)
                     tuile_en_main.g=tuile_en_main.b
                     tuile_en_main.h=tuile_en_main.g
                     tuile_en_main.d=tuile_en_main.h
@@ -233,15 +233,15 @@ DEBUT
     fin Si    
 FIN
 ------------------
-decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile *tuile_en_main)
+decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile tuile_en_main)
     // Principe de la fonction: 4 orientations de décalage d'un couloir, par exemple si on insert coté 'Ouest' il y aura un décalage du couloir de 
     //...gauche vers la droite ainsi on modifie la ligne du plateau correspondant.
     // Autre exemple: Si on insert coté Nord il y aura un décalage du haut vers le bas donc la fonction va modifier la colonne en partant du haut ...
 DEBUT
     Tuile tmp 
     entier i = 0
-    si choixCouloir.x == 1 OU choixCouloir.x == 7: //
-        si choixCouloir.x == 1
+    si choixCouloir.x = 1 OU choixCouloir.x = 7: //
+        si choixCouloir.x = 1
             tmp = plateau[choixCouloir.x][choixCouloir.y]
             plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
             Pour i allant de 2 à 6:
@@ -250,7 +250,7 @@ DEBUT
         fin si
     fin si
 
-        si choixCouloir.x == 7
+        si choixCouloir.x = 7
             tmp = plateau[7][choixCouloir.y]
             plateau[7][choixCouloir.y] = tuile_en_main
 
@@ -260,8 +260,8 @@ DEBUT
             fin pour
         fin si
 
-        sinon si choixCouloir.y == 1 OU choixCouloir.y == 7:
-            si choixCouloir.y == 1
+        sinon si choixCouloir.y = 1 OU choixCouloir.y = 7:
+            si choixCouloir.y = 1
                 tmp = plateau[choixCouloir.x][1]
                 plateau[choixCouloir.x][1] = tuile_en_main
             Pour i allant de 2 à 6:
@@ -269,7 +269,7 @@ DEBUT
                 tmp = plateau[i+1][1]
             fin pour
 
-        si choixCouloir.y == 7
+        si choixCouloir.y = 7
             tmp = plateau[choixCouloir.x][7]
             plateau[choixCouloir.x][7] = tuile_en_main
             tmp = tuile_en_main
@@ -279,7 +279,7 @@ DEBUT
             fin pour
         fin si
 
-    tuile_en_main = &tmp
+    tuile_en_main = tmp
 FIN
 
 -------------------
@@ -289,38 +289,38 @@ booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt
     // coordonnees choix : La case à atteindre
     // entier compt : nombre actuel des appels récursif de la fonction
 DEBUT
-    si(a.x == choix.x ET a.y == choix.y)
+    si(a.x = choix.x ET a.y = choix.y)
         retourne 1
     Fin si
 
-    si(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
+    si(compt = 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
         retourne 0
     fin si
 
-    si ((tab[a.x][a.y].d == 1 ET tab[a.x][a.y++].g == 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
+    si ((tab[a.x][a.y].d = 1 ET tab[a.x][a.y++].g = 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
                                                     //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
         res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
     fin si
 
-    si ((tab[a.x][a.y].h == 1 ET tab[a.x--][a.y].b == 1) ET tab[a.x--][a.y] != case) //...
+    si ((tab[a.x][a.y].h = 1 ET tab[a.x--][a.y].b = 1) ET tab[a.x--][a.y] != case) //...
         a.x--                                                                        //... 
         res= validationCoup(tab[a.x++][a.y],a,choix,compt++)                         //...
     fin si
 
-    si ((tab[a.x][a.y].g == 1 ET tab[a.x][a.y--].d ==1) ET tab[a.x][a.y--] != case)
+    si ((tab[a.x][a.y].g = 1 ET tab[a.x][a.y--].d =1) ET tab[a.x][a.y--] != case)
         a.y--
         res= validationCoup(tab[a.x][a.y++],a,choix,compt++)
     fin si
 
-    si ((tab[a.x][a.y].b == 1 ET tab[a.x++][a.y].h == 1) ET tab[a.x++][a.y] != case)
+    si ((tab[a.x][a.y].b = 1 ET tab[a.x++][a.y].h = 1) ET tab[a.x++][a.y] != case)
         a.x++
         res= validationCoup(tab[a.x--][a.y],a,choix,compt++)
     fin si
     retourne res
 FIN
 -----------------------  
-choixDeplacement(joueur *P1, Tuile plateau[7][7])
+choixDeplacement(joueur P1, Tuile plateau[7][7])
 DEBUT
     booleen deplacement
     coordonnees choix
@@ -340,10 +340,10 @@ DEBUT
     retourne 1
 FIN
 ------------------------
-tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
+tresorAtteint(Joueur P1, Tuile Plateau[7][7])
 DEBUT
     coordonnees a = P1->positionActuelle
-    si(plateau[a.x][a.y].tresor == P1->pileTresor)
+    si(plateau[a.x][a.y].tresor = P1->pileTresor)
         retourne 1
     fin si
 
