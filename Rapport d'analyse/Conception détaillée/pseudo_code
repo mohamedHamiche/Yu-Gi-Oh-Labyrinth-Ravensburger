@@ -135,7 +135,7 @@ DEBUT
         entré = choixCouloir()
     Fin tant que
     choixOrientationTuile(Tuile tuile_en_main)
-    (*choix_precedent) = entré
+    (choix_precedent) = entré
     decalerCouloir(plateau, entré, tuile_en_main)
 FIN
 ------------------------------
@@ -180,7 +180,7 @@ DEBUT
     retourne a
 FIN
 -------------------
-booléen validationCouloir(coordonnées choix_actuel,coordonnées *choix_precedent)
+booléen validationCouloir(coordonnées choix_actuel,coordonnées choix_precedent)
 DEBUT
     si (opposé(choix_actuel,(choix_precedent))
         (choix_precedent) = choix_actuel
@@ -191,7 +191,7 @@ DEBUT
 FIN
 
 ----------------
-choixOrientationTuile(Tuile *tuile_en_main)
+choixOrientationTuile(Tuile tuile_en_main)
 DEBUT
     entier choix
     afficher(1.inserer la tuile telle qu'elle est)
@@ -209,7 +209,7 @@ DEBUT
 FIN
 
 -------------------
-touner(Tuile *tuile_en_main, entier nombre_de_tours, char direction)
+touner(Tuile tuile_en_main, entier nombre_de_tours, char direction)
     // tuile_en_main: adresse de la tuile en main
     // nombre_de_tours: entier entre 0 et 3
     // direction: g pour gauche, d pour droite
@@ -238,27 +238,30 @@ decalerCouloir(Tuile Plateau, coordonnees choixCouloir, Tuile tuile_en_main)
     //...gauche vers la droite ainsi on modifie la ligne du plateau correspondant.
     // Autre exemple: Si on insert coté Nord il y aura un décalage du haut vers le bas donc la fonction va modifier la colonne en partant du haut ...
 DEBUT
-    Tuile tmp 
+    Tuile tmp
+    Tuile dec
     entier i = 0
     si choixCouloir.x = 1 OU choixCouloir.x = 7: //
         si choixCouloir.x = 1
             tmp = plateau[choixCouloir.x][choixCouloir.y]
             plateau[choixCouloir.x][choixCouloir.y] = tuile_en_main
-            Pour i allant de 2 à 6:
-                tmp = plateau[i+1][choixCouloir]
-                plateau[i+1][choixCouloir.y] = tmp
+            Pour i allant de 1 à 6:
+                dec =plateau[i+1][choixCouloir]
+                plateau[i][choixCouloir] = tmp
+                tmp = dec
         fin si
-    fin si
+    
 
         si choixCouloir.x = 7
             tmp = plateau[7][choixCouloir.y]
             plateau[7][choixCouloir.y] = tuile_en_main
-
             Pour i allant de 7 à 2:
                 plateau[i][choixCouloir.y] = tmp
                 tmp = plateau[i-1][choixCouloir.y]
             fin pour
         fin si
+        
+    fin si
 
         sinon si choixCouloir.y = 1 OU choixCouloir.y = 7:
             si choixCouloir.y = 1
@@ -283,8 +286,8 @@ DEBUT
 FIN
 
 -------------------
-booléen validationCoup(Tuile *case,coordonnees a,coordonnees choix,entier compt) 
-    // Tuile *case : adresse de la case précedente appelé dans l'appel précedent
+booléen validationCoup(Tuile case,coordonnees a,coordonnees choix,entier compt) 
+    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
     // coordonnees a : position de actuel de l'appel de la fonction
     // coordonnees choix : La case à atteindre
     // entier compt : nombre actuel des appels récursif de la fonction
@@ -298,7 +301,7 @@ DEBUT
     fin si
 
     si ((tab[a.x][a.y].d = 1 ET tab[a.x][a.y++].g = 1)  ET tab[a.x][a.y++] != case) // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à 
-                                                    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
+                                                                                    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
         a.y++                                          // On déplace la coordonnees vers la "droite" ...
         res =validationCoup(tab[a.x][a.y--],a,choix,compt++) // Appel récursif 
     fin si
