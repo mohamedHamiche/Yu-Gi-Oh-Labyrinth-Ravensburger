@@ -11,5 +11,9 @@
 -  Réunion 27/02/2021 22:00  Conception détaillée
 -  Réunion 01/03/2021 19:00  Redaction du rapport 
 
+Se renseigner sur :
 
+    Environnements test unitaires  
+    Makefile 
+    Commencer quelques fonctions : gérer toutes les éventuelles erreurs. 
   
