@@ -15,5 +15,20 @@ Se renseigner sur :
 
     Environnements test unitaires  
     Makefile 
-    Commencer quelques fonctions : gérer toutes les éventuelles erreurs. 
-  
+    
+
+Commencer quelques fonctions : 
+
+    gérer toutes les éventuelles erreurs: lectures des bons types à partir du clavier par exemple...
+
+
+fonctions à faire:
+
+    Piles: init_pile, pile_vide, empiler, depiler. 
+
+    Joueur: initJoueur, lire_pseudo, initPosition, distribuerCartes, quiCommence, alterner
+
+    Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir
+
+
+
