@@ -9,7 +9,7 @@ JOUEUR *initJoueurM(int index);
 void initPositions(JOUEUR **tabJoueurs,int nombreTotal);
 JOUEUR **initTabJoueur(unsigned int *nombreTotal);
 void freeJoueur(JOUEUR *Player);
-void freeTabJoueur(JOUEUR **Tab);
+void freeTabJoueur(JOUEUR **Tab);// Pas de fuites mémoires, verifié avec valgrind
 
 //---------
 int main(void){
