@@ -21,11 +21,17 @@ Se renseigner sur :
 
 fonctions à faire:
 
-    Piles: init_pile, pile_vide, empiler, depiler.--- 75% --- 
+    - Piles: init_pile, pile_vide, empiler, depiler.--- 80% --- reste à tester
 
-    Joueur: initJoueur-- 70% --, lire_pseudo-- 90% --, distribuerCartes-- 50% --, quiCommence-- 10% --, alterner--à refaire--
+    - Joueur: 
+        initTabJoueurs: --100%--
+            initJoueurH, initJoueurM, initPositions, lire_pseudo;                          
+        distribuerCartes-- 50% --, 
+        quiCommence-- 10% --, 
+        alterner--à refaire--
 
-    Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir, decalerCouloir-- 90% --
+    - Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir, 
+        decalerCouloir-- 90% --
 
 
 
