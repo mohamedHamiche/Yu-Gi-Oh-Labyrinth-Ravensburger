@@ -34,7 +34,6 @@ Liste des fonctions:
 
 - string lire_pseudo()
 
-- initPosition(Joueur *P1, Joueur *P2)
 
 - distribuerCartes(Joueur *P1, Joueur *P2)
 
