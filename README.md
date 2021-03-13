@@ -17,18 +17,15 @@ Se renseigner sur :
     Makefile 
     
 
-Commencer quelques fonctions : 
-
-    gérer toutes les éventuelles erreurs: lectures des bons types à partir du clavier par exemple...
 
 
 fonctions à faire:
 
-    Piles: init_pile, pile_vide, empiler, depiler. 
+    Piles: init_pile, pile_vide, empiler, depiler.--- 75% --- 
 
-    Joueur: initJoueur, lire_pseudo, initPosition, distribuerCartes, quiCommence, alterner
+    Joueur: initJoueur-- 70% --, lire_pseudo-- 90% --, distribuerCartes-- 50% --, quiCommence-- 10% --, alterner--à refaire--
 
-    Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir
+    Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir, decalerCouloir-- 90% --
 
 
 
