@@ -1,14 +1,4 @@
-entier modeDeJeu() //demande au joueur de jouer contre joueur ou de jouer contre machine
-DEBUT
-    entier choix
-    Affiche(Quel mode voulez vous ? 1- JvsJ ou  2-JvsMachine)
-    Lire(choix)
-    si choix = 1
-        retourner 1
-    fin si
-    sinon
-        retourner 2
-FIN
+
 ---------------------
 string lire_pseudo()
 DEBUT 
