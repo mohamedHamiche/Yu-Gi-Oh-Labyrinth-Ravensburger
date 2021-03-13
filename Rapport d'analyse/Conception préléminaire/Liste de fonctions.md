@@ -18,10 +18,40 @@ Les structures :
   -  coordonneés postion_actuelle
   -  struct pile pile_trésor
   -  entier nombre_de_points
+  -  booleen machine
 -----------------------------------------
 Liste des fonctions:
 
 - entier modeDeJeu()
+- Joueur *initJoueurs()
+DEBUT
+    Joueur tabJoueurs[4];
+    -entier demanderNbJoueurMachine(CLAVIER)        
+    -entier demanderNbJoueurHumain(CLAVIER)
+        -nbTotal= machine+humain;
+        -if(nb <=4 && nb >0)
+            for(nbMachine){
+                Joueur *tmplayer=malloc;
+                tmplayer.machine=1;
+                tabJoueurs[index]=tmplayer;
+                }
+        for(nbHumain){
+                Joueur *tmplayer=malloc;
+                tmplayer.machine=0;
+                tabJoueurs[index]=tmplayer;
+                }      
+    parcourir tabJoueurs et initialiser 
+    {
+        tabJoueurs[0].postion_actuelle=0,0
+        tabJoueur[1].postion_actuelle=6,6
+        if(nbTotal>=2)
+            tabJoueurs[2].postion_actuelle=0,6
+        if(nbTotal>=3)
+            tabJoueurs[3].postion_actuelle=6,0   
+    } 
+    Retourne tabJoueur;
+    FIN 
+        
 
 - string lire_pseudo()
 
