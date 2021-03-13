@@ -23,7 +23,7 @@ Les structures :
 Liste des fonctions:
 
 
-- Joueur *initJoueurs()
+- Joueur *initJoueurs(entier *nbTotal)
 
     - entier demanderNbJoueurMachine(CLAVIER)        
 
