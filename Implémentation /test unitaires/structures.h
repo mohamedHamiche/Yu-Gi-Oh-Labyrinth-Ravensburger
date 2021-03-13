@@ -11,25 +11,17 @@ typedef struct coordonnees CORD;
 
 struct tuile
 {
-	int fixe // 1 fixe 0 couloir
-	int tresor //0 si pas de trésor, n sinon avec  1<= n <=24
-	int gauche, droite, haut, bas  //0 si mur, 1 si ouverture
-	int posee //si la tuile est posée ou pas sur le  plateau
-}
+	int fixe ;// 1 fixe 0 couloir
+	int tresor; //0 si pas de trésor, n sinon avec  1<= n <=24
+	int gauche, droite, haut, bas;  //0 si mur, 1 si ouverture
+	int posee; //si la tuile est posée ou pas sur le  plateau
+};
 typedef struct tuile TUILE;
 
 TUILE Plateau [7][7]; // Matrice de tuiles
 
 
-struct joueur
-{
-	char *pseudo;
-	CORD postion_actuelle;
-	PILE pile_tresor;
-	int nombre_de_points;
-};
-typedef struct joueur JOUEUR; 
-//-------------------
+
 
 
 typedef struct pile PILE;
@@ -61,5 +53,13 @@ int depiler(PILE *p){
     p->sommet--;
     return p->tab[p->sommet];
 }
-
+struct joueur
+{
+	char *pseudo;
+	CORD postion_actuelle;
+	PILE pile_tresor;
+	int nombre_de_points;
+};
+typedef struct joueur JOUEUR; 
+//-------------------
 #endif // PILE_H_INCLUDED
