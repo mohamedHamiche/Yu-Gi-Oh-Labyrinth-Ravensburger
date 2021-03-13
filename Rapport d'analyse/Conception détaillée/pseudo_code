@@ -25,7 +25,7 @@ DEBUT
     P2.y = 6
 FIN
 ----------------------
-distribuerCartes(Joueur P1, Joueur P2)
+distribuerCartes(Joueur *TabJoueurs, entier nbTotal)
 DEBUT
    entier i=0
    entier j=0
@@ -44,16 +44,24 @@ DEBUT
     fin tant que
 
     //initialiser la pile des deux joueurs à leur position de départ 
-    empiler(P1, 25)
-    empiler(P2, 26)
+    Pour (i allant de 0 a nbTotal)
+        empiler(TabJoueurs[i].pileTresor, 24+i)
+    finPour
 
-    //remplir la pile des deux joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24.
-    Pour (i=0, i<12, i=i+1)
-        empiler(P1, tab[i])
-    finPour
-    Pour (i=12, i<24,i=i+1 )
-        empiler(P2, tab[i])
-    finPour
+    //remplir la pile des joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24
+
+    //-------- nbTotal de joueurs  3
+    depart=0;
+    arrivee=24/nbTotal;
+    Pour (i allant de 0 à nbTotal)
+        
+            Pour(j allant de depart à arrivée )
+                empiler(TabJoueurs[i].pileTresor,tab[j])                
+            finPour
+
+            depart+=24/nbTotal;
+            arrivee+=24/nbTotal;
+    Finpour
 FIN
 -----------------
 Joueur quiCommence (Joueur P1, Joueur P2)
