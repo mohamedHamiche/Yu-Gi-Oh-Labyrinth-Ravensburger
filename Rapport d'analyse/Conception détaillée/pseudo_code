@@ -21,7 +21,7 @@ FIN
 ----------------------    
 -entier demanderNbJoueurHumain(CLAVIER)
 ----------------------
-initPosition(Joueur *TabJoueurs)
+Joueur *initJoueurs(entier *nbTotal)
 DEBUT
     Joueur tabJoueurs[4];
     -entier demanderNbJoueurMachine(CLAVIER)        
@@ -31,12 +31,15 @@ DEBUT
             for(nbMachine){
                 Joueur *tmplayer=malloc;
                 tmplayer.machine=1;
+                tmplayer.pseudo="Machine n° index"
                 tabJoueurs[index]=tmplayer;
                 }
         for(nbHumain){
                 Joueur *tmplayer=malloc;
                 tmplayer.machine=0;
+                tmplayer.pseudo=lire_pseudo(index)
                 tabJoueurs[index]=tmplayer;
+
                 }      
     parcourir tabJoueurs et initialiser 
     {
@@ -89,14 +92,10 @@ DEBUT
     Finpour
 FIN
 -----------------
-Joueur quiCommence (Joueur P1, Joueur P2)
+entier quiCommence ()
 DEBUT 
-    entier x = random entre 1 et 2
-    si x=1
-        retourner P1
-    sinon 
-        retourner P2
-    finSi
+    entier x = random entre 0 et 3
+    retourne x 
 FIN
 ---------------   
 initPlateau(Tuile Plateau[7][7], Tuile tuile_en_main)
