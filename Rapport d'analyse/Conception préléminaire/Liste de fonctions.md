@@ -65,6 +65,8 @@ Liste des fonctions:
 
 - tresorAtteint(Joueur *P1, Tuile Plateau[7][7])
 
+- booleen pileVideTab(Joueur *tabJoueurs)
+
 - affichageJeu(Tuile Plateau[7][7])
 
 - affichageGagnant(Joueur *gagnant)
