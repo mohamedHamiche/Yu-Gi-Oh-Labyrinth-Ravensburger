@@ -42,6 +42,7 @@ Tuile decalerCouloir(Tuile plateau[7][7], cord choixCouloir, Tuile tuileEnMain){
                 plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
                 dec = plateau[choixCouloir.x][choixCouloir.y+1];
                 plateau[choixCouloir.x][choixCouloir.y+1] = tmp;
+                tmp=dec;
                 for(i=1; i<6; i++){
                     dec = plateau[choixCouloir.x][i+1];
                     plateau[choixCouloir.x][i+1] = tmp;
