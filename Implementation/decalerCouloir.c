@@ -3,7 +3,7 @@
 
 
 //Testé avec des entiers au lieu des tuiles, qui ne sont pas encore initialisées dans le programme
-
+ 
 
 Tuile decalerCouloir(Tuile plateau[7][7], cord choixCouloir, Tuile tuileEnMain){
 
