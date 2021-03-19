@@ -6,73 +6,73 @@ unsigned int oppose(CORD a, CORD choixPrecedent){
 
 	if(a.x == 0 || a.x == 6){
 		if(a.x == 0){
-		    if(a.y == 1){
-		    	temp.x=6;
-		    	temp.y=1;
-		    }	    
+			if(a.y == 1){
+				temp.x=6;
+				temp.y=1;
+			}	    
 			if(a.y == 3){
 				temp.x=6;
-			    temp.y=3;
+				temp.y=3;
 			}
 			if(a.y == 5){
-			    temp.x=6;
-		    	temp.y=5;
+				temp.x=6;
+				temp.y=5;
 			}
 		}
 
 		if(a.x == 6){
-		    if(a.y == 1){
-		        temp.x=0;
-		        temp.y=1;
-		    }	    
+			if(a.y == 1){
+				temp.x=0;
+				temp.y=1;
+			}
 			if(a.y == 3){
-			    temp.x=0;
-			    temp.y=3;
+				temp.x=0;
+				temp.y=3;
 			}
 			if(a.y == 5){
-			    temp.x=0;
-		    	temp.y=5;
-		    }
+				temp.x=0;
+				temp.y=5;
+			}
 		}
 	}
 
 	else if(a.y == 0 || a.y == 6){
 		if(a.y == 0){
-		    if(a.x == 1){
-		        temp.x=1;
-		        temp.y=6;
-		    }	    
+			if(a.x == 1){
+				temp.x=1;
+				temp.y=6;
+			}	    
 			if(a.x == 3){
-			    temp.x=3;
-			    temp.y=6;
+				temp.x=3;
+				temp.y=6;
 			}
 			if(a.x == 5){
-			    temp.x=5;
-		    	temp.y=6;
-		    }
+				temp.x=5;
+				temp.y=6;
+			}
 		}
 		    
 		if(a.y == 6){
-		    if(a.x == 1){
-		        temp.x=1;
-		        temp.y=0;
-		    }	    
+			if(a.x == 1){
+				temp.x=1;
+				temp.y=0;
+			}	    
 			if(a.x == 3){
-			    temp.x=3;
-			    temp.y=0;
+				temp.x=3;
+				temp.y=0;
 			}
 			if(a.x == 5){
-			    temp.x=5;
-		    	temp.y=0;
-		    }
+				temp.x=5;
+				temp.y=0;
+			}
 		}
 
 	}  
-    
-    if(temp.x == choixPrecedent.x && temp.y == choixPrecedent.y)
-        return 1;
-    else 
-    	return 0;
+	
+	if(temp.x == choixPrecedent.x && temp.y == choixPrecedent.y)
+		return 1;
+	else 
+		return 0;
 
 }
 
