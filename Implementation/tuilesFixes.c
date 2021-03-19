@@ -3,9 +3,9 @@
 #include "structures.h"
 
 
-
+// Initialisations des tuiles fixes, avec leur trésors et leurs ouvertures.
 void tuilesFixes(TUILE Plateau[7][7]){
-	//LIGNE 0:
+    //LIGNE 0:
     Plateau[0][0].fixe=1;
     Plateau[0][0].tresor= 25;
     Plateau[0][0].g=0;
@@ -34,7 +34,7 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[0][6].h=0;
     Plateau[0][6].b=1;
     Plateau[0][6].posee=1;
-	//LIGNE 2:
+    //LIGNE 2:
     Plateau[2][0].fixe=1;
     Plateau[2][0].tresor= 20;
     Plateau[2][0].g=0;
@@ -64,8 +64,8 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[2][6].b=1;
     Plateau[2][6].posee=1;
     Plateau[2][6].fixe=1;
-	//LIGNE 4:
-	Plateau[4][0].tresor= 16;
+    //LIGNE 4:
+    Plateau[4][0].tresor= 16;
     Plateau[4][0].g=0;
     Plateau[4][0].d=1;
     Plateau[4][0].h=1;
@@ -93,7 +93,7 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[4][6].b=1;
     Plateau[4][6].posee=1;
     Plateau[4][6].fixe=1;
-	//LIGNE 6:
+    //LIGNE 6:
     Plateau[6][0].tresor= 12;
     Plateau[6][0].g=0;
     Plateau[6][0].d=1;
@@ -115,7 +115,7 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[6][4].b=0;
     Plateau[6][4].posee=1;
     Plateau[6][4].fixe=1;
-   	Plateau[6][6].tresor= 9;
+    Plateau[6][6].tresor= 9;
     Plateau[6][6].g=1;
     Plateau[6][6].d=0;
     Plateau[6][6].h=1;
