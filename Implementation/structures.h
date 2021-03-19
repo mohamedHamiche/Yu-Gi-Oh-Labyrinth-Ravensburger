@@ -13,8 +13,8 @@ typedef struct tuile TUILE;
 struct tuile
 {
     int fixe ;// 1 fixe 0 couloir
-    int tresor; //0 si pas de trésor, n sinon avec  1<= n <=24
-    int gauche, droite, haut, bas;  //0 si mur, 1 si ouverture
+    int tresor; //0 si pas de trésor, n sinon avec  1<= n <=25
+    int g, d, h, b;  // 0 si mur, 1 si ouverture. g : gauche; d : droite ; h : haut ; b : bas 
     int posee; //si la tuile est posée ou pas sur le  plateau
 };
 
