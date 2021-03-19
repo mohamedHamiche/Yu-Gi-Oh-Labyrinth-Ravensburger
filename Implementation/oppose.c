@@ -78,6 +78,7 @@ unsigned int oppose(CORD a, CORD choixPrecedent){
 
 
 
+
 /* TEST: Cette fonction renvoie 1 si la cord entrée est egal à l'opposé du choix précédent (autrement dit si on veut insérere la tuile d'ou elle vient de sortir).
 int main(void){
 
