@@ -11,7 +11,7 @@ unsigned int oppose(CORD a, CORD choixPrecedent){
 		    	temp.y=1;
 		    }	    
 			if(a.y == 3){
-			    temp.x=6;
+				temp.x=6;
 			    temp.y=3;
 			}
 			if(a.y == 5){
