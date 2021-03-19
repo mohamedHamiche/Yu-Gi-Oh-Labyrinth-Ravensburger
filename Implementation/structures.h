@@ -48,7 +48,7 @@ struct joueur
 void Emplier (Pile* pile,int NvNombre)
 {
     Element*nouveau = malloc(sizeof(*nouveau));
-    if ( (pile=NULL) || (nouveau = NULL ))
+    if ( (pile==NULL) || (nouveau ==NULL ))
     {
         exit(EXIT_FAILURE);
     }

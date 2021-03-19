@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "structures.h"
 
 //Vérification si le trésor atteint:
 
-tresorAtteint(Joueur *P1, Tuile Plateau[7][7]){
+tresorAtteint(JOUEUR *P1, TUILE Plateau[7][7]){
 
-    coordonnees a = P1->positionActuelle;
+    CORD a = P1->positionActuelle;
     if(plateau[a.x][a.y].tresor == P1->pileTresor)
         return 1;
     else
