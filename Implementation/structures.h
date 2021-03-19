@@ -1,4 +1,4 @@
-e#ifndef PILE_H_INCLUDED
+#ifndef PILE_H_INCLUDED
 #define PILE_H_INCLUDED
 
 //-------------------
