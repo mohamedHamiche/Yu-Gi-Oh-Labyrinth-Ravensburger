@@ -10,6 +10,6 @@ void initPlateau(TUILE Plateau[7][7], TUILE tuileEnMain){
 			Plateau[i][j].pose = 0;
 		}
 	}
-	poserTuilesFixes(Plateau);
-	poserTuilesCouloir(Plateau, tuileEnMain);
+	TuilesFixes(Plateau);
+	TuilesCouloir(Plateau, tuileEnMain);
 }
