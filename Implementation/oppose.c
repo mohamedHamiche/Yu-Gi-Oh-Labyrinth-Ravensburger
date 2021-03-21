@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "structures.h"
 
-unsigned int oppose(CORD a, CORD choixPrecedent){
+bool oppose(CORD a, CORD choixPrecedent){
 
 	if(a.x == 0 || a.x == 6){
 		if(a.x == 0){
