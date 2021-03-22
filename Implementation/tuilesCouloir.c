@@ -12,7 +12,6 @@ void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
 	/*
 	*Remplir toutes les tuiles couloirs ligne par ligne..
 	*Faire un rand pour les tuiles sur les positions d'ouvertures pour pas avoir toutes les tuiles orientées dans la même direction.
-	*
 	*/
 
 	CORD tAleatoire;
