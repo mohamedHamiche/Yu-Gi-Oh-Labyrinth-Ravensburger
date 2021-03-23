@@ -5,8 +5,8 @@ EXEC=Jeu
 
 all: $(EXEC)
 
-Jeu: jeu.o alterner.o choixCouloir.o decalerCouloir.o initPlateau.o oppose.o quiCommence.o tresorAtteint.o tuilesFixes.o 
-	$(CC) -o jeu alterner.o choixCouloir.o decalerCouloir.o initPlateau.o oppose.o quiCommence.o tresorAtteint.o tuilesFixes.o validationCouloir.o
+Jeu: alterner.o choixCouloir.o decalerCouloir.o initPlateau.o oppose.o quiCommence.o tresorAtteint.o tuilesFixes.o 
+	$(CC) -o jeu.c alterner.o choixCouloir.o decalerCouloir.o initPlateau.o oppose.o quiCommence.o tresorAtteint.o tuilesFixes.o validationCouloir.o -o jeu
 
 alterner.o : alterner.c structures.h
 	$(CC) -o alterner.o -c alterner.c $(CFLAGS)
