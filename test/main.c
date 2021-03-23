@@ -4,8 +4,9 @@
 
 int main()
 {
-	char *pseudo =lirePseudo(1);
-	printf("%s--\n",pseudo );
-	free(pseudo);
+	unsigned int nbTotal=0;		
+	JOUEUR **tabJoueur= initTabJoueur(&nbTotal);
+	printPlayers(tabJoueur,nbTotal);
+	freeTabJoueur(tabJoueur);
 	return 0;
 }

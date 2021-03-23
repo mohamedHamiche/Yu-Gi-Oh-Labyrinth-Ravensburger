@@ -54,6 +54,13 @@ void afficherPile (Pile* pile);
 //------------------------------------
 
 char *lirePseudo(unsigned int numJoueur);
+JOUEUR *initJoueurH(int index);
+JOUEUR *initJoueurM(int index);
+void initPositions(JOUEUR **tabJoueurs,int nombreTotal);
+JOUEUR **initTabJoueur(unsigned int *nombreTotal);
+void freeJoueur(JOUEUR *Player);
+void freeTabJoueur(JOUEUR **Tab);// Pas de fuites mémoires, verifié avec valgrind
+void printPlayers(JOUEUR **tabJoueur, unsigned int nbTotal);
 
 #endif // PILE_H_INCLUDED
 

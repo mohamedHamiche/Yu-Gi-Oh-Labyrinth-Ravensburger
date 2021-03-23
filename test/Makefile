@@ -2,7 +2,7 @@ prog : main.o player.o
 	gcc -o prog main.o player.o
 
 main.o : main.c
-	gcc -o main.o -c main.c -Wall 
+	gcc -o main.o -c main.c -Wall -lm
 
 player.o : player.c
 	gcc -o player.o -c player.c 
