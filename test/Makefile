@@ -1,8 +1,12 @@
-prog : main.o player.o
-	gcc -o prog main.o player.o
+CC = gcc
+EXEC = prog
+SRC = $(wildcard *.c)
+OBJ = $(SRC:.c=.o)
 
-main.o : main.c
-	gcc -o main.o -c main.c -Wall -lm
+all: $(EXEC)
 
-player.o : player.c
-	gcc -o player.o -c player.c 
+%.o : %.c 
+	$(CC) -o $@ -c $<
+
+$(EXEC) : $(OBJ)
+	$(CC) -o $@ $^
