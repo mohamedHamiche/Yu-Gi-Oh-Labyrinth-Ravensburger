@@ -194,14 +194,13 @@ Pile *initPile(int n)
 void empiler (Pile* pile,int NvNombre)
 {
     Element*nouveau = malloc(sizeof(*nouveau));
-    if ( (pile=NULL) || (nouveau = NULL ))
+    if ( (pile==NULL) || (nouveau == NULL ))
     {
         exit(EXIT_FAILURE);
     }
     nouveau->nombre=NvNombre;
     nouveau->suivant=pile->premier;
     pile->premier=nouveau;
-    printf("tete= %d\n",pile->premier->nombre );
 }
 
 int depiler (Pile* pile) 
@@ -223,20 +222,19 @@ int depiler (Pile* pile)
     //supprimer l'element a depiler en utilisant le FREE
     free(elementDepile);
     }
-  printf("tete= %d\n",pile->premier->nombre );
+  
   return NombreDepile;
 }
 
 int pileVide(Pile *pile)
 {
-    return (pile == NULL);
+    return (pile->premier == NULL);
 }
 
 void afficherPile (Pile* pile)
 {
     if (pile==NULL)
-    {
-        printf("pile vide...\n");
+    {        
         exit(EXIT_FAILURE);
     }
     Element*actuel=pile->premier;
@@ -246,4 +244,19 @@ void afficherPile (Pile* pile)
         actuel=actuel->suivant;
     }
     printf("\n");
+}
+
+void freePile(Pile *pile)
+{
+	if (pile==NULL)
+    {        
+        exit(EXIT_FAILURE);
+    }
+    while(!pileVide(pile))
+    {
+    	printf("depiler %d\n",depiler(pile));
+    }
+    free(pile->premier);
+    pile=NULL;
+   
 }

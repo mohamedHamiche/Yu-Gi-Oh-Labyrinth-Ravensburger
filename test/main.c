@@ -16,13 +16,14 @@ int main()
 	afficherPile(pileTresor);
 	empiler(pileTresor,1);
 	empiler(pileTresor,2);
+	empiler(pileTresor,3);
 	afficherPile(pileTresor);
-	//depiler(pileTresor);
+	depiler(pileTresor);
 	afficherPile(pileTresor);
-	//while(!pileVide(pileTresor))
-		printf("depiler %d\n",depiler(pileTresor)) ;
-
+	
+	freePile(pileTresor);
 	afficherPile(pileTresor);
-
+	
+	
 	return 0;
 }
