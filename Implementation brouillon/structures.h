@@ -16,6 +16,9 @@ struct tuile
     int tresor; //0 si pas de trésor, n sinon avec  1<= n <=25
     int g, d, h, b;  // 0 si mur, 1 si ouverture. g : gauche; d : droite ; h : haut ; b : bas 
     int posee; //si la tuile est posée ou pas sur le  plateau
+    SDL_Rect caseSdl;
+    SDL_Surface *image;
+    SDL_Texture *texture;
 };
 
 //-----------------Piles
