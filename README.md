@@ -14,15 +14,8 @@
     ***
     -  Réunion 13/03/2021 15:00  Réarrangement de l'analyse préleminaire + quelques tests unitaires en C 
 ***
-- Se renseigner sur :
-
-        -Environnements test unitaires  
-        
-        -Makefile 
-    
 
 
-***
 
 
 TUTO test unitaire video: https://www.youtube.com/watch?v=abDas0xKy4o
