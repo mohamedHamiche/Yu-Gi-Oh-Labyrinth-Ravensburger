@@ -23,19 +23,6 @@
 
 
 ***
-- Fonctions à faire:
-
-        - Piles: init_pile, pile_vide, empiler, depiler.--- 80% --- reste à tester
-
-        - Joueur: 
-            initTabJoueurs: --100%--
-                initJoueurH, initJoueurM, initPositions, lire_pseudo;                          
-            distribuerCartes-- 50% --, 
-            quiCommence-- 10% --, 
-            alterner--à refaire--
-
-        - Plateau: initPlateau, poserTuilesFixes, poserTuilesCouloir, 
-            decalerCouloir-- 90% --
 
 
 TUTO test unitaire video: https://www.youtube.com/watch?v=abDas0xKy4o
