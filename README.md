@@ -15,7 +15,7 @@
     -  Réunion 13/03/2021 15:00  Réarrangement de l'analyse préleminaire + quelques tests unitaires en C 
 ***
 
-
+Tuiles couloirs sans trésors : 10 "angle droit", 12 "ligne droite"
 
 
 TUTO test unitaire video: https://www.youtube.com/watch?v=abDas0xKy4o
