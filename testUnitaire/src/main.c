@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "player.h"
-
+#include "pile.h"
 
 int main()
 {

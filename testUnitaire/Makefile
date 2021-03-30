@@ -13,13 +13,13 @@ player.o: src/player.c
 pile.o: src/pile.c
 	$(CC) -o build/pile.o -c src/pile.c $(CFLAGS)
 
-main.o: src/main.c src/player.h
+main.o: src/main.c src/player.h src/pile.h
 	$(CC) -o build/main.o -c src/main.c $(CFLAGS)
 
 test: test_game.o unity.o player.o
 	$(CC) -o bin/test_game build/test_game.o build/unity.o build/player.o build/pile.o -Iunity/src -Isrc $(CFLAGS)
 
-test_game.o: test/test_game.c player.o pile.o src/player.h
+test_game.o: test/test_game.c player.o pile.o src/player.h src/pile.h
 	$(CC) -o build/test_game.o -c test/test_game.c -Iunity/src -Isrc $(CFLAGS)
 
 unity.o: unity/src/unity.c

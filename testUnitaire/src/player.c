@@ -1,5 +1,5 @@
 #include "player.h"
-
+#include "pile.h"
  
 
 char *lirePseudo( int numJoueur)
