@@ -3,17 +3,13 @@
 #include <time.h>
 #include "structures.h"
 
-//Fonction à compléter
+void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
 
 void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
 	srand(time(NULL));
 	unsigned int temp = 0, opp; 
 
-	TUILE tuilesCouloir[34];
-	/*
-	*Remplir toutes les tuiles couloirs ligne par ligne..
-	*Faire un rand pour les tuiles sur les positions d'ouvertures pour pas avoir toutes les tuiles orientées dans la même direction.
-	*/
+	TUILE tuilesCouloir[34];	
 	TUILE tuilesLignes[12];
 	TUILE angleDroit[10];
 
@@ -173,81 +169,102 @@ void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
 	tuilesLignes[11].h = opp;
 	tuilesLignes[11].b = opp;
 	
-	for(int i=0; i<24; i+=2)
-		tuilesCouloir[i] = tuileslignes[i];
+	for(int i=0; i<12; i++)
+		tuilesCouloir[i] = tuilesLignes[i];
 
 
 	//### TUILE : angle droit
-	unsigned int g,d,b,h;
-	temp = rand()%4;
-	if(temp == 0){
-		g = 0;
-		d = 1;
-		b = 1;
-		h = 0;
-	}
-	else if(temp == 1){
-		g = 0;
-		d = 1;
-		b = 0;
-		h = 1;
-	}
-	else if(temp == 2){
-		g = 1;
-		d = 0;
-		b = 0;
-		h = 1;
-	}
-	else if(temp == 2){
-		g = 1;
-		d = 0;
-		b = 1;
-		h = 0;
-	}
+	angleDroit[0].fixe = 0;
+	angleDroit[0].tresor = 0;
+	ouvertureRand(&angleDroit[0].g, &angleDroit[0].d,&angleDroit[0].b, &angleDroit[0].h);
 
-		opp = 0;
+	angleDroit[1].fixe = 0;
+	angleDroit[1].tresor = 0;
+	ouvertureRand(&angleDroit[1].g, &angleDroit[1].d,&angleDroit[1].b, &angleDroit[1].h);
 
+	angleDroit[2].fixe = 0;
+	angleDroit[2].tresor = 0;
+	ouvertureRand(&angleDroit[2].g, &angleDroit[2].d,&angleDroit[2].b, &angleDroit[2].h);
+
+	angleDroit[3].fixe = 0;
+	angleDroit[3].tresor = 0;
+	ouvertureRand(&angleDroit[3].g, &angleDroit[3].d,&angleDroit[3].b, &angleDroit[3].h);
+
+	angleDroit[4].fixe = 0;
+	angleDroit[4].tresor = 0;
+	ouvertureRand(&angleDroit[4].g, &angleDroit[4].d,&angleDroit[4].b, &angleDroit[4].h);
+
+	angleDroit[5].fixe = 0;
+	angleDroit[5].tresor = 0;
+	ouvertureRand(&angleDroit[5].g, &angleDroit[5].d,&angleDroit[5].b, &angleDroit[5].h);
+
+	angleDroit[6].fixe = 0;
+	angleDroit[6].tresor = 0;
+	ouvertureRand(&angleDroit[6].g, &angleDroit[6].d,&angleDroit[6].b, &angleDroit[6].h);
+
+	angleDroit[7].fixe = 0;
+	angleDroit[7].tresor = 0;
+	ouvertureRand(&angleDroit[7].g, &angleDroit[7].d,&angleDroit[7].b, &angleDroit[7].h);
+
+	angleDroit[8].fixe = 0;
+	angleDroit[8].tresor = 0;
+	ouvertureRand(&angleDroit[8].g, &angleDroit[8].d,&angleDroit[8].b, &angleDroit[8].h);
+
+	angleDroit[9].fixe = 0;
+	angleDroit[9].tresor = 0;
+	ouvertureRand(&angleDroit[9].g, &angleDroit[9].d,&angleDroit[9].b, &angleDroit[9].h);
+
+	for(int i=12; i<22; i++)
+		tuilesCouloir[i] = angleDroit[i];
 	
 
 	
 
 	CORD tAleatoire, pAleatoire;
 	unsigned int i=0;
-	while(i<33){ // Remplissage aléatorire
+	while(i<22){ // Remplissage aléatorire
 		pAleatoire.x = rand()%7;
 		pAleatoire.y = rand()%7;
-		if(Plateau[pAleatoire.x][pAleatoire.y].fixe == 0){
+		if(Plateau[pAleatoire.x][pAleatoire.y].posee == 0){
 			Plateau[pAleatoire.x][pAleatoire.y] = tuilesCouloir[i];
+			Plateau[pAleatoire.x][pAleatoire.y].posee = 1;
 			i++;
 		}
 	}
-	tuileEnMain = tuilesCouloir[i];
+	//tuileEnMain = tuilesCouloir[i];
 
 }
 
 
+
+
+
 void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h){
+	/*
+	*Cette fonciton permet de retourner des ouvertures (les sorties et entrées possibles de la tuile) d'une tuiles "angle droit"
+	*au hasard, afin d'éviter d'avoir les tuiles orientées tous dans le même sens lors de l'initialisation du plateau. 
+	*/
 	srand(time(NULL));
-	unsigned int temp = rand()%4;
-	if(temp == 0){
+	unsigned int r = rand()%4;
+	if(r == 0){
 		(*g) = 0;
 		(*d) = 1;
 		(*b) = 1;
 		(*h) = 0;
 	}
-	else if(temp == 1){
+	else if(r == 1){
 		(*g) = 0;
 		(*d) = 1;
 		(*b) = 0;
 		(*h) = 1;
 	}
-	else if(temp == 2){
+	else if(r == 2){
 		(*g) = 1;
 		(*d) = 0;
 		(*b) = 0;
 		(*h) = 1;
 	}
-	else if(temp == 2){
+	else if(r == 3){
 		(*g) = 1;
 		(*d) = 0;
 		(*b) = 1;
