@@ -14,13 +14,14 @@ struct coordonnees
 typedef struct tuile TUILE;
 struct tuile
 {
-    int id;
     unsigned int angleTuile;
+    int id;
     int fixe ;
     int tresor; 
     int g, d, h, b;  
     int posee;
-    SDL_Rect caseSdl;
+    int angle;
+
     SDL_Surface *image;
     SDL_Texture *texture;
 };
@@ -100,6 +101,8 @@ printf("test\n");
 	}
 
 	SDL_Surface *imageTC[3];
+    SDL_Surface *fleche;
+    fleche = SDL_LoadBMP("fleche.bmp");
 	imageTC[0] = SDL_LoadBMP("1.bmp");
 	imageTC[1] = SDL_LoadBMP("2.bmp");
 	imageTC[2] = SDL_LoadBMP("3.bmp");
@@ -135,13 +138,17 @@ printf("a\n");
                     else
     				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, imageTCtresor[r]);
 
+
     			}
+            plateau[i][j].angle = 0;
+
     		}
-    		printf("\n");	
+	
 
     	}
+        SDL_Texture *flecheTexture=NULL;
+        flecheTexture = SDL_CreateTextureFromSurface(renderer, fleche);
 
-printf("\n");
 
     printf("test\n");
 
@@ -150,7 +157,11 @@ printf("\n");
     int positionY = 150; 
     int j=0;
 
-    SDL_Rect tuileEnMain;
+    SDL_Rect tuileEnMain, flecheRect;
+    flecheRect.x = 220;
+    flecheRect.y = 80;
+    flecheRect.h = 70;
+    flecheRect.w = 70;
     TUILE tuileEnMain1 = plateau[0][0];
 
     tuileEnMain.x=720;
@@ -193,22 +204,55 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 				case SDL_MOUSEBUTTONDOWN:
                     //fprintf(stdout, "\t x: %d\n",event.button.x);
                     //fprintf(stdout, "\t x : %d\n",event.button.y);
- 					if(event.button.x >163 &&  event.button.x < 229 && event.button.y > 35 && event.button.y < 101){
-						tuileEnMain.x = 100+64;
-						tuileEnMain.y = 100-64;
-					}
+ 					if(event.button.button == 1){
+                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 79 && event.button.y < 150){
+    						tuileEnMain.x = 220;
+    						tuileEnMain.y = 80;
+                            choix.x = 1;
+                            choix.y = 0;
+    					}
+                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 79 && event.button.y < 150){
+                            tuileEnMain.x = 360;
+                            tuileEnMain.y = 80;
+                            choix.x = 3;
+                            choix.y = 0;
+                        }
+                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
+                            tuileEnMain.x = 500;
+                            tuileEnMain.y = 80;
+                            choix.x = 5;
+                            choix.y = 0;
+                        }
+
+                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
+                            tuileEnMain.x = 500;
+                            tuileEnMain.y = 80;
+                            choix.x = 5;
+                            choix.y = 0;
+                        }
+
+                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 219 && event.button.y < 290){
+                            tuileEnMain.x = 640;
+                            tuileEnMain.y = 220;
+                            choix.x = 6;
+                            choix.y = 1;
+                        }
+
+                            // à completer
+
+
+
+
+                    }
 					if(event.button.button == 3){
-						angle2+=90;
+						tuileEnMain1.angle = (tuileEnMain1.angle + 90)%360;
+                        fprintf(stdout,"%d\n",event.button.x);
+
 					}
                     if(event.button.button == 2){
                        tuileEnMain1 = decalerCouloir(plateau, choix,tuileEnMain1);
                     }
-					if(event.button.button == 1){
-						tuileEnMain.x = event.button.x-35;
-						tuileEnMain.y = event.button.y-35;
-						
-
-					}
+					
 					       
 				default:
 					break;
@@ -225,20 +269,20 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
     for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
     		if((j%2 != 0) || (i%2 != 0)){
-				SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],0,NULL,flip);
+			    SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
 				r++;
 			}
 
             
 
 			else{
-			SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],0,NULL,flip);
+			    SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
 
 
 			}
 		}
 	}
-			SDL_RenderCopyEx(renderer,tuileEnMain1.texture,NULL,&tuileEnMain,angle2,NULL,flip);
+			SDL_RenderCopyEx(renderer,tuileEnMain1.texture,NULL,&tuileEnMain,tuileEnMain1.angle,NULL,flip);
 			SDL_RenderPresent(renderer);
 
 	}
@@ -267,6 +311,8 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 		SDL_FreeSurface(imageTC[0]);
 		SDL_FreeSurface(imageTC[2]);
 		SDL_FreeSurface(imageTC[1]);
+        SDL_FreeSurface(fleche);
+
 
 			
 
