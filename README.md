@@ -22,21 +22,21 @@ Tuiles couloirs sans trésors : 10 "angle droit", 12 "ligne droite"
 Tuiles couloirs : 
 - ligne droite : 
     
-        avec trésors: 
+        avec trésors: 0
     
-        sans trésors:
+        sans trésors: 12
 
 - angle droit : 
     
-        avec trésors: 
+        avec trésors: 6
     
-        sans trésors:
+        sans trésors: 10
 
 - en T : 
     
-        avec trésors: 
+        avec trésors: 6
    
-        sans trésors:
+        sans trésors: 0
  
 ***
 
