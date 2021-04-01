@@ -18,4 +18,26 @@
 Tuiles couloirs sans trésors : 10 "angle droit", 12 "ligne droite"
 
 
+***
+Tuiles couloirs : 
+- ligne droite : 
+    
+        avec trésors: 
+    
+        sans trésors:
+
+- angle droit : 
+    
+        avec trésors: 
+    
+        sans trésors:
+
+- en T : 
+    
+        avec trésors: 
+   
+        sans trésors:
+ 
+***
+
 TUTO test unitaire video: https://www.youtube.com/watch?v=abDas0xKy4o
