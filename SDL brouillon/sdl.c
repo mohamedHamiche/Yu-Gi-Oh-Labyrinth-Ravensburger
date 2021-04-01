@@ -35,7 +35,7 @@ struct tuile
 void tuilesFixes(TUILE Plateau[7][7]);
 void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
 void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain);
-void decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
+TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
 
 
 int main(int argc, char *argv[]){
@@ -151,11 +151,15 @@ printf("\n");
     int j=0;
 
     SDL_Rect tuileEnMain;
+    TUILE tuileEnMain1 = plateau[0][0];
+
     tuileEnMain.x=720;
     tuileEnMain.y=340;
     tuileEnMain.h = 70;
     tuileEnMain.w=70;
     SDL_Rect caseSdl[7][7];
+
+
     for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
     		caseSdl[i][j].x = positionX+i*70;
@@ -179,7 +183,7 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
     choix.y =0;
 	int exit=1;
 	SDL_Event event;	
-	unsigned int i=0;
+	unsigned int i=0, test=0;;
 	while(exit){
 		while(SDL_PollEvent(&event)){
 			switch(event.type){
@@ -196,8 +200,9 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 					if(event.button.button == 3){
 						angle2+=90;
 					}
-                    if(event.button.button == 2)
-                        decalerCouloir(plateau, choix,plateau[0][6]);
+                    if(event.button.button == 2){
+                       tuileEnMain1 = decalerCouloir(plateau, choix,tuileEnMain1);
+                    }
 					if(event.button.button == 1){
 						tuileEnMain.x = event.button.x-35;
 						tuileEnMain.y = event.button.y-35;
@@ -219,7 +224,7 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
        r=0;
     for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
-    		if((j%2 != 0) || (i%2 != 0)){	    		
+    		if((j%2 != 0) || (i%2 != 0)){
 				SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],0,NULL,flip);
 				r++;
 			}
@@ -233,7 +238,7 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 			}
 		}
 	}
-			SDL_RenderCopyEx(renderer,plateau[0][0].texture,NULL,&tuileEnMain,angle2,NULL,flip);
+			SDL_RenderCopyEx(renderer,tuileEnMain1.texture,NULL,&tuileEnMain,angle2,NULL,flip);
 			SDL_RenderPresent(renderer);
 
 	}
@@ -282,7 +287,7 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 //Testé avec des entiers au lieu des tuiles, qui ne sont pas encore initialisées dans le programme
  
 
-void decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
+TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
 
     TUILE tmp,dec;
     unsigned int i = 0;
@@ -338,7 +343,7 @@ void decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
             }
         }
 
-   // return tmp; // nouvelle tuileEnMain
+    return tmp; // nouvelle tuileEnMain
 }
 
 
