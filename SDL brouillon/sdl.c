@@ -37,6 +37,8 @@ void tuilesFixes(TUILE Plateau[7][7]);
 void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
 void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain);
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
+void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
+
 
 
 int main(int argc, char *argv[]){
@@ -204,41 +206,11 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 				case SDL_MOUSEBUTTONDOWN:
                     //fprintf(stdout, "\t x: %d\n",event.button.x);
                     //fprintf(stdout, "\t x : %d\n",event.button.y);
- 					if(event.button.button == 1){
-                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 79 && event.button.y < 150){
-    						tuileEnMain.x = 220;
-    						tuileEnMain.y = 80;
-                            choix.x = 1;
-                            choix.y = 0;
-    					}
-                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 79 && event.button.y < 150){
-                            tuileEnMain.x = 360;
-                            tuileEnMain.y = 80;
-                            choix.x = 3;
-                            choix.y = 0;
-                        }
-                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
-                            tuileEnMain.x = 500;
-                            tuileEnMain.y = 80;
-                            choix.x = 5;
-                            choix.y = 0;
-                        }
+ 					if(event.button.button == 1){  
+                    choixEvent(event, &tuileEnMain,&choix);
+                 
 
-                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
-                            tuileEnMain.x = 500;
-                            tuileEnMain.y = 80;
-                            choix.x = 5;
-                            choix.y = 0;
-                        }
-
-                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 219 && event.button.y < 290){
-                            tuileEnMain.x = 640;
-                            tuileEnMain.y = 220;
-                            choix.x = 6;
-                            choix.y = 1;
-                        }
-
-                            // à completer
+                      
 
 
 
@@ -246,7 +218,7 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
                     }
 					if(event.button.button == 3){
 						tuileEnMain1.angle = (tuileEnMain1.angle + 90)%360;
-                        fprintf(stdout,"%d\n",event.button.x);
+                        fprintf(stdout,"%d\n",event.button.y);
 
 					}
                     if(event.button.button == 2){
@@ -393,6 +365,90 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
 }
 
 
+void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
+    //NORD
+                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 79 && event.button.y < 150){
+                            (tuileEnMain->x) = 220;
+                            (tuileEnMain->y) = 80;
+                            (choix->x) = 1;
+                           (choix->y) = 0;
+                        }
+                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 79 && event.button.y < 150){
+                            (tuileEnMain->x) = 360;
+                           (tuileEnMain->y) = 80;
+                           (choix->x) = 3;
+                            (choix->y) = 0;
+                        }
+                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
+                            (tuileEnMain->x) = 500;
+                            (tuileEnMain->y) = 80;
+                            (choix->x) = 5;
+                            (choix->y) = 0;
+                        }
+
+                       //EST
+
+                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 219 && event.button.y < 290){
+                            (tuileEnMain->x) = 640;
+                            (tuileEnMain->y) = 220;
+                            (choix->x) = 6;
+                            (choix->y) = 1;
+                        }
+                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 359 && event.button.y < 430){
+                            (tuileEnMain->x) = 640;
+                            (tuileEnMain->y) = 360;
+                            (choix->x)= 6;
+                            (choix->y) = 3;
+                        }
+
+                          if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 499 && event.button.y < 570){
+                            (tuileEnMain->x) = 640;
+                            (tuileEnMain->y) = 500;
+                            (choix->x)= 6;
+                            (choix->y) = 5;
+                        }
+
+                        //SUD
+                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 640 && event.button.y < 710){
+                            (tuileEnMain->x) = 220;
+                            (tuileEnMain->y) = 640;
+                            (choix->x) = 1;
+                            (choix->y) = 6;
+                        }
+                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 640 && event.button.y < 710){
+                            (tuileEnMain->x) = 360;
+                            (tuileEnMain->y) = 640;
+                            (choix->x) = 3;
+                            (choix->y )= 6;
+                        }
+                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 640 && event.button.y < 710){
+                            (tuileEnMain->x) = 500;
+                            (tuileEnMain->y) = 640;
+                            (choix->x) = 5;
+                            (choix->y) = 6;
+                        }
+
+                        //OUEST
+                        if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 219 && event.button.y < 290){
+                            (tuileEnMain->x) = 79;
+                            (tuileEnMain->y) = 220;
+                            (choix->x) = 0;
+                            (choix->y) = 1;
+                        }
+                        if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 359 && event.button.y < 430){
+                            (tuileEnMain->x) = 79;
+                            (tuileEnMain->y) = 360;
+                            (choix->x) = 0;
+                            (choix->y) = 3;
+                        }
+
+                          if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 499 && event.button.y < 570){
+                            (tuileEnMain->x) = 79;
+                            (tuileEnMain->y) = 500;
+                            (choix->x) = 0;
+                            (choix->y) = 5;
+                        }
+}
 
 
 void tuilesFixes(TUILE Plateau[7][7]){
