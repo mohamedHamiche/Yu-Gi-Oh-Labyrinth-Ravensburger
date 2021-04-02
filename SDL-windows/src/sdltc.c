@@ -37,7 +37,7 @@ void SDL_ExitWithErrorAndDestroy(const char *message,SDL_Window *window,SDL_Rend
 
 void tuilesFixes(TUILE Plateau[7][7]);
 void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
-void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain);
+TUILE tuilesCouloir(TUILE Plateau[7][7]);
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
 	if(SDL_Init(SDL_INIT_VIDEO) != 0)	
 		SDL_ExitWithError("Erreur SDL_Init "); 
 	
-	window = SDL_CreateWindow("Labyrinthe Ravensburger Yu Gi Oh", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, 940,940,SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Labyrinthe Ravensburger Yu Gi Oh", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, 900,750,SDL_WINDOW_SHOWN);
 	if(window == NULL)
 		SDL_ExitWithError("Erreur SDL_CreateWindow"); 
 
@@ -88,32 +88,9 @@ int main(int argc, char *argv[]){
 	printf("test\n");//Tuiles fixes chargées
 
 	//Charger tuiles couloirs:
-	tuilesCouloir(plateau,&tuileEnMain); //rempli les couloirs et charge les images
+	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs et charge les images
 	
-	/*
-	SDL_Surface* imageTCtresor[12];
-	char img2[11] = "img/cA.bmp";
-
-	for(int i =0; i<12 ; i++)
-	{
-		printf(" -img2 = %s\n",img2 );
-		imageTCtresor[i] = SDL_LoadBMP(img2);
-		printf("%d : %s\n",i,img2);
-		img2[5] ='A'+i+1;
-
-		if(imageTCtresor[i] == NULL)
-			SDL_ExitWithErrorAndDestroy("Impossible de charger les images 2",window, renderer);
-		
-	}
 	
-	SDL_Surface *imageTC[3];
-   // SDL_Surface *fleche;
-    //fleche = SDL_LoadBMP("fleche.bmp");
-	imageTC[0] = SDL_LoadBMP("img/1.bmp");
-	imageTC[1] = SDL_LoadBMP("img/2.bmp");
-	imageTC[2] = SDL_LoadBMP("img/3.bmp");
-
-*/
 printf("test\n");
 
 
@@ -125,38 +102,16 @@ printf("a\n");
 
         for(int i=0; i<7; i++){
     		for(int j=0; j<7; j++){
-    			if((j%2 == 0) && (i%2 == 0) ){// enlever cette condition 
+    			 
     				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, plateau[i][j].image);
-    				printf("%d",tFixe);
-    				tFixe +=4;
-    				if(tFixe > 15){
-    					tFixe=k;
-    					k++;
-    				} 
-
-
+                    if(plateau[i][j] == NULL)
+                        SDL_ExitWithErrorAndDestroy("Erreur creation texture",window,renderer);
+                    SDL_FreeSurface(plateau[i][j].image);
+    				printf("%d",tFixe);    				
+    			
     			}
-    			else{
-    				//de la
-    				r= rand()%2;    				
-                    if(plateau[i][j].id == 1)
-                        plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, imageTC[0]);
-
-                    else
-    				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, imageTCtresor[r]);
-
-    				//a la    				
-
-    			}
-            plateau[i][j].angle = 0;
-
     		}
 	
-
-    	}
-        //SDL_Texture *flecheTexture=NULL;
-        //flecheTexture = SDL_CreateTextureFromSurface(renderer, fleche);
-
 
     printf("test\n");
 
@@ -164,13 +119,7 @@ printf("a\n");
     int positionX = 150;
     int positionY = 150; 
     int j=0;
-/*
-    , flecheRect;
-    flecheRect.x = 220;
-    flecheRect.y = 80;
-    flecheRect.h = 70;
-    flecheRect.w = 70;
-  */
+
     TUILE tuileEnMain1 = plateau[0][0];
 
     SDL_Rect tuileEnMain;
@@ -190,14 +139,7 @@ printf("a\n");
 
     	}
     }
-    /*
-    double angle2=0, a=0;
-    double angle[33] ={0};
-    for(int i =0; i<33; i++){
-    	a = rand()%4;
-    	angle[i] = 90*a;
-    }
-    */
+    
    
 SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix;
@@ -585,12 +527,12 @@ void tuilesFixes(TUILE Plateau[7][7]){
 
 
 
-void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
+TUILE tuilesCouloir(TUILE Plateau[7][7]){
     srand(time(NULL));
     unsigned int temp = 0;
 
     TUILE tuilesCouloir[34];    
- 
+    TUILE tuileEnMain;
    
     for(int i=0; i<12; i++) //les 12 premieres sont des tuiles droites
     {
@@ -753,23 +695,24 @@ void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
             i++; // suivant
         }
     }
-    *tuileEnMain = tuilesCouloir[i]; //la 34 eme
+    tuileEnMain = tuilesCouloir[i]; //la 34 eme
     //bloc a mettre dans une fonction à part ---------
-    if(tuileEnMain->type == 'I' ) //charger 1.bmp
+    if(tuileEnMain.type == 'I' ) //charger 1.bmp
             		{
-            			if(tuileEnMain->image= SDL_LoadBMP("img/1.bmp") == NULL)
+            			if(tuileEnMain.image= SDL_LoadBMP("img/1.bmp") == NULL)
             				SDL_ExitWithError("Erreur chargement image");  
             		}
-            		if(tuileEnMain->type == 'T') //charger 2.bmp
+            		if(tuileEnMain.type == 'T') //charger 2.bmp
             		{
-            			if(tuileEnMain->image= SDL_LoadBMP("img/2.bmp") == NULL)
+            			if(tuileEnMain.image= SDL_LoadBMP("img/2.bmp") == NULL)
             				SDL_ExitWithError("Erreur chargement image");  
             		}
-            		if(tuileEnMain->type == 'L') //charger 3.bmp
+            		if(tuileEnMain.type == 'L') //charger 3.bmp
             		{
-            			if(tuileEnMain->image= SDL_LoadBMP("img/3.bmp") == NULL)
+            			if(tuileEnMain.image= SDL_LoadBMP("img/3.bmp") == NULL)
             				SDL_ExitWithError("Erreur chargement image");  
             		}
+    return tuileEnMain;
 }
 
 
