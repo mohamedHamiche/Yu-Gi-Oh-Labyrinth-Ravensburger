@@ -18,6 +18,7 @@ struct tuile
     int id;
     int fixe ;
     int tresor; 
+    char type; // I L T
     int g, d, h, b;  
     int posee;
     int angle;
@@ -31,11 +32,12 @@ struct tuile
 //sudo apt-get update && sudo apt-get upgrade
 //sudo apt-get install libsdl2-image-dev
 //gcc main.c $(sdl2-config --cflags --libs)
-
+void SDL_ExitWithError(const char *message);
+void SDL_ExitWithErrorAndDestroy(const char *message,SDL_Window *window,SDL_Renderer *renderer);
 
 void tuilesFixes(TUILE Plateau[7][7]);
 void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
-void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain);
+TUILE tuilesCouloir(TUILE Plateau[7][7]);
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
 
@@ -46,74 +48,59 @@ int main(int argc, char *argv[]){
 	srand(time(NULL));
 	SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
-	//SDL_Texture *texture[2] = {0};
 
 
-	if( 0!= SDL_Init(SDL_INIT_VIDEO)){
-		fprintf(stderr,"Erreur SDL_Init : %s",SDL_GetError());
-		 
-	}
-	window = SDL_CreateWindow("SDL2", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, 940,940,SDL_WINDOW_SHOWN);
-	if(window == NULL){
-		fprintf(stderr, "Erreur: %s",SDL_GetError());
-		exit(1);
-	}
+	if(SDL_Init(SDL_INIT_VIDEO) != 0)	
+		SDL_ExitWithError("Erreur SDL_Init "); 
+	
+	window = SDL_CreateWindow("Labyrinthe Ravensburger Yu Gi Oh", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, 940,940,SDL_WINDOW_SHOWN);
+	if(window == NULL)
+		SDL_ExitWithError("Erreur SDL_CreateWindow"); 
+
 	renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_SOFTWARE);
-	if(renderer == NULL){
-		fprintf(stderr,"Erreur SDL_createRenderer : %s",SDL_GetError());
-		exit(1);
+	if(renderer == NULL)
+	{
+		SDL_DestroyWindow(window);
+		SDL_ExitWithError("Erreur SDL_CreateRenderer");
 	}
 
-	SDL_SetRenderDrawColor(renderer,0,0,0,255);
+	if(SDL_SetRenderDrawColor(renderer,0, 0, 0, 255) != 0)
+		SDL_ExitWithErrorAndDestroy("Impossible de changer la couleur",window, renderer);
+	
 	SDL_RenderClear(renderer); // pour la fenetre entiere
 
-	TUILE plateau[7][7], tuileEm;
-	tuilesFixes(plateau);
-    //tuilesCouloir(plateau,tuileEm);
-printf("test\n");
+	TUILE plateau[7][7];
 
-	char Nom[10] = "a.bmp";
+    for(int i=0; i<7;i++){
+        for(int j=0; j<7;j++){
+            plateau[i][j].posee =0;
+            plateau[i][j].angle =0;
+        }
+    }
+	tuilesFixes(plateau);
+	printf("test\n");
+
+	char Nom[10] = "img/a.bmp";
 	unsigned int suiv=0;
 	for(int i=0 ;i<7; i+=2){
 		for(int j=0; j<7; j+=2){
 			plateau[i][j].image = SDL_LoadBMP(Nom);
 			if(plateau[i][j].image == NULL){
-				fprintf(stderr,"Erreur: chargements des images, tuiles fixes.\n");
-				exit(1);
+				SDL_ExitWithErrorAndDestroy("Impossible de charger les images",window, renderer);
 			}
-			Nom[0] = 'a'+suiv+1;
+			Nom[4] = 'a'+suiv+1;
 			suiv++;
 		}
 	}
-printf("test\n");
+	printf("test\n");//Tuiles fixes chargées
+
+	//Charger tuiles couloirs:
+	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs et charge les images
 
 
-	SDL_Surface *imageTCtresor[12];
-	char img2[10] = "A.bmp";
 
-	for(int i =0; i<12 ; i++){
-		imageTCtresor[i] = SDL_LoadBMP(img2);
-		printf("%d : %s\n",i,img2);
+    printf("test2\n");
 
-		img2[0] = 'A'+i+1;
-		if(imageTCtresor[i] == NULL){
-			fprintf(stderr,"Erreur : impossible de charger l'image2 %s\n",img2);
-			exit(1);
-		}
-	}
-
-	SDL_Surface *imageTC[3];
-    SDL_Surface *fleche;
-    fleche = SDL_LoadBMP("fleche.bmp");
-	imageTC[0] = SDL_LoadBMP("1.bmp");
-	imageTC[1] = SDL_LoadBMP("2.bmp");
-	imageTC[2] = SDL_LoadBMP("3.bmp");
-
-
-printf("test\n");
-
-
-printf("a\n");
 
 	unsigned int r=0;
 
@@ -121,74 +108,46 @@ printf("a\n");
 
         for(int i=0; i<7; i++){
     		for(int j=0; j<7; j++){
-    			if((j%2 == 0) && (i%2 == 0) ){
+    		
     				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, plateau[i][j].image);
-    				printf("%d",tFixe);
-    				tFixe +=4;
-    				if(tFixe > 15){
-    					tFixe=k;
-    					k++;
-    				} 
+                    if(plateau[i][j].texture == NULL){
+                        printf("%d - %d",i,j);
+                        SDL_ExitWithErrorAndDestroy("Impossible de creer la textures",window, renderer);
 
 
-    			}
-    			else{
-    				r= rand()%2;
-                    if(plateau[i][j].id == 1)
-                        plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, imageTC[0]);
-
-                    else
-    				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, imageTCtresor[r]);
-
-
-    			}
-            plateau[i][j].angle = 0;
-
-    		}
-	
-
-    	}
-        SDL_Texture *flecheTexture=NULL;
-        flecheTexture = SDL_CreateTextureFromSurface(renderer, fleche);
-
-
-    printf("test\n");
+                    }
+                }}
+    			
+    printf("test2\n");
 
 
     int positionX = 150;
     int positionY = 150; 
     int j=0;
 
-    SDL_Rect tuileEnMain, flecheRect;
-    flecheRect.x = 220;
-    flecheRect.y = 80;
-    flecheRect.h = 70;
-    flecheRect.w = 70;
-    TUILE tuileEnMain1 = plateau[0][0];
 
-    tuileEnMain.x=720;
-    tuileEnMain.y=340;
-    tuileEnMain.h = 70;
-    tuileEnMain.w=70;
+    SDL_Rect tuileEnMainRect;
+    tuileEnMainRect.x=520;
+    tuileEnMainRect.y=340;
+    tuileEnMainRect.h =70;
+    tuileEnMainRect.w=70;
+
+	// table 2D de Rectangles
     SDL_Rect caseSdl[7][7];
-
 
     for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
-    		caseSdl[i][j].x = positionX+i*70;
-    		caseSdl[i][j].y = positionY+j*70;
+    		caseSdl[i][j].y = positionX+i*70;
+    		caseSdl[i][j].x = positionY+j*70;
     		caseSdl[i][j].h = 70;
     		caseSdl[i][j].w = 70;
 
     	}
     }
-    double angle2=0, a=0;
-    double angle[33] ={0};
-    for(int i =0; i<33; i++){
-    	a = rand()%4;
-    	angle[i] = 90*a;
-    }
-   
+    printf("test2\n");
+
+
+
 SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix;
     TUILE tuileM;
@@ -196,33 +155,29 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
     choix.y =0;
 	int exit=1;
 	SDL_Event event;	
-	unsigned int i=0, test=0;;
+	unsigned int i=0, test=0;
+
+
+
+    printf("test2\n");
 	while(exit){
 		while(SDL_PollEvent(&event)){
 			switch(event.type){
 				case SDL_QUIT:
 					exit=0;
 					break;
-				case SDL_MOUSEBUTTONDOWN:
-                    //fprintf(stdout, "\t x: %d\n",event.button.x);
-                    //fprintf(stdout, "\t x : %d\n",event.button.y);
+				case SDL_MOUSEBUTTONDOWN:         
  					if(event.button.button == 1){  
-                    choixEvent(event, &tuileEnMain,&choix);
-                 
-
-                      
-
-
-
+                        choixEvent(event, &tuileEnMainRect,&choix);                 
 
                     }
 					if(event.button.button == 3){
-						tuileEnMain1.angle = (tuileEnMain1.angle + 90)%360;
+					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
                         fprintf(stdout,"%d\n",event.button.y);
 
 					}
                     if(event.button.button == 2){
-                       tuileEnMain1 = decalerCouloir(plateau, choix,tuileEnMain1);
+                       tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
                     }
 					
 					       
@@ -235,58 +190,29 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 		}
        
 
-        // Incrémentation de l'angle
-
        r=0;
-    for(int i=0; i<7; i++){
-    	for(int j=0; j<7; j++){
-    		if((j%2 != 0) || (i%2 != 0)){
-			    SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
-				r++;
-			}
+    for(int i=0; i<7; i++)
+    {
+    	for(int j=0; j<7; j++)
+    	{
 
-            
-
-			else{
-			    SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
-
-
-			}
+			 SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
+			
 		}
 	}
-			SDL_RenderCopyEx(renderer,tuileEnMain1.texture,NULL,&tuileEnMain,tuileEnMain1.angle,NULL,flip);
+			SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);
 			SDL_RenderPresent(renderer);
 
 	}
 
 
-
-
-
-
-
-
 	for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
 			SDL_DestroyTexture(plateau[i][j].texture);
-			//if((i%2 == 0) && (j%2 == 0))
-			SDL_FreeSurface(plateau[i][j].image);
-				
+			SDL_FreeSurface(plateau[i][j].image);		
 		}
 	}
-
-
-	for(int i=0; i<12; i++){
-		SDL_FreeSurface(imageTCtresor[i]);
-		
-	}
-		SDL_FreeSurface(imageTC[0]);
-		SDL_FreeSurface(imageTC[2]);
-		SDL_FreeSurface(imageTC[1]);
-        SDL_FreeSurface(fleche);
-
-
-			
+	
 
 
 	
@@ -299,7 +225,21 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 
 }
 
+void SDL_ExitWithError(const char *message)
+{
+	SDL_Log("ERREUR : %s > %s\n",message, SDL_GetError());
+	SDL_Quit();
+	exit(EXIT_FAILURE);
+}
 
+void SDL_ExitWithErrorAndDestroy(const char *message, SDL_Window *window, SDL_Renderer *renderer)
+{
+	SDL_DestroyRenderer(renderer);	
+	SDL_DestroyWindow(window);
+	SDL_Log("ERREUR : %s > %s\n",message, SDL_GetError());
+	SDL_Quit();
+	exit(EXIT_FAILURE);
+}
 
 
 //Testé avec des entiers au lieu des tuiles, qui ne sont pas encore initialisées dans le programme
@@ -454,12 +394,14 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
 void tuilesFixes(TUILE Plateau[7][7]){
     //LIGNE 0:
     Plateau[0][0].fixe=1;
-    Plateau[0][0].tresor= 25;
+    Plateau[0][0].tresor= 25; //depart joueur 1
     Plateau[0][0].g=0;
     Plateau[0][0].d=1;
     Plateau[0][0].h=0;
     Plateau[0][0].b=1;
     Plateau[0][0].posee=1;
+    Plateau[0][0].angle=0;
+
     Plateau[0][2].fixe=1;
     Plateau[0][2].tresor= 24;
     Plateau[0][2].g=1;
@@ -467,6 +409,8 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[0][2].h=0;;
     Plateau[0][2].b=1;
     Plateau[0][2].posee=1;
+    Plateau[0][2].angle=0;
+
     Plateau[0][4].fixe=1;
     Plateau[0][4].tresor= 23;
     Plateau[0][4].g=1;
@@ -474,380 +418,334 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[0][4].h=0;
     Plateau[0][4].b=1;
     Plateau[0][4].posee=1;
+    Plateau[0][4].angle=0;
+
     Plateau[0][6].fixe=1;
-    Plateau[0][6].tresor= 22;
+    Plateau[0][6].tresor= 27; //depart joueur 3
     Plateau[0][6].g=1;
     Plateau[0][6].d=0;
     Plateau[0][6].h=0;
     Plateau[0][6].b=1;
     Plateau[0][6].posee=1;
+    Plateau[0][6].angle=0;
+
     //LIGNE 2:
     Plateau[2][0].fixe=1;
-    Plateau[2][0].tresor= 20;
+    Plateau[2][0].tresor= 22;
     Plateau[2][0].g=0;
     Plateau[2][0].d=1;
     Plateau[2][0].h=1;
     Plateau[2][0].b=1;
     Plateau[2][0].posee=1;
     Plateau[2][0].fixe=1;
-    Plateau[2][2].tresor= 19;
+    Plateau[2][0].angle=0;
+
+    Plateau[2][2].tresor= 21;
     Plateau[2][2].g=0;
     Plateau[2][2].d=1;
     Plateau[2][2].h=1;
     Plateau[2][2].b=1;
     Plateau[2][2].posee=1;
     Plateau[2][2].fixe=1;
-    Plateau[2][4].tresor= 18;
+    Plateau[2][2].angle=0;
+
+    Plateau[2][4].tresor= 20;
     Plateau[2][4].g=1;
     Plateau[2][4].d=1;
     Plateau[2][4].h=0;
     Plateau[2][4].b=1;
     Plateau[2][4].posee=1;
     Plateau[2][4].fixe=1;
-    Plateau[2][6].tresor= 17;
+    Plateau[2][4].angle=0;
+
+    Plateau[2][6].tresor= 19;
     Plateau[2][6].g=1;
     Plateau[2][6].d=0;
     Plateau[2][6].h=1;
     Plateau[2][6].b=1;
     Plateau[2][6].posee=1;
     Plateau[2][6].fixe=1;
+    Plateau[2][6].angle=0;
+
     //LIGNE 4:
-    Plateau[4][0].tresor= 16;
+    Plateau[4][0].tresor= 18;
     Plateau[4][0].g=0;
     Plateau[4][0].d=1;
     Plateau[4][0].h=1;
     Plateau[4][0].b=1;
     Plateau[4][0].posee=1;
     Plateau[4][0].fixe=1;
-    Plateau[4][2].tresor= 15;
+    Plateau[4][0].angle=0;
+
+    Plateau[4][2].tresor= 17;
     Plateau[4][2].g=1;
     Plateau[4][2].d=1;
     Plateau[4][2].h=1;
     Plateau[4][2].b=0;
     Plateau[4][2].posee=1;
     Plateau[4][2].fixe=1;
-    Plateau[4][4].tresor= 14;
+    Plateau[4][2].angle=0;
+
+    Plateau[4][4].tresor= 16;
     Plateau[4][4].g=1;
     Plateau[4][4].d=0;
     Plateau[4][4].h=1;
     Plateau[4][4].b=1;
     Plateau[4][4].posee=1;
     Plateau[4][4].fixe=1;
-    Plateau[4][6].tresor= 13;
+    Plateau[4][4].angle=0;
+
+    Plateau[4][6].tresor= 15;
     Plateau[4][6].g=1;
     Plateau[4][6].d=0;
     Plateau[4][6].h=1;
     Plateau[4][6].b=1;
     Plateau[4][6].posee=1;
     Plateau[4][6].fixe=1;
+    Plateau[4][6].angle=0;
+
     //LIGNE 6:
-    Plateau[6][0].tresor= 12;
+    Plateau[6][0].tresor= 28; //depart joueur 4
     Plateau[6][0].g=0;
     Plateau[6][0].d=1;
     Plateau[6][0].h=1;
     Plateau[6][0].b=0;
     Plateau[6][0].posee=1;
     Plateau[6][0].fixe=1;
-    Plateau[6][2].tresor= 11;
+    Plateau[6][0].angle=0;
+
+    Plateau[6][2].tresor= 14;
     Plateau[6][2].g=1;
     Plateau[6][2].d=1;
     Plateau[6][2].h=1;
     Plateau[6][2].b=0;
     Plateau[6][2].posee=1;
     Plateau[6][2].fixe=1;
-    Plateau[6][4].tresor= 10;
+    Plateau[6][2].angle=0;
+
+    Plateau[6][4].tresor= 13;
     Plateau[6][4].g=1;
     Plateau[6][4].d=1;
     Plateau[6][4].h=1;
     Plateau[6][4].b=0;
     Plateau[6][4].posee=1;
     Plateau[6][4].fixe=1;
-    Plateau[6][6].tresor= 9;
+    Plateau[6][4].angle=0;
+
+    Plateau[6][6].tresor= 26; //depart joueur 2
     Plateau[6][6].g=1;
     Plateau[6][6].d=0;
     Plateau[6][6].h=1;
     Plateau[6][6].b=0;
     Plateau[6][6].posee=1;
     Plateau[6][6].fixe=1;
+    Plateau[6][6].angle=0;
 }
 
 
-
-void tuilesCouloir(TUILE Plateau[7][7], TUILE tuileEnMain){
+TUILE tuilesCouloir(TUILE Plateau[7][7]){
     srand(time(NULL));
-    unsigned int temp = 0, opp; 
+    unsigned int temp = 0;
+    TUILE tuilesCouloir[34]; 
+   
+    for(int i=0; i<12; i++) //les 12 premieres sont des tuiles droites
+    {           
+        tuilesCouloir[i].angle= 0;
+    	temp = rand()%2; 
+    	tuilesCouloir[i].fixe =0;
+    	tuilesCouloir[i].posee =0;
+    	tuilesCouloir[i].tresor =0;
+    	tuilesCouloir[i].type ='I'; 
+    	tuilesCouloir[i].g = temp; //la gauche au hasard 
 
-    TUILE tuilesCouloir[34];    
-    TUILE tuilesLignes[12];
-    TUILE angleDroit[10];
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[0].fixe =0;
-    tuilesLignes[0].tresor =0;
-    tuilesLignes[0].g = temp;
-    tuilesLignes[0].d = temp;
-    tuilesLignes[0].h = opp;
-    tuilesLignes[0].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[1].fixe =0;
-    tuilesLignes[1].tresor =0;
-    tuilesLignes[1].g = temp;
-    tuilesLignes[1].d = temp;
-    tuilesLignes[1].h = opp;
-    tuilesLignes[1].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[2].fixe =0;
-    tuilesLignes[2].tresor =0;
-    tuilesLignes[2].g = temp;
-    tuilesLignes[2].d = temp;
-    tuilesLignes[2].h = opp;
-    tuilesLignes[2].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[3].fixe =0;
-    tuilesLignes[3].tresor =0;
-    tuilesLignes[3].g = temp;
-    tuilesLignes[3].d = temp;
-    tuilesLignes[3].h = opp;
-    tuilesLignes[3].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[4].fixe =0;
-    tuilesLignes[4].tresor =0;
-    tuilesLignes[4].g = temp;
-    tuilesLignes[4].d = temp;
-    tuilesLignes[4].h = opp;
-    tuilesLignes[4].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[5].fixe =0;
-    tuilesLignes[5].tresor =0;
-    tuilesLignes[5].g = temp;
-    tuilesLignes[5].d = temp;
-    tuilesLignes[5].h = opp;
-    tuilesLignes[5].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[6].fixe =0;
-    tuilesLignes[6].tresor =0;
-    tuilesLignes[6].g = temp;
-    tuilesLignes[6].d = temp;
-    tuilesLignes[6].h = opp;
-    tuilesLignes[6].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[7].fixe =0;
-    tuilesLignes[7].tresor =0;
-    tuilesLignes[7].g = temp;
-    tuilesLignes[7].d = temp;
-    tuilesLignes[7].h = opp;
-    tuilesLignes[7].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[8].fixe =0;
-    tuilesLignes[8].tresor =0;
-    tuilesLignes[8].g = temp;
-    tuilesLignes[8].d = temp;
-    tuilesLignes[8].h = opp;
-    tuilesLignes[8].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[9].fixe =0;
-    tuilesLignes[9].tresor =0;
-    tuilesLignes[9].g = temp;
-    tuilesLignes[9].d = temp;
-    tuilesLignes[9].h = opp;
-    tuilesLignes[9].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[10].fixe =0;
-    tuilesLignes[10].tresor =0;
-    tuilesLignes[10].g = temp;
-    tuilesLignes[10].d = temp;
-    tuilesLignes[10].h = opp;
-    tuilesLignes[10].b = opp;
-
-    temp = rand()%2;
-    if(temp == 0)
-        opp = 1;
-    else
-        opp = 0;
-
-    tuilesLignes[11].fixe =0;
-    tuilesLignes[11].tresor =0;
-    tuilesLignes[11].g = temp;
-    tuilesLignes[11].d = temp;
-    tuilesLignes[11].h = opp;
-    tuilesLignes[11].b = opp;
-    
-    for(int i=0; i<12; i++){
-        if(tuilesLignes[i].g == 0){
-            tuilesLignes[i].id = 1;
-            tuilesLignes[i].angleTuile = 0;
+        if(temp == 0)
+        {
+            tuilesCouloir[i].id = 1; //a quoi ca sert ??
+            tuilesCouloir[i].angle = 0;
+            tuilesCouloir[i].d = 0;
+            tuilesCouloir[i].g = 0;
+		    tuilesCouloir[i].h = 1;
+		    tuilesCouloir[i].b = 1;
         }
-        else{
-            tuilesLignes[i].id = 1;
-            tuilesLignes[i].angleTuile =90;
-
+        else
+        {
+            tuilesCouloir[i].id = 1;
+            tuilesCouloir[i].angle =90;
+            tuilesCouloir[i].d = 1;
+            tuilesCouloir[i].g = 1;
+		    tuilesCouloir[i].h = 0;
+		    tuilesCouloir[i].b = 0;
         }
-
-        tuilesCouloir[i] = tuilesLignes[i];
         
     }
 
-/*
-    //### TUILE : angle droit
-    angleDroit[0].fixe = 0;
-    angleDroit[0].tresor = 0;
-    ouvertureRand(&angleDroit[0].g, &angleDroit[0].d,&angleDroit[0].b, &angleDroit[0].h);
+     //### TUILE : angle droit supposons que g h a un angle 0 
+    int nbTresors=6; //de 6 à 1 tresors dans angle droit    
+    for (int i = 12; i < 16+12; ++i) // de 12 à 28 angle droit
+    {
+        tuilesCouloir[i].angle= 0;
+    	temp = rand()%4; // 4 cas possibles
+    	tuilesCouloir[i].fixe =0;
+    	tuilesCouloir[i].posee =0;
+    	tuilesCouloir[i].type ='L';     
+    	if(temp == 0)
+    	{
+    		tuilesCouloir[i].g=1;
+    		tuilesCouloir[i].d=0;
+    		tuilesCouloir[i].h=1;
+    		tuilesCouloir[i].b=0;
+    		tuilesCouloir[i].angle=0;
+    	}
+    	if(temp == 1)
+    	{
+    		tuilesCouloir[i].g=1;
+    		tuilesCouloir[i].d=0;
+    		tuilesCouloir[i].h=0;
+    		tuilesCouloir[i].b=1;
+    		tuilesCouloir[i].angle=90;
+    	}
+    	if(temp == 2)
+    	{
+    		tuilesCouloir[i].g=0;
+    		tuilesCouloir[i].d=1;
+    		tuilesCouloir[i].h=1;
+    		tuilesCouloir[i].b=0;
+    		tuilesCouloir[i].angle=180;
+    	}
+    	if(temp == 3)
+    	{
+    		tuilesCouloir[i].g=0;
+    		tuilesCouloir[i].d=1;
+    		tuilesCouloir[i].h=0;
+    		tuilesCouloir[i].b=1;
+    		tuilesCouloir[i].angle=270; 
+    	}
+    	tuilesCouloir[i].tresor=0;
+    	if(nbTresors>0)
+    	{	    		
+    		tuilesCouloir[i].tresor=nbTresors;    		
+    		nbTresors--;
+    	}
+    }
 
-    angleDroit[1].fixe = 0;
-    angleDroit[1].tresor = 0;
-    ouvertureRand(&angleDroit[1].g, &angleDroit[1].d,&angleDroit[1].b, &angleDroit[1].h);
+    //les tresors restants: de 7 à 12 dans tuile en T
+    nbTresors=7;
+    for (int i = 16+12; i < 34; ++i)
+     {
+     	temp = rand()%4; // 4 cas possibles
+    	tuilesCouloir[i].fixe =0;
+    	tuilesCouloir[i].posee =0; 
+    	tuilesCouloir[i].type ='T'; 
+    	tuilesCouloir[i].tresor =nbTresors;
+    	nbTresors++;   
+    	if(temp == 0)
+    	{
+    		tuilesCouloir[i].g=1;
+    		tuilesCouloir[i].d=1;
+    		tuilesCouloir[i].h=1;
+    		tuilesCouloir[i].b=0;
+    		tuilesCouloir[i].angle=0;
+    	}
+    	if(temp == 1)
+    	{
+    		tuilesCouloir[i].g=0;
+    		tuilesCouloir[i].d=1;
+    		tuilesCouloir[i].h=1;
+    		tuilesCouloir[i].b=1;
+    		tuilesCouloir[i].angle=90;
+    	}
+    	if(temp == 2)
+    	{
+    		tuilesCouloir[i].g=1;
+    		tuilesCouloir[i].d=1;
+    		tuilesCouloir[i].h=0;
+    		tuilesCouloir[i].b=1;
+    		tuilesCouloir[i].angle=180;
+    	}
+    	if(temp == 3)
+    	{
+    		tuilesCouloir[i].g=1;
+    		tuilesCouloir[i].d=0;
+    		tuilesCouloir[i].h=1;
+    		tuilesCouloir[i].b=1;
+    		tuilesCouloir[i].angle=270; 
+    	}
 
-    angleDroit[2].fixe = 0;
-    angleDroit[2].tresor = 0;
-    ouvertureRand(&angleDroit[2].g, &angleDroit[2].d,&angleDroit[2].b, &angleDroit[2].h);
+     } 
+    for(int i=0; i<34;i++){
+        printf("%d : %d\n",i,tuilesCouloir[i].tresor);
+    }
 
-    angleDroit[3].fixe = 0;
-    angleDroit[3].tresor = 0;
-    ouvertureRand(&angleDroit[3].g, &angleDroit[3].d,&angleDroit[3].b, &angleDroit[3].h);
-
-    angleDroit[4].fixe = 0;
-    angleDroit[4].tresor = 0;
-    ouvertureRand(&angleDroit[4].g, &angleDroit[4].d,&angleDroit[4].b, &angleDroit[4].h);
-
-    angleDroit[5].fixe = 0;
-    angleDroit[5].tresor = 0;
-    ouvertureRand(&angleDroit[5].g, &angleDroit[5].d,&angleDroit[5].b, &angleDroit[5].h);
-
-    angleDroit[6].fixe = 0;
-    angleDroit[6].tresor = 0;
-    ouvertureRand(&angleDroit[6].g, &angleDroit[6].d,&angleDroit[6].b, &angleDroit[6].h);
-
-    angleDroit[7].fixe = 0;
-    angleDroit[7].tresor = 0;
-    ouvertureRand(&angleDroit[7].g, &angleDroit[7].d,&angleDroit[7].b, &angleDroit[7].h);
-
-    angleDroit[8].fixe = 0;
-    angleDroit[8].tresor = 0;
-    ouvertureRand(&angleDroit[8].g, &angleDroit[8].d,&angleDroit[8].b, &angleDroit[8].h);
-
-    angleDroit[9].fixe = 0;
-    angleDroit[9].tresor = 0;
-    ouvertureRand(&angleDroit[9].g, &angleDroit[9].d,&angleDroit[9].b, &angleDroit[9].h);
-
-    for(int i=12; i<22; i++)
-        tuilesCouloir[i] = angleDroit[i];
-    
-*/
-    
-
-    CORD tAleatoire, pAleatoire;
+    CORD pAleatoire;
     unsigned int i=0;
-    while(i<12){ // Remplissage aléatorire
+    int numTresor;
+    char bmpName[12] = "img/C/cA.bmp";
+    while(i<33){ // Remplissage aléatorire de 33 tuiles couloirs
         pAleatoire.x = rand()%7;
         pAleatoire.y = rand()%7;
-        if(Plateau[pAleatoire.x][pAleatoire.y].posee == 0){
+        if(Plateau[pAleatoire.x][pAleatoire.y].posee == 0)
+        {
             Plateau[pAleatoire.x][pAleatoire.y] = tuilesCouloir[i];
             Plateau[pAleatoire.x][pAleatoire.y].posee = 1;
-            i++;
+            numTresor = Plateau[pAleatoire.x][pAleatoire.y].tresor;
+            if(numTresor!=0) //chargement des image tresors
+            {
+            	bmpName[7]=numTresor+'A'-1;
+                printf("%s\n",bmpName);
+            	if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP(bmpName)) == NULL)
+            		SDL_ExitWithError("Erreur chargement image");           
+            }
+            else
+            	{
+            		if(Plateau[pAleatoire.x][pAleatoire.y].type == 'I' ) //charger 1.bmp
+            		{
+            			if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP("img/1.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+            		if(Plateau[pAleatoire.x][pAleatoire.y].type == 'T') //charger 2.bmp
+            		{
+            			if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP("img/2.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+            		if(Plateau[pAleatoire.x][pAleatoire.y].type == 'L') //charger 3.bmp
+            		{
+            			if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP("img/3.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+
+            	}
+
+             // suivant
+         printf("%d\n",i);
+         i++;
         }
-    }
-    //tuileEnMain = tuilesCouloir[i];
 
+    }
+    //&tuileEnMain = tuilesCouloir[i]; //la 34 eme
+    //bloc a mettre dans une fonction à part ---------
+    				if(tuilesCouloir[i].type == 'I' ) //charger 1.bmp
+            		{
+            			if((tuilesCouloir[i].image= SDL_LoadBMP("img/1.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+            		if(tuilesCouloir[i].type == 'T') //charger 2.bmp
+            		{
+            			if((tuilesCouloir[i].image= SDL_LoadBMP("img/2.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+            		if(tuilesCouloir[i].type == 'L') //charger 3.bmp
+            		{
+            			if((tuilesCouloir[i].image= SDL_LoadBMP("img/3.bmp")) == NULL)
+            				SDL_ExitWithError("Erreur chargement image");  
+            		}
+
+            TUILE tmp = tuilesCouloir[i];
+            
+            unsigned int last = rand()%34;
+
+            return tmp;
 }
 
 
 
 
-
-void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h){
-    /*
-    *Cette fonciton permet de retourner des ouvertures (les sorties et entrées possibles de la tuile) d'une tuiles "angle droit"
-    *au hasard, afin d'éviter d'avoir les tuiles orientées tous dans le même sens lors de l'initialisation du plateau. 
-    */
-    srand(time(NULL));
-    unsigned int r = rand()%4;
-    if(r == 0){
-        (*g) = 0;
-        (*d) = 1;
-        (*b) = 1;
-        (*h) = 0;
-    }
-    else if(r == 1){
-        (*g) = 0;
-        (*d) = 1;
-        (*b) = 0;
-        (*h) = 1;
-    }
-    else if(r == 2){
-        (*g) = 1;
-        (*d) = 0;
-        (*b) = 0;
-        (*h) = 1;
-    }
-    else if(r == 3){
-        (*g) = 1;
-        (*d) = 0;
-        (*b) = 1;
-        (*h) = 0;
-    }
-}
