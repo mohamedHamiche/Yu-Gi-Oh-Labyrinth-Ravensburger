@@ -10,13 +10,10 @@ $(EXEC): main.o
 main.o: src/main.c 
 	$(CC) -o build/main.o -c src/sdl.c $(CFLAGS) 
 
-clean :
-	del -rf build\*.o
 
-mrproper : clean
-	del bin/prog.exe
+.PHONY: clean
 
-#$(RM) build/* bin/prog.exe
-
+clean:
+	$(RM) build/* bin/prog.exe
 
 #gcc src/main.c -o bin/prog -I include -L lib -lmingw32 -lSDL2main -lSDL2 [-mwindows]
