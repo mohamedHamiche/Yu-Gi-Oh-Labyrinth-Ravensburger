@@ -13,6 +13,7 @@
     -  Réunion 01/03/2021 19:00  Redaction du rapport 
     ***
     -  Réunion 13/03/2021 15:00  Réarrangement de l'analyse préleminaire + quelques tests unitaires en C 
+    -  Réunion 02/04/2021 18:00  Affichage du plateau en SDL
 ***
 
 Tuiles couloirs sans trésors : 10 "angle droit", 12 "ligne droite"
