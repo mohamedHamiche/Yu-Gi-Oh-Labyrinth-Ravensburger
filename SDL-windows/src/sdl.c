@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define WINDOW_WIDTH 900
-#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 1080
+#define WINDOW_HEIGHT 670
+
+int positionX= (WINDOW_WIDTH-(70*7))/2;
+int positionY= (WINDOW_HEIGHT-(70*7))/2;
 
 typedef struct coordonnees CORD;
 struct coordonnees
@@ -49,14 +52,15 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
 int main(int argc, char *argv[]){
 
 	srand(time(NULL));
-	SDL_Window *window = NULL;
+	//----------------------------------  init window
+    SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 
 
 	if(SDL_Init(SDL_INIT_VIDEO) != 0)	
 		SDL_ExitWithError("Erreur SDL_Init "); 
 	
-	window = SDL_CreateWindow("Labyrinthe Ravensburger Yu Gi Oh", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, 940,940,SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Labyrinthe Ravensburger Yu Gi Oh", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,WINDOW_HEIGHT,SDL_WINDOW_SHOWN);
 	if(window == NULL)
 		SDL_ExitWithError("Erreur SDL_CreateWindow"); 
 
@@ -71,7 +75,8 @@ int main(int argc, char *argv[]){
 		SDL_ExitWithErrorAndDestroy("Impossible de changer la couleur",window, renderer);
 	
 	SDL_RenderClear(renderer); // pour la fenetre entiere
-
+    //-----------------------------------------
+    //----------------------------------------- init plateau
 	TUILE plateau[7][7];
 
     for(int i=0; i<7;i++){
@@ -81,6 +86,9 @@ int main(int argc, char *argv[]){
         }
     }
 	tuilesFixes(plateau);
+
+
+    //------------------------------------ chargerImagesFixes
 	printf("test\n");
 
 	char Nom[] = "img/a.bmp";
@@ -96,43 +104,40 @@ int main(int argc, char *argv[]){
 		}
 	}
 	printf("test\n");//Tuiles fixes chargées
+    //----------------------------------------------
 
-	//Charger tuiles couloirs:
+	//------------------------------------------------Charger tuiles couloirs et tuile en main
 	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs et charge les images
+    //------------------------------------------------------------
+    //-----------------------------------------------------creerTextures
     tuileEnMain.texture = SDL_CreateTextureFromSurface(renderer, tuileEnMain.image);
     SDL_FreeSurface(tuileEnMain.image);
     if(tuileEnMain.texture == NULL)
+    {
         SDL_ExitWithError("Impossible de creer la texture de tuile en main");
-
-    printf("test2\n");
-
-
+    }
+    
 
         for(int i=0; i<7; i++)
         {  
     		for(int j=0; j<7; j++)
             {    		
     				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, plateau[i][j].image);
-                    if(plateau[i][j].texture == NULL)
-                    {
-                        printf("%d - %d",i,j);
-                        SDL_ExitWithErrorAndDestroy("Impossible de creer la textures",window, renderer);
-                    }
-                }
+                    SDL_FreeSurface(plateau[i][j].image);
+                    if(plateau[i][j].texture == NULL)                                            
+                        SDL_ExitWithErrorAndDestroy("Impossible de creer la textures",window, renderer);                    
             }
-
+        }
+    //---------------------------------------------------------------
     			
     printf("test2\n");
 
-
-    int positionX = 150;
-    int positionY = 150; 
-    //int positionX= (WINDOW_WIDTH-150)/2;
-    //int positionY= (WINDOW_HEIGHT-150)/2;
+    //-------------------------------- init rectangles
+    
 
     SDL_Rect tuileEnMainRect;
-    tuileEnMainRect.x=positionX+8*70;
-    tuileEnMainRect.y=positionY+3*70;
+    tuileEnMainRect.x=positionX+(8*70);
+    tuileEnMainRect.y=positionY+(3.5*70);
     tuileEnMainRect.h =70;
     tuileEnMainRect.w=70;
 
@@ -141,27 +146,27 @@ int main(int argc, char *argv[]){
 
     for(int i=0; i<7; i++){
     	for(int j=0; j<7; j++){
-    		caseSdl[i][j].y = positionX+i*70;
-    		caseSdl[i][j].x = positionY+j*70;
+    		caseSdl[i][j].y = positionY+i*70;
+    		caseSdl[i][j].x = positionX+j*70;
     		caseSdl[i][j].h = 70;
     		caseSdl[i][j].w = 70;
 
     	}
     }
     printf("test2\n");
+    //------------------------------------------------
 
 
-
-SDL_RendererFlip flip = SDL_FLIP_NONE;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix;
     choix.x =1;
     choix.y =0;
 	int exit=SDL_FALSE;
 	SDL_Event event;	
-
-
-	while(!exit){
-		while(SDL_PollEvent(&event)){
+	while(!exit)
+    {
+		while(SDL_PollEvent(&event))
+        {
 			switch(event.type)
             {
 				case SDL_QUIT:
@@ -182,17 +187,17 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
                     if(event.key.keysym.sym==SDLK_UP)
                         tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
 
-               // case SDL_MOUSEMOTION:
+                //case SDL_MOUSEMOTION:
                      //printf("%d ; %d\n",event.motion.x, event.motion.y );
 
 				default:
 					break;
-			}
+			}            
 			SDL_RenderClear(renderer);
-				
-		
+						
 		}
    
+   //----------------------------------------- affiche rendu
         for(int i=0; i<7; i++)
         {
         	for(int j=0; j<7; j++)
@@ -207,16 +212,11 @@ SDL_RendererFlip flip = SDL_FLIP_NONE;
 
     	}
 
-
-    	for(int i=0; i<7; i++){
-        	for(int j=0; j<7; j++){
+    //------------------------------------------------------
+    //destroy and quit
+    	for(int i=0; i<7; i++)        
+        	for(int j=0; j<7; j++)            
     			SDL_DestroyTexture(plateau[i][j].texture);
-    			SDL_FreeSurface(plateau[i][j].image);		
-    		}
-	}
-	
-
-
 	
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
@@ -309,84 +309,84 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
 
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
     //NORD
-                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 79 && event.button.y < 150){
-                            (tuileEnMain->x) = 220;
-                            (tuileEnMain->y) = 80;
+                        if(event.button.x > positionX+70 &&  event.button.x < positionX+140 && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+70;
+                            (tuileEnMain->y) = positionY-70;
                             (choix->y) = 1;
                            (choix->x) = 0;
                         }
-                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 79 && event.button.y < 150){
-                            (tuileEnMain->x) = 360;
-                           (tuileEnMain->y) = 80;
+                        if(event.button.x > positionX+(70*3) &&  event.button.x < positionX+(70*4) && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+(70*3);
+                           (tuileEnMain->y) = positionY-70;
                            (choix->y) = 3;
                             (choix->x) = 0;
                         }
-                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 79 && event.button.y < 150){
-                            (tuileEnMain->x) = 500;
-                            (tuileEnMain->y) = 80;
+                        if(event.button.x >  positionX+(70*5) &&  event.button.x < positionX+(70*6) && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+(70*5);
+                            (tuileEnMain->y) = positionY-70;;
                             (choix->y) = 5;
                             (choix->x) = 0;
                         }
 
                        //EST
 
-                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 219 && event.button.y < 290){
-                            (tuileEnMain->x) = 640;
-                            (tuileEnMain->y) = 220;
+                        if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+70 && event.button.y < positionY+(2*70)){
+                            (tuileEnMain->x) = positionX+(70*7);
+                            (tuileEnMain->y) = positionY+70;
                             (choix->y) = 6;
                             (choix->x) = 1;
                         }
-                        if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 359 && event.button.y < 430){
-                            (tuileEnMain->x) = 640;
-                            (tuileEnMain->y) = 360;
+                        if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
+                            (tuileEnMain->x) = positionX+(70*7);;
+                            (tuileEnMain->y) = positionY+(3*70);
                             (choix->y)= 6;
                             (choix->x) = 3;
                         }
 
-                          if(event.button.x > 639 &&  event.button.x < 710 && event.button.y > 499 && event.button.y < 570){
-                            (tuileEnMain->x) = 640;
-                            (tuileEnMain->y) = 500;
+                          if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
+                            (tuileEnMain->x) = positionX+(70*7);;
+                            (tuileEnMain->y) = positionY+(5*70);
                             (choix->y)= 6;
                             (choix->x) = 5;
                         }
 
                         //SUD
-                        if(event.button.x > 219 &&  event.button.x < 290 && event.button.y > 640 && event.button.y < 710){
-                            (tuileEnMain->x) = 220;
-                            (tuileEnMain->y) = 640;
-                            (choix->x) = 1;
+                        if(event.button.x > positionX+70 &&  event.button.x < positionX+(2*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+70;
+                            (tuileEnMain->y) = positionY+(7*70);
+                            (choix->y) = 1;
                             (choix->x) = 6;
                         }
-                        if(event.button.x > 359 &&  event.button.x < 430 && event.button.y > 640 && event.button.y < 710){
-                            (tuileEnMain->x) = 360;
-                            (tuileEnMain->y) = 640;
+                        if(event.button.x > positionX+(3*70) &&  event.button.x < positionX+(4*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+(3*70);
+                            (tuileEnMain->y) = positionY+(7*70);
                             (choix->y) = 3;
                             (choix->x)= 6;
                         }
-                        if(event.button.x > 499 &&  event.button.x < 570 && event.button.y > 640 && event.button.y < 710){
-                            (tuileEnMain->x) = 500;
-                            (tuileEnMain->y) = 640;
+                        if(event.button.x > positionX+(5*70) &&  event.button.x < positionX+(6*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+(5*70);
+                            (tuileEnMain->y) = positionY+(7*70);
                             (choix->y) = 5;
                             (choix->x) = 6;
                         }
 
                         //OUEST
-                        if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 219 && event.button.y < 290){
-                            (tuileEnMain->x) = 79;
-                            (tuileEnMain->y) = 220;
+                        if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+70 && event.button.y < positionY+140){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+70;
                             (choix->y) = 0;
                             (choix->x) = 1;
                         }
-                        if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 359 && event.button.y < 430){
-                            (tuileEnMain->x) = 79;
-                            (tuileEnMain->y) = 360;
+                        if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+(3*70);
                             (choix->y) = 0;
                             (choix->x) = 3;
                         }
 
-                          if(event.button.x > 79 &&  event.button.x < 150 && event.button.y > 499 && event.button.y < 570){
-                            (tuileEnMain->x) = 79;
-                            (tuileEnMain->y) = 500;
+                          if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+(5*70);
                             (choix->y) = 0;
                             (choix->x) = 5;
                         }
@@ -582,7 +582,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     }
 
      //### TUILE : angle droit supposons que g h a un angle 0 
-    int nbTresors=6; //de 6 à 1 tresors dans angle droit    
+    int nbTresors=6; //de 6 à 1 tresors dans angle droit  --> de F à A  
     for (int i = 12; i < 16+12; ++i) // de 12 à 28 angle droit
     {
         tuilesCouloir[i].angle= 0;
@@ -623,7 +623,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     		tuilesCouloir[i].angle=270; 
     	}
     	tuilesCouloir[i].tresor=0;
-    	if(nbTresors>0)
+    	if(nbTresors>0) 
     	{	    		
     		tuilesCouloir[i].tresor=nbTresors;    		
     		nbTresors--;
@@ -674,25 +674,23 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     	}
 
      } 
-    for(int i=0; i<34;i++){
-        printf("%d : %d\n",i,tuilesCouloir[i].tresor);
-    }
-    char bmpName[] = "img/C/cA.bmp";
-    unsigned int last = rand()%12;
-    bmpName[7]=last+'A'-1;
+    
+    char bmpNameX[]="img/1.bmp";
+    unsigned int last = rand()%3;
+    bmpNameX[4]=last+'1';
 
     TUILE tmp = tuilesCouloir[last];
-    tmp.image=SDL_LoadBMP(bmpName);
+    tmp.image=SDL_LoadBMP(bmpNameX);
     if(tmp.image == NULL)
         SDL_ExitWithError("Erreur chargement image tuile en main");
 
     CORD pAleatoire;
     unsigned int i=0;
     int numTresor;
-   // bmpName[7]='A';
+    char bmpName[] = "img/C/cA.bmp";
     while(i<34)
     { // Remplissage aléatorire de 33 tuiles couloirs
-        if(i== last) //si c'est la meme que tuileEnMain on passe
+        if(i == last) //si c'est la meme que tuileEnMain on passe
             i++;
 
         pAleatoire.x = rand()%7;
@@ -710,7 +708,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
             		SDL_ExitWithError("Erreur chargement image");           
             }
             else
-            	{
+            	{  //charger la bonne image selon la forme
             		if(Plateau[pAleatoire.x][pAleatoire.y].type == 'I' ) //charger 1.bmp
             		{
             			if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP("img/1.bmp")) == NULL)
