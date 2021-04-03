@@ -60,7 +60,10 @@ JOUEUR **initTabJoueur(int *nombreTotal)
   	exit(1);
   }   
   if(*nombreTotal == 2)
-    free(tabJoueurs[2]);
+    {
+      free(tabJoueurs[2]);
+      free(tabJoueurs[3]);
+    }
    
   if(*nombreTotal == 3)
     free(tabJoueurs[3]);
@@ -169,14 +172,11 @@ void freeJoueur(JOUEUR *Player)
   free(Player);
 }
 
-void freeTabJoueur(JOUEUR **Tab)
+void freeTabJoueur(JOUEUR **Tab, int nombreTotal)
 {
-  for (int i = 0; i < 4; ++i)
-  {
-    if(Tab[i]!=NULL)
-    {
-      freeJoueur(Tab[i]);
-    }
+  for (int i = 0; i < nombreTotal; ++i)
+  {    
+      freeJoueur(Tab[i]);    
   }
   free(Tab);
 }

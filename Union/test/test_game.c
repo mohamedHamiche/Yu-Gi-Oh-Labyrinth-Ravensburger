@@ -74,7 +74,7 @@ void test_initTabJoueur_should_return_TabJOUEUR_and_NombreTotal(void)
     for(int i=nbTotal; i<4; i++)        
         TEST_ASSERT_NULL(resultat[i]);
 
-    freeTabJoueur(resultat);
+    freeTabJoueur(resultat,nbTotal);
 }
 
 void test_initPositions(void)
@@ -104,7 +104,7 @@ void test_initPositions(void)
         TEST_ASSERT_EQUAL_INT(0,tabJoueur[3]->postion_actuelle.y);  
     }
     printPlayers(tabJoueur,nbTotal);
-    freeTabJoueur(tabJoueur);
+    freeTabJoueur(tabJoueur,nbTotal);
 }
 
 void test_appartientTab_should_return_boolean(void)
@@ -160,7 +160,7 @@ void test_distribuerCartes(void)
     }
     
     
-    freeTabJoueur(tabJoueur);
+    freeTabJoueur(tabJoueur,nbTotal);
 }
 
 int main(int argc, char **argv)

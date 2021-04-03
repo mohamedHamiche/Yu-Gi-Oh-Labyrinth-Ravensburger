@@ -54,7 +54,13 @@ struct joueur
 };
 
 
+//variables globales
+#define WINDOW_WIDTH 1080
+#define WINDOW_HEIGHT 700
 
+#define positionX (WINDOW_WIDTH-(70*7))/2
+#define positionY (WINDOW_HEIGHT-(70*7))/2
+//--------------
 
 
 char *lirePseudo(int numJoueur);
@@ -63,7 +69,7 @@ JOUEUR *initJoueurM(int index);
 void initPositions(JOUEUR **tabJoueurs,int nombreTotal);
 JOUEUR **initTabJoueur(int *nombreTotal);
 void freeJoueur(JOUEUR *Player);
-void freeTabJoueur(JOUEUR **Tab);// Pas de fuites mémoires, verifié avec valgrind
+void freeTabJoueur(JOUEUR **Tab, int nombreTotal);
 void printPlayers(JOUEUR **tabJoueur, int nbTotal);
 int appartientTab(int tab[24], int x);
 void randomTresors(int tabTresor[24]);
