@@ -207,16 +207,24 @@ int main(int argc, char *argv[]){
     			
     		}
     	}
-    			SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);
-    			SDL_RenderPresent(renderer);
+		SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);
+    	SDL_RenderPresent(renderer);
 
-    	}
+    }
 
     //------------------------------------------------------
     //destroy and quit
     	for(int i=0; i<7; i++)        
-        	for(int j=0; j<7; j++)            
-    			SDL_DestroyTexture(plateau[i][j].texture);
+        {
+            for(int j=0; j<7; j++)            
+    		{
+                if(plateau[i][j].image != NULL)
+                    SDL_FreeSurface(plateau[i][j].image);
+                
+                if(plateau[i][j].texture != NULL)
+                    SDL_DestroyTexture(plateau[i][j].texture);
+            }
+        }
 	
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
