@@ -10,5 +10,5 @@ sudo apt-get update && sudo apt-get upgrade
 ```
 Optionnel:
 ```shell
-sudo apt-get install libsdl2-image-dev
+sudo apt-get install libsdl2-ttf-dev
 ```
