@@ -4,13 +4,13 @@ FLAGS = -Wall
 CFLAGS = `sdl2-config --cflags --libs`
 
 $(EXEC) : main.o
-	$(CC) -o bin/prog build/main.o $(FLAGS) $(CFLAGS)
+	$(CC) -o prog build/main.o $(FLAGS) $(CFLAGS)
 
 
 main.o : src/main.c
 	$(CC)  -o build/main.o -c src/main.c $(FLAGS) $(CFLAGS)
 
-.PHONY: c
+.PHONY:
 	clean
 
 clean: 
