@@ -55,59 +55,30 @@ int main(int argc, char *argv[]){
 	SDL_RenderClear(renderer); // pour la fenetre entiere
     //-----------------------------------------
     //----------------------------------------- init plateau
-	TUILE plateau[7][7];
-
-    for(int i=0; i<7;i++){
-        for(int j=0; j<7;j++){
-            plateau[i][j].posee =0;
-            plateau[i][j].angle =0;
-        }
-    }
+	
+	TUILE plateau[7][7];	
+   	initPlateau(plateau);
 	tuilesFixes(plateau);
+	chargerImageTuileFixe(plateau, window, renderer);
 
+	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs, charge les images et renvoie la tuile en main
 
-    //------------------------------------ chargerImagesFixes
-	printf("test\n");
-
-	char Nom[] = "img/a.bmp";
-	unsigned int suiv=0;
-	for(int i=0 ;i<7; i+=2){
-		for(int j=0; j<7; j+=2){
-			plateau[i][j].image = SDL_LoadBMP(Nom);
-			if(plateau[i][j].image == NULL){
-				SDL_ExitWithErrorAndDestroy("Impossible de charger les images",window, renderer);
-			}
-			Nom[4] = 'a'+suiv+1;
-			suiv++;
-		}
-	}
-	printf("test\n");//Tuiles fixes chargées
-    //----------------------------------------------
-
-	//------------------------------------------------Charger tuiles couloirs et tuile en main
-	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs et charge les images
-    
-    //-----------------------------------------------------creerTextures
     creerTextures(window, renderer, &tuileEnMain, plateau);
-  
-    			
-    //-------------------------------- init rectangles
+ 	
     SDL_Rect tuileEnMainRect;
     SDL_Rect caseSdl[7][7];
     initRectangles(&tuileEnMainRect, caseSdl);
-
-    
-    printf("test2\n");
     //------------------------------------------------ GAME LOOP
 
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix, choixPrecedent;
-    choix.x =1;
-    choix.y =0;
+    choix.x =-1;
+    choix.y =-1;
     choixPrecedent.x=-1;
     choixPrecedent.x=-1;
 
+    int i=0;
     JOUEUR *joueurActuel= tabJoueur[0];
 	int exit=SDL_FALSE;
 	SDL_Event event;	
@@ -135,7 +106,12 @@ int main(int argc, char *argv[]){
                     if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent))
                     {
                         tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+                        sortirTuileEnMain(&tuileEnMainRect, i);
                         //deplacer le pion
+                        i=(i+1)%nbTotal;
+                        joueurActuel=tabJoueur[i];
+                        printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
+                        afficherPile(tabJoueur[i]->pile_tresor);
                     }
 
                 //case SDL_MOUSEMOTION:
@@ -146,16 +122,13 @@ int main(int argc, char *argv[]){
 			}            
 			SDL_RenderClear(renderer);
 						
-		}
-   
+		}  
    //----------------------------------------- affiche rendu
         for(int i=0; i<7; i++)
         {
         	for(int j=0; j<7; j++)
         	{
-
-    			 SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);
-    			
+    			 SDL_RenderCopyEx(renderer,plateau[i][j].texture,NULL,&caseSdl[i][j],plateau[i][j].angle,NULL,flip);    			
     		}
     	}
 		SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);

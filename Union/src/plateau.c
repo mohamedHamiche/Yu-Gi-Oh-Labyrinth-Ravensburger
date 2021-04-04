@@ -17,7 +17,15 @@ void SDL_ExitWithErrorAndDestroy(const char *message, SDL_Window *window, SDL_Re
 	exit(EXIT_FAILURE);
 }
 
-
+void initPlateau(TUILE plateau[7][7])
+{
+	 for(int i=0; i<7;i++){
+        for(int j=0; j<7;j++){
+            plateau[i][j].posee =0;
+            plateau[i][j].angle =0;
+        }
+    }
+}
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
 	if(!oppose(*choixActuel, *choixPrecedent)){
@@ -250,6 +258,33 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
                         }
 }
 
+void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice)
+{	
+	if(indice == 0) //joueur du coté 0,0
+	{
+		tuileEnMain->x= positionX-140;
+		tuileEnMain->y= positionY-100;
+	}
+	
+	if(indice == 1) //joueur du coté 0,6
+	{
+		tuileEnMain->x= positionX+(8*70);
+		tuileEnMain->y= positionY-100;
+	}
+
+	if(indice == 2) //joueur du coté 6,6
+	{
+		tuileEnMain->x= positionX+(8*70);
+		tuileEnMain->y= positionY+(7*70);
+	}
+
+	if(indice == 3) //joueur du coté 6,0
+	{
+		tuileEnMain->x= positionX-140;
+		tuileEnMain->y= positionY+(7*70);
+	}
+
+}
 
 void tuilesFixes(TUILE Plateau[7][7]){
     //LIGNE 0:
@@ -402,6 +437,21 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[6][6].angle=0;
 }
 
+void chargerImageTuileFixe(TUILE plateau[7][7], SDL_Window *window, SDL_Renderer *renderer)
+{
+	char Nom[] = "img/a.bmp";
+	unsigned int suiv=0;
+	for(int i=0 ;i<7; i+=2){
+		for(int j=0; j<7; j+=2){
+			plateau[i][j].image = SDL_LoadBMP(Nom);
+			if(plateau[i][j].image == NULL){
+				SDL_ExitWithErrorAndDestroy("Impossible de charger les images",window, renderer);
+			}
+			Nom[4] = 'a'+suiv+1;
+			suiv++;
+		}
+	}
+}
 
 TUILE tuilesCouloir(TUILE Plateau[7][7]){
     srand(time(NULL));

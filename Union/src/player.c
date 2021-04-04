@@ -135,10 +135,10 @@ void initPositions(JOUEUR **tabJoueurs, int nombreTotal)
           printf("erreur initPositions : entree NULL\n");
           exit(1);
         }
-        //joueur 2 à 6,6      
-        tabJoueurs[1]->postion_actuelle.x=6;
+        //joueur 2 à 0,6      
+        tabJoueurs[1]->postion_actuelle.x=0;
         tabJoueurs[1]->postion_actuelle.y=6;
-        //joueur 3 éventuel à 0,6
+        //joueur 3 éventuel à 6,6
         if(nombreTotal>=3)
           {
             if(tabJoueurs[2]==NULL)
@@ -146,7 +146,7 @@ void initPositions(JOUEUR **tabJoueurs, int nombreTotal)
               printf("erreur initPositions : entree NULL\n");
               exit(1);
             }
-            tabJoueurs[2]->postion_actuelle.x=0;
+            tabJoueurs[2]->postion_actuelle.x=6;
             tabJoueurs[2]->postion_actuelle.y=6;
           }
         //joueur 4 éventuel à 6,0  

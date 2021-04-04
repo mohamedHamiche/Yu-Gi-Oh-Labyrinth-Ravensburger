@@ -7,13 +7,14 @@
 
 void SDL_ExitWithError(const char *message);
 void SDL_ExitWithErrorAndDestroy(const char *message,SDL_Window *window,SDL_Renderer *renderer);
-
+void initPlateau(TUILE plateau[7][7]);
 int oppose(CORD a, CORD choixPrecedent);
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent);
 void tuilesFixes(TUILE Plateau[7][7]);
-void ouvertureRand(unsigned int *g,unsigned int *d,unsigned int *b,unsigned int *h);
+void chargerImageTuileFixe(TUILE plateau[7][7], SDL_Window *window, SDL_Renderer *renderer);
 TUILE tuilesCouloir(TUILE Plateau[7][7]);
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
+void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice);
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
 void chargerImageSelonType(TUILE *tmp);
 void creerTextures(SDL_Window *window ,SDL_Renderer *renderer, TUILE *tuileEnMain, TUILE plateau[7][7]);
