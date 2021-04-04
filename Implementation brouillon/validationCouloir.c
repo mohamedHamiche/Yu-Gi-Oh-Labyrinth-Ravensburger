@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "structures.h"
 
-unsigned int validationCouloir(CORD &choixActuel, CORD &choixPrecedent)
+unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
 	if(oppose(choixActuel,choixPrecedent)){
 		choixPrecedent->x = choixActuel->x;
