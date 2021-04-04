@@ -18,7 +18,92 @@ void SDL_ExitWithErrorAndDestroy(const char *message, SDL_Window *window, SDL_Re
 }
 
 
- 
+unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
+{
+	if(!oppose(*choixActuel, *choixPrecedent)){
+		choixPrecedent->x = choixActuel->x;
+		choixPrecedent->y = choixActuel->y;
+		return 1;
+	}
+	else return 0;
+}
+
+int oppose(CORD a, CORD choixPrecedent)
+{
+	CORD temp;
+
+	if(a.x == 0 || a.x == 6){
+		if(a.x == 0){
+			if(a.y == 1){
+				temp.x=6;
+				temp.y=1;
+			}	    
+			if(a.y == 3){
+				temp.x=6;
+				temp.y=3;
+			}
+			if(a.y == 5){
+				temp.x=6;
+				temp.y=5;
+			}
+		}
+
+		if(a.x == 6){
+			if(a.y == 1){
+				temp.x=0;
+				temp.y=1;
+			}
+			if(a.y == 3){
+				temp.x=0;
+				temp.y=3;
+			}
+			if(a.y == 5){
+				temp.x=0;
+				temp.y=5;
+			}
+		}
+	}
+
+	else if(a.y == 0 || a.y == 6){
+		if(a.y == 0){
+			if(a.x == 1){
+				temp.x=1;
+				temp.y=6;
+			}	    
+			if(a.x == 3){
+				temp.x=3;
+				temp.y=6;
+			}
+			if(a.x == 5){
+				temp.x=5;
+				temp.y=6;
+			}
+		}
+		    
+		if(a.y == 6){
+			if(a.x == 1){
+				temp.x=1;
+				temp.y=0;
+			}	    
+			if(a.x == 3){
+				temp.x=3;
+				temp.y=0;
+			}
+			if(a.x == 5){
+				temp.x=5;
+				temp.y=0;
+			}
+		}
+
+	}  
+	
+	if(temp.x == choixPrecedent.x && temp.y == choixPrecedent.y)
+		return 1;
+	else 
+		return 0;
+
+}
+
 
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
 

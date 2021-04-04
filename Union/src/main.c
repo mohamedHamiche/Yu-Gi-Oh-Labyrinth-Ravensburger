@@ -136,9 +136,13 @@ int main(int argc, char *argv[]){
 
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    CORD choix;
+    CORD choix, choixPrecedent;
     choix.x =1;
     choix.y =0;
+    choixPrecedent.x=-1;
+    choixPrecedent.x=-1;
+
+    JOUEUR *joueurActuel= tabJoueur[0];
 	int exit=SDL_FALSE;
 	SDL_Event event;	
 	while(!exit)
@@ -162,8 +166,11 @@ int main(int argc, char *argv[]){
 					}
                     
 				case SDL_KEYDOWN:
-                    if(event.key.keysym.sym==SDLK_UP)
+                    if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent))
+                    {
                         tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+                        //deplacer le pion
+                    }
 
                 //case SDL_MOUSEMOTION:
                      //printf("%d ; %d\n",event.motion.x, event.motion.y );
