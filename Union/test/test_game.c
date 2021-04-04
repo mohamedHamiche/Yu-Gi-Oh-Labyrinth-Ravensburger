@@ -1,6 +1,7 @@
 #include "unity.h"
 #include "player.h"
 #include "pile.h"
+#include "plateau.h"
 
 
 void setUp(void) {}
@@ -70,9 +71,7 @@ void test_initTabJoueur_should_return_TabJOUEUR_and_NombreTotal(void)
     for(int i=0; i<nbTotal; i++)
     {
         TEST_ASSERT_NOT_NULL(resultat[i]); 
-    }
-    for(int i=nbTotal; i<4; i++)        
-        TEST_ASSERT_NULL(resultat[i]);
+    }    
 
     freeTabJoueur(resultat,nbTotal);
 }
@@ -163,6 +162,55 @@ void test_distribuerCartes(void)
     freeTabJoueur(tabJoueur,nbTotal);
 }
 
+void test_oppose_should_return_boolean(void)
+{
+    /* Given */
+    CORD actuel,precedent, actuel2, precedent2;
+    actuel.x=0;
+    actuel.y=1;
+    precedent.x=0;
+    precedent.y=3;
+
+    actuel2.x=0;
+    actuel2.y=1;
+    precedent2.x=6;
+    precedent2.y=1;
+    /* When */
+    int resultat = oppose(actuel,precedent);
+    int resultat2 = oppose(actuel2, precedent2);
+    /* Then */
+    TEST_ASSERT_EQUAL_INT(0,resultat);
+    TEST_ASSERT_EQUAL_INT(1,resultat2);
+}
+
+void test_validationCouloir_should_return_boolean(void)
+{
+    /* Given */
+    CORD actuel,precedent, actuel2, precedent2;
+    actuel.x=0;
+    actuel.y=1;
+    precedent.x=0;
+    precedent.y=3;
+
+    actuel2.x=0;
+    actuel2.y=1;
+    precedent2.x=6;
+    precedent2.y=1;
+    /* When */
+    unsigned int resultat = validationCouloir(&actuel,&precedent);
+    unsigned int resultat2 = validationCouloir(&actuel2, &precedent2);
+    /* Then */
+    TEST_ASSERT_EQUAL_INT(1,resultat); //couloir valide : choix actuel est egal au precedent
+    TEST_ASSERT_EQUAL_INT(precedent.x, actuel.x);
+    TEST_ASSERT_EQUAL_INT(precedent.y, actuel.y);
+
+    TEST_ASSERT_EQUAL_INT(0,resultat2); // couloir non valide : choix actuel n'est pas mis a jour
+    TEST_ASSERT_EQUAL_INT(0, actuel2.x);
+    TEST_ASSERT_EQUAL_INT(1, actuel2.y);
+
+}
+
+
 int main(int argc, char **argv)
 {
     UNITY_BEGIN();
@@ -178,6 +226,8 @@ int main(int argc, char **argv)
     RUN_TEST(test_appartientTab_should_return_boolean);
     RUN_TEST(test_randomTresors);
     RUN_TEST(test_distribuerCartes);
+    RUN_TEST(test_oppose_should_return_boolean);
+    RUN_TEST(test_validationCouloir_should_return_boolean);
 
     return UNITY_END();
 }
