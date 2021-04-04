@@ -51,6 +51,9 @@ struct joueur
     Pile *pile_tresor;
     int nombre_de_points;
     int machine;
+    SDL_Surface *image;
+    SDL_Texture *texture;
+    SDL_Rect *pionRect;
 };
 
 

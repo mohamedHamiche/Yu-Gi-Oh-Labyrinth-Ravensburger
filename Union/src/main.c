@@ -88,49 +88,15 @@ int main(int argc, char *argv[]){
 	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs et charge les images
     
     //-----------------------------------------------------creerTextures
-    tuileEnMain.texture = SDL_CreateTextureFromSurface(renderer, tuileEnMain.image);
-    SDL_FreeSurface(tuileEnMain.image);
-    if(tuileEnMain.texture == NULL)
-    {
-        SDL_ExitWithError("Impossible de creer la texture de tuile en main");
-    }
-    
-
-        for(int i=0; i<7; i++)
-        {  
-    		for(int j=0; j<7; j++)
-            {    		
-    				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, plateau[i][j].image);
-                    SDL_FreeSurface(plateau[i][j].image);
-                    if(plateau[i][j].texture == NULL)                                            
-                        SDL_ExitWithErrorAndDestroy("Impossible de creer la textures",window, renderer);                    
-            }
-        }
-    //---------------------------------------------------------------
+    creerTextures(window, renderer, &tuileEnMain, plateau);
+  
     			
-    printf("test2\n");
-
     //-------------------------------- init rectangles
-    
-
     SDL_Rect tuileEnMainRect;
-    tuileEnMainRect.x=positionX+(8*70);
-    tuileEnMainRect.y=positionY+(3.5*70);
-    tuileEnMainRect.h =70;
-    tuileEnMainRect.w=70;
-
-	// table 2D de Rectangles
     SDL_Rect caseSdl[7][7];
+    initRectangles(&tuileEnMainRect, caseSdl);
 
-    for(int i=0; i<7; i++){
-    	for(int j=0; j<7; j++){
-    		caseSdl[i][j].y = positionY+i*70;
-    		caseSdl[i][j].x = positionX+j*70;
-    		caseSdl[i][j].h = 70;
-    		caseSdl[i][j].w = 70;
-
-    	}
-    }
+    
     printf("test2\n");
     //------------------------------------------------ GAME LOOP
 

@@ -16,6 +16,8 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]);
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain);
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix);
 void chargerImageSelonType(TUILE *tmp);
+void creerTextures(SDL_Window *window ,SDL_Renderer *renderer, TUILE *tuileEnMain, TUILE plateau[7][7]);
+void initRectangles(SDL_Rect *tuileEnMainRect ,SDL_Rect caseSdl[7][7]);
 void listTuilesCouloir(TUILE tuilesCouloir[34]);
 
 

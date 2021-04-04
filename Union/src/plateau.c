@@ -480,6 +480,50 @@ void chargerImageSelonType(TUILE *tmp)
     
 }
 
+void creerTextures(SDL_Window *window ,SDL_Renderer *renderer, TUILE *tuileEnMain, TUILE plateau[7][7])
+{
+	tuileEnMain->texture = SDL_CreateTextureFromSurface(renderer, tuileEnMain->image);
+    SDL_FreeSurface(tuileEnMain->image);
+    if(tuileEnMain->texture == NULL)
+    {
+        SDL_ExitWithError("Impossible de creer la texture de tuile en main");
+    }
+    
+
+        for(int i=0; i<7; i++)
+        {  
+    		for(int j=0; j<7; j++)
+            {    		
+    				plateau[i][j].texture=SDL_CreateTextureFromSurface(renderer, plateau[i][j].image);
+                    SDL_FreeSurface(plateau[i][j].image);
+                    if(plateau[i][j].texture == NULL)                                            
+                        SDL_ExitWithErrorAndDestroy("Impossible de creer la textures",window, renderer);                    
+            }
+        }
+}
+
+void initRectangles(SDL_Rect *tuileEnMainRect ,SDL_Rect caseSdl[7][7])
+{
+
+    tuileEnMainRect->x=positionX+(8*70);
+    tuileEnMainRect->y=positionY+(3.5*70);
+    tuileEnMainRect->h =70;
+    tuileEnMainRect->w=70;
+
+	// table 2D de Rectangles
+   
+
+    for(int i=0; i<7; i++){
+    	for(int j=0; j<7; j++){
+    		caseSdl[i][j].y = positionY+i*70;
+    		caseSdl[i][j].x = positionX+j*70;
+    		caseSdl[i][j].h = 70;
+    		caseSdl[i][j].w = 70;
+
+    	}
+    }
+}
+
 void listTuilesCouloir(TUILE tuilesCouloir[34])
 {    
     unsigned int temp = 0;
