@@ -176,6 +176,7 @@ void freeTabJoueur(JOUEUR **Tab, int nombreTotal)
 {
   for (int i = 0; i < nombreTotal; ++i)
   {    
+      freePile(Tab[i]->pile_tresor);
       freeJoueur(Tab[i]);    
   }
   free(Tab);
