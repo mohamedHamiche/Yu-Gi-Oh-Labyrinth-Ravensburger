@@ -88,12 +88,12 @@ void test_initPositions(void)
     TEST_ASSERT_EQUAL_INT(0,tabJoueur[0]->postion_actuelle.x); 
     TEST_ASSERT_EQUAL_INT(0,tabJoueur[0]->postion_actuelle.y); 
 
-    TEST_ASSERT_EQUAL_INT(6,tabJoueur[1]->postion_actuelle.x); 
+    TEST_ASSERT_EQUAL_INT(0,tabJoueur[1]->postion_actuelle.x); 
     TEST_ASSERT_EQUAL_INT(6,tabJoueur[1]->postion_actuelle.y); 
 
     if(nbTotal == 3)
     {
-        TEST_ASSERT_EQUAL_INT(0,tabJoueur[2]->postion_actuelle.x); 
+        TEST_ASSERT_EQUAL_INT(6,tabJoueur[2]->postion_actuelle.x); 
         TEST_ASSERT_EQUAL_INT(6,tabJoueur[2]->postion_actuelle.y); 
     }
 
