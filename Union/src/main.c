@@ -78,6 +78,7 @@ int main(int argc, char *argv[]){
     choixPrecedent.x=-1;
     choixPrecedent.x=-1;
 
+    CORD choixCase;
     int i=0;
     JOUEUR *joueurActuel= tabJoueur[0];
 	int exit=SDL_FALSE;
@@ -94,7 +95,8 @@ int main(int argc, char *argv[]){
 
 				case SDL_MOUSEBUTTONDOWN:         
  					if(event.button.button == 1){  
-                        choixEvent(event, &tuileEnMainRect,&choix);                                        
+                        choixEvent(event, &tuileEnMainRect,&choix);  
+                        getCordClick(event, &choixCase);                                                            
                     }
 					if(event.button.button == 3){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
