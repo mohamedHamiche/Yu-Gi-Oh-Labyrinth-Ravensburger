@@ -17,7 +17,6 @@ int main()
     }
     
 	
-
 	freeTabJoueur(tabJoueur);
 	return 0;
 }

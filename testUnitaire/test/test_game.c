@@ -169,7 +169,7 @@ int main(void)
     //Executer ./bin/player pour voir les affichages
     //Executer ./bin/test_game pour voir le résultat des test 
     //Décommenter pour tester le tout
-    /*
+    
     RUN_TEST(test_lirePseudo_should_return_Pseudo);
     RUN_TEST(test_initJoueurM_should_return_JOUEUR);
     RUN_TEST(test_initJoueurH_should_return_JOUEUR);   
@@ -177,7 +177,6 @@ int main(void)
     RUN_TEST(test_initPositions);
     RUN_TEST(test_appartientTab_should_return_boolean);
     RUN_TEST(test_randomTresors);
-    */
     RUN_TEST(test_distribuerCartes);
 
     return UNITY_END();
