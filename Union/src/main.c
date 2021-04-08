@@ -97,10 +97,8 @@ int main(int argc, char *argv[]){
        tabJoueur[i]->pionRect.w = 25;
        tabJoueur[i]->pionRect.x=0;
        tabJoueur[i]->pionRect.y=0;       
-       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
-       deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle); 
-
-       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
+       tabJoueur[i]->pionRect.y=positionY+ tabJoueur[i]->postion_actuelle.x*70 +40;
+       tabJoueur[i]->pionRect.x=positionX+ tabJoueur[i]->postion_actuelle.y*70 +10; 
     }
     //------------------------------------------------ GAME LOOP
 
@@ -115,6 +113,9 @@ int main(int argc, char *argv[]){
     CORD choixCase;
     int i=0;
     JOUEUR *joueurActuel= tabJoueur[0];
+    //etats: 
+    int insertion=1;
+    int deplacement = 0;
 	int exit=SDL_FALSE;
 	SDL_Event event;	
 	while(!exit)
@@ -128,29 +129,42 @@ int main(int argc, char *argv[]){
 					break;
 
 				case SDL_MOUSEBUTTONDOWN:         
- 					if(event.button.button == 1){  
+ 					if(event.button.button == 1 && insertion){  
                         choixEvent(event, &tuileEnMainRect,&choix);  
-                        getCordClick(event, &choixCase); 
-                        tabJoueur[i]->postion_actuelle.x=choixCase.x;
-                        tabJoueur[i]->postion_actuelle.y=choixCase.y;
-                        deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle);                                                           
+                        //la tuile est rentrée                        
                     }
-					if(event.button.button == 3){
+					if(event.button.button == 3 && insertion){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
-                        fprintf(stdout,"%d\n",event.button.y);
- 
+                        fprintf(stdout,"%d\n",event.button.y); 
 					}
-                    
-				case SDL_KEYDOWN:
-                    if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent))
-                    {
-                        tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
-                        sortirTuileEnMain(&tuileEnMainRect, i);
-                        //deplacer le pion
+                    if(event.button.button == 1 && deplacement){  
+                        getCordClick(event, &choixCase); 
+                        //si le coup est valide
+                        joueurActuel->postion_actuelle.x=choixCase.x;
+                        joueurActuel->postion_actuelle.y=choixCase.y;                        
+                        deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
+                        //alterner tour 
                         i=(i+1)%nbTotal;
                         joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
+      
+                        insertion = 1;
+                        deplacement = 0;                        
+                    }                                            
+                       
+
+				case SDL_KEYDOWN:
+                    if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent) && insertion)
+                    {
+                        tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+                        for (int i = 0; i < nbTotal; ++i)
+                        {
+                            decalerPion(&tabJoueur[i]->postion_actuelle,choix, &tabJoueur[i]->pionRect);
+                        }
+                        insertion = 0;
+                        deplacement = 1;
+                        //sortirTuileEnMain(&tuileEnMainRect, i);                                      
                     }
 
                 //case SDL_MOUSEMOTION:

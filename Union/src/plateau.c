@@ -11,10 +11,59 @@ void getCordClick(SDL_Event event, CORD *choixCase)
     }
 }
 
-void deplacerRect(SDL_Rect *pionRect, CORD a)
+void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
 {
-    pionRect->y=positionY+ a.x*70 +50;
-    pionRect->x=positionX+ a.y*70 +50; 
+    int decalageX=5 , decalageY = 5;
+    if(index == 1)
+    {
+        decalageX = 5;
+        decalageY = 40;
+    }
+    if(index == 2)
+    {
+        decalageX = 40;
+        decalageY = 5;
+    }
+    if(index == 3)
+    {
+        decalageX = 40;
+        decalageY = 40;
+    }
+   if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
+    {   
+        pionRect->y=positionY+ a.x*70 + decalageX;
+        pionRect->x=positionX+ a.y*70 + decalageY; 
+    }
+}
+void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
+{
+    if(choix.x == pion->x) //si le pion se trouve sur la ligne choisie
+    {
+        if(choix.y == 0) //decalage a droite
+        {
+            pion->y++;
+            pionRect->x+=70;
+        }
+        if(choix.y == 6) //decalage a gauche
+        {
+            pion->y--;
+            pionRect->x-=70;
+        }
+    }
+
+    if(choix.y == pion->y) //si le pion se trouve sur la colonne choisie
+    {
+        if(choix.x == 0) //decalage vers le bas
+        {
+            pion->x++;
+            pionRect->y+=70;
+        }
+        if(choix.x == 6) //decalage vers le haut
+        {
+            pion->x--;
+            pionRect->y-=70;
+        }
+    }
 }
 
 void SDL_ExitWithError(const char *message)
@@ -44,6 +93,11 @@ void initPlateau(TUILE plateau[7][7])
 }
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
+    if(choixActuel->x <0 || choixActuel->y <0)
+       {
+        return 0;
+       } 
+
 	if(!oppose(*choixActuel, *choixPrecedent)){
 		choixPrecedent->x = choixActuel->x;
 		choixPrecedent->y = choixActuel->y;
@@ -54,7 +108,7 @@ unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 
 int oppose(CORD a, CORD choixPrecedent)
 {
-	CORD temp;
+	CORD temp;    
 
 	if(a.x == 0 || a.x == 6){
 		if(a.x == 0){
