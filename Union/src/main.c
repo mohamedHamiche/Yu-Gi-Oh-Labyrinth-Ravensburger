@@ -68,6 +68,40 @@ int main(int argc, char *argv[]){
     SDL_Rect tuileEnMainRect;
     SDL_Rect caseSdl[7][7];
     initRectangles(&tuileEnMainRect, caseSdl);
+
+    char bmpName[] ="img/P1.bmp";
+    for (int i = 0; i < nbTotal; ++i)
+    {
+        bmpName[5]='1'+i;
+        tabJoueur[i]->image=NULL;
+        tabJoueur[i]->image=SDL_LoadBMP(bmpName);
+        if(tabJoueur[i]->image == NULL)
+            SDL_ExitWithErrorAndDestroy("Impossible de charger les pions bmp",window, renderer); 
+
+        printf("images charges %s \n",bmpName );
+        tabJoueur[i]->texture=NULL;
+        tabJoueur[i]->texture=SDL_CreateTextureFromSurface(renderer, tabJoueur[i]->image);
+        SDL_FreeSurface(tabJoueur[i]->image);
+        if(tabJoueur[i]->texture == NULL)
+        {
+            SDL_ExitWithError("Impossible de creer la texture de tuile en main");
+        }       
+        printf("tectures crees %s \n",bmpName );
+    }
+    printf("fin chargement\n");
+    //initialistion des rectangles
+    for (int i = 0; i < nbTotal; ++i)
+    {        
+        printf("bonjour\n");
+       tabJoueur[i]->pionRect.h = 25;
+       tabJoueur[i]->pionRect.w = 25;
+       tabJoueur[i]->pionRect.x=0;
+       tabJoueur[i]->pionRect.y=0;       
+       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
+       deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle); 
+
+       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
+    }
     //------------------------------------------------ GAME LOOP
 
 
@@ -96,7 +130,10 @@ int main(int argc, char *argv[]){
 				case SDL_MOUSEBUTTONDOWN:         
  					if(event.button.button == 1){  
                         choixEvent(event, &tuileEnMainRect,&choix);  
-                        getCordClick(event, &choixCase);                                                            
+                        getCordClick(event, &choixCase); 
+                        tabJoueur[i]->postion_actuelle.x=choixCase.x;
+                        tabJoueur[i]->postion_actuelle.y=choixCase.y;
+                        deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle);                                                           
                     }
 					if(event.button.button == 3){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
@@ -134,6 +171,12 @@ int main(int argc, char *argv[]){
     		}
     	}
 		SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);
+        
+        for (int i = 0; i < nbTotal; ++i)
+        {
+            SDL_RenderCopyEx(renderer, tabJoueur[i]->texture,NULL,&tabJoueur[i]->pionRect,0,NULL,flip);
+        }
+        
     	SDL_RenderPresent(renderer);
 
     }

@@ -53,7 +53,7 @@ struct joueur
     int machine;
     SDL_Surface *image;
     SDL_Texture *texture;
-    SDL_Rect *pionRect;
+    SDL_Rect pionRect;
 };
 
 
