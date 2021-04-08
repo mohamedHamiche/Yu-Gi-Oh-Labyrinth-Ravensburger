@@ -20,6 +20,6 @@ void chargerImageSelonType(TUILE *tmp);
 void creerTextures(SDL_Window *window ,SDL_Renderer *renderer, TUILE *tuileEnMain, TUILE plateau[7][7]);
 void initRectangles(SDL_Rect *tuileEnMainRect ,SDL_Rect caseSdl[7][7]);
 void listTuilesCouloir(TUILE tuilesCouloir[34]);
-
+void getCordClick(SDL_Event event, CORD *choixCase);
 
 #endif
