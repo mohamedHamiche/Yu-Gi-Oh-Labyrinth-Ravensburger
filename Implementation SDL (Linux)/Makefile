@@ -1,7 +1,7 @@
 CC = gcc
 EXEC = prog
 CFLAGS= -Wall 
-LDFLAGS= `sdl2-config --cflags --libs`
+LDFLAGS= `sdl2-config --cflags --libs` -lSDL2_image
 
 default: $(EXEC) test
 
@@ -33,3 +33,6 @@ unity.o: unity/src/unity.c
 
 clean:
 	$(RM) build/*.o bin/*.exe
+
+
+#`sdl2-config --cflags --libs` -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf

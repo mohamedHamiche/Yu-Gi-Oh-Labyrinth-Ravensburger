@@ -6,6 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <SDL2/SDL.h>
+#include "SDL2/SDL_image.h"
 //----------------
 typedef struct tuile TUILE;
 struct tuile
@@ -53,7 +54,7 @@ struct joueur
     int machine;
     SDL_Surface *image;
     SDL_Texture *texture;
-    SDL_Rect *pionRect;
+    SDL_Rect pionRect;
 };
 
 

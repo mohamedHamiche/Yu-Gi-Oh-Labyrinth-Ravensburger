@@ -1,5 +1,21 @@
 #include "plateau.h"
 
+void getCordClick(SDL_Event event, CORD *choixCase)
+{    
+    //si on appuie sur une case du plateau
+    if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
+    {
+        choixCase->x= (event.button.y - positionY)/70;
+        choixCase->y= (event.button.x - positionX)/70;
+        printf("choixCase (%d , %d) \n",choixCase->x, choixCase->y );
+    }
+}
+
+void deplacerRect(SDL_Rect *pionRect, CORD a)
+{
+    pionRect->y=positionY+ a.x*70 +25;
+    pionRect->x=positionX+ a.y*70 +25; 
+}
 
 void SDL_ExitWithError(const char *message)
 {
@@ -703,13 +719,3 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
      }      
 }
 
-void getCordClick(SDL_Event event, CORD *choixCase)
-{    
-    //si on appuie sur une case du plateau
-    if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
-    {
-        choixCase->x= (event.button.y - positionY)/70;
-        choixCase->y= (event.button.x - positionX)/70;
-        printf("choixCase (%d , %d) \n",choixCase->x, choixCase->y );
-    }
-}
