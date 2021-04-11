@@ -41,12 +41,12 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
     {
         if(choix.y == 0) //decalage a droite
         {
-            pion->y++;
+            pion->y=(pion->y+1)%7;
             pionRect->x+=70;
         }
         if(choix.y == 6) //decalage a gauche
         {
-            pion->y--;
+            pion->y=(pion->y-1)%7;
             pionRect->x-=70;
         }
     }
@@ -55,12 +55,12 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
     {
         if(choix.x == 0) //decalage vers le bas
         {
-            pion->x++;
+            pion->x=(pion->x+1)%7;
             pionRect->y+=70;
         }
         if(choix.x == 6) //decalage vers le haut
         {
-            pion->x--;
+            pion->x=(pion->x-1)%7;
             pionRect->y-=70;
         }
     }

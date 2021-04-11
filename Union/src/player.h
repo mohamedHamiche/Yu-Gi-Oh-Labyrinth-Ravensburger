@@ -6,6 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <SDL.h>
+#include <SDL_ttf.h>
 //----------------
 typedef struct tuile TUILE;
 struct tuile

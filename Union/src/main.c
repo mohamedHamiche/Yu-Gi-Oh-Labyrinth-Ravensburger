@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
         afficherPile(tabJoueur[i]->pile_tresor);
     }
     
-    
+   
     
 	//----------------------------------  init window
     SDL_Window *window = NULL;
