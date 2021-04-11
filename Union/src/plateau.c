@@ -37,17 +37,28 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
 }
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 {
+    int d=0;
     if(choix.x == pion->x) //si le pion se trouve sur la ligne choisie
     {
         if(choix.y == 0) //decalage a droite
         {
             pion->y=(pion->y+1)%7;
-            pionRect->x+=70;
+            pionRect->x=(pionRect->x+70);
+            if(pionRect->x >positionX+70*7)
+            {
+                d= pionRect->x - (positionX+70*7);
+                pionRect->x=positionX + d;
+            }
         }
         if(choix.y == 6) //decalage a gauche
         {
-            pion->y=(pion->y-1)%7;
-            pionRect->x-=70;
+            pion->y=(pion->y-1)%7;           
+            pionRect->x=(pionRect->x-70);
+            if(pionRect->x < positionX)
+            {
+                d = positionX- pionRect->x;
+                pionRect->x= positionX+ 6*70 + d;
+            }
         }
     }
 
@@ -56,12 +67,23 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
         if(choix.x == 0) //decalage vers le bas
         {
             pion->x=(pion->x+1)%7;
-            pionRect->y+=70;
+            pionRect->y=(pionRect->y+70);
+            if(pionRect->y > positionY + 70*7)
+            {
+                d= pionRect->y - (positionY + 70*7);
+                pionRect->y = positionY + d;
+            }
         }
         if(choix.x == 6) //decalage vers le haut
         {
             pion->x=(pion->x-1)%7;
-            pionRect->y-=70;
+            pionRect->y=(pionRect->y-70);
+            if(pionRect->y < positionY)
+            {
+                d= positionY - pionRect->y;
+                pionRect->y= positionY + 6*70 + d;
+            }
+                
         }
     }
 }
