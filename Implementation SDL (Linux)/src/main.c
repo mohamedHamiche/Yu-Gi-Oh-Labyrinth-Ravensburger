@@ -3,6 +3,17 @@
 #include "pile.h"
 #include <SDL2/SDL_image.h>
 
+
+
+//Linux
+//#include "SDL2/SDL_image.h
+//#include <SDL2/SDL_ttf.h>
+//sudo apt-get install libsdl2-ttf-dev
+//sudo apt-get update && sudo apt-get upgrade
+//sudo apt-get install libsdl2-image-dev
+//gcc main.c $(sdl2-config --cflags --libs)
+
+
 int main(int argc, char *argv[]){
 
 
@@ -18,7 +29,8 @@ int main(int argc, char *argv[]){
         afficherPile(tabJoueur[i]->pile_tresor);
     }
     
-      
+   
+    
 	//----------------------------------  init window
     SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -58,16 +70,16 @@ int main(int argc, char *argv[]){
     SDL_Rect caseSdl[7][7];
     initRectangles(&tuileEnMainRect, caseSdl);
 
-    char pngName[] ="img/PB.png";
+    char bmpName[] ="img/PA.png";
     for (int i = 0; i < nbTotal; ++i)
     {
-        pngName[5]='A'+i;
+        bmpName[5]='A'+i;
         tabJoueur[i]->image=NULL;
-        tabJoueur[i]->image=IMG_Load(pngName);
+        tabJoueur[i]->image=IMG_Load(bmpName);
         if(tabJoueur[i]->image == NULL)
-            SDL_ExitWithErrorAndDestroy("Impossible de charger les pions png",window, renderer); 
+            SDL_ExitWithErrorAndDestroy("Impossible de charger les pions bmp",window, renderer); 
 
-        printf("images charges %s \n",pngName );
+        printf("images charges %s \n",bmpName );
         tabJoueur[i]->texture=NULL;
         tabJoueur[i]->texture=SDL_CreateTextureFromSurface(renderer, tabJoueur[i]->image);
         SDL_FreeSurface(tabJoueur[i]->image);
@@ -75,25 +87,22 @@ int main(int argc, char *argv[]){
         {
             SDL_ExitWithError("Impossible de creer la texture de tuile en main");
         }       
-        printf("tectures crees %s \n",pngName );
+        printf("tectures crees %s \n",bmpName );
     }
     printf("fin chargement\n");
     //initialistion des rectangles
-    CORD nul;
-    nul.x =-1; nul.y = -1;
     for (int i = 0; i < nbTotal; ++i)
     {        
-       printf("bonjour\n");
+        printf("bonjour\n");
        tabJoueur[i]->pionRect.h = 25;
        tabJoueur[i]->pionRect.w = 25;
        tabJoueur[i]->pionRect.x=0;
        tabJoueur[i]->pionRect.y=0;       
-       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
-       deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle); 
-
-       printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
+       tabJoueur[i]->pionRect.y=positionY+ tabJoueur[i]->postion_actuelle.x*70 +40;
+       tabJoueur[i]->pionRect.x=positionX+ tabJoueur[i]->postion_actuelle.y*70 +10; 
     }
     //------------------------------------------------ GAME LOOP
+
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix, choixPrecedent;
@@ -105,6 +114,9 @@ int main(int argc, char *argv[]){
     CORD choixCase;
     int i=0;
     JOUEUR *joueurActuel= tabJoueur[0];
+    //etats: 
+    int insertion=1;
+    int deplacement = 0;
 	int exit=SDL_FALSE;
 	SDL_Event event;	
 	while(!exit)
@@ -120,29 +132,40 @@ int main(int argc, char *argv[]){
 				case SDL_MOUSEBUTTONDOWN:         
  					if(event.button.button == 1){  
                         choixEvent(event, &tuileEnMainRect,&choix);  
-                        getCordClick(event, &choixCase); 
-                        tabJoueur[i]->postion_actuelle.x=choixCase.x;
-                        tabJoueur[i]->postion_actuelle.y=choixCase.y;
-                        deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle);                                                           
+                        //la tuile est rentrée                        
                     }
-					if(event.button.button == 3){
+					if(event.button.button == 3 && insertion){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
-                       fprintf(stdout,"%d\n",event.button.y);
- 
+                        fprintf(stdout,"%d\n",event.button.y); 
 					}
-                    
-				case SDL_KEYDOWN:
-                    if(event.key.keysym.sym == SDLK_UP && validationCouloir(&choix, &choixPrecedent))
-                    {
-                        tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
-                        sortirTuileEnMain(&tuileEnMainRect, i);
-                        //deplacer le pion
+                    if(event.button.button == 1){  
+                        getCordClick(event, &choixCase); 
+                        //si le coup est valide
+                        joueurActuel->postion_actuelle.x=choixCase.x;
+                        joueurActuel->postion_actuelle.y=choixCase.y;                        
+                        deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
+                        //alterner tour 
                         i=(i+1)%nbTotal;
                         joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
-                        deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle);
-                        printf("choix.x = %u, choix.y = %u\n", choixPrecedent, tabJoueur[i]->postion_actuelle.y);
+      
+                        insertion = 0;
+                        deplacement = 0;                        
+                    }                                            
+                       
+
+				case SDL_KEYDOWN:
+                    if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent))
+                    {
+                        tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+                        for (int i = 0; i < nbTotal; ++i)
+                        {
+                            decalerPion(&tabJoueur[i]->postion_actuelle,choix, &tabJoueur[i]->pionRect);
+                        }
+                        insertion = 0;
+                        deplacement = 0;
+                        //sortirTuileEnMain(&tuileEnMainRect, i);                                      
                     }
 
                 //case SDL_MOUSEMOTION:
@@ -150,12 +173,11 @@ int main(int argc, char *argv[]){
 
 				default:
 					break;
-			}
+			}            
 			SDL_RenderClear(renderer);
 						
-		}
-
-//----------------------------------------- affiche rendu
+		}  
+   //----------------------------------------- affiche rendu
         for(int i=0; i<7; i++)
         {
         	for(int j=0; j<7; j++)

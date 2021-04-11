@@ -35,4 +35,4 @@ clean:
 	$(RM) build/*.o bin/*.exe
 
 
-#`sdl2-config --cflags --libs` -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf
+#sdl2-config --cflags --libs` -lSDL2 -lSDL2_mixer -lSDL2_image -lSDL2_ttf

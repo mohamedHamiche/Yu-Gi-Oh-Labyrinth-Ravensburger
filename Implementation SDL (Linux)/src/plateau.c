@@ -11,14 +11,82 @@ void getCordClick(SDL_Event event, CORD *choixCase)
     }
 }
 
-void deplacerRect(SDL_Rect *pionRect, CORD a)
-{   
-    
- 
-        pionRect->y=positionY+ a.x*70+25;
-        pionRect->x=positionX+ a.y*70+25;
- 
+void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
+{
+    int decalageX=5 , decalageY = 5;
+    if(index == 1)
+    {
+        decalageX = 5;
+        decalageY = 40;
+    }
+    if(index == 2)
+    {
+        decalageX = 40;
+        decalageY = 5;
+    }
+    if(index == 3)
+    {
+        decalageX = 40;
+        decalageY = 40;
+    }
+   if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
+    {   
+        pionRect->y=positionY+ a.x*70 + decalageX;
+        pionRect->x=positionX+ a.y*70 + decalageY; 
+    }
+}
 
+void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
+{
+    int d=0;
+    if(choix.x == pion->x) //si le pion se trouve sur la ligne choisie
+    {
+        if(choix.y == 0) //decalage a droite
+        {
+            pion->y=(pion->y+1)%7;
+            pionRect->x=(pionRect->x+70);
+            if(pionRect->x >positionX+70*7)
+            {
+                d= pionRect->x - (positionX+70*7);
+                pionRect->x=positionX + d;
+            }
+        }
+        if(choix.y == 6) //decalage a gauche
+        {
+            pion->y=(pion->y-1)%7;           
+            pionRect->x=(pionRect->x-70);
+            if(pionRect->x < positionX)
+            {
+                d = positionX- pionRect->x;
+                pionRect->x= positionX+ 6*70 + d;
+            }
+        }
+    }
+
+    if(choix.y == pion->y) //si le pion se trouve sur la colonne choisie
+    {
+        if(choix.x == 0) //decalage vers le bas
+        {
+            pion->x=(pion->x+1)%7;
+            pionRect->y=(pionRect->y+70);
+            if(pionRect->y > positionY + 70*7)
+            {
+                d= pionRect->y - (positionY + 70*7);
+                pionRect->y = positionY + d;
+            }
+        }
+        if(choix.x == 6) //decalage vers le haut
+        {
+            pion->x=(pion->x-1)%7;
+            pionRect->y=(pionRect->y-70);
+            if(pionRect->y < positionY)
+            {
+                d= positionY - pionRect->y;
+                pionRect->y= positionY + 6*70 + d;
+            }
+                
+        }
+    }
 }
 
 void SDL_ExitWithError(const char *message)
@@ -722,4 +790,45 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
 
      }      
 }
+int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt) 
+    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
+    // coordonnees a : position de actuel de l'appel de la fonction
+    // coordonnees choix : La case à atteindre
+    // entier compt : nombre actuel des appels récursif de la fonction
+{
+    printf("compt = %d\n",compt );
+    if(a.x == choix.x && a.y == choix.y)
+        return 1;
+    
+    int res=0;
+    if(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
+        return 0;    
 
+    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1)  && (&tab[a.x][a.y++] != caseP ))
+    {
+     // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
+    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
+        a.y = a.y+1;                                        // On déplace la coordonnees vers la "droite" ...
+        res =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt++); // Appel récursif 
+    }
+
+    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && &tab[a.x--][a.y] != caseP)
+    {
+        a.x = a.x-1;                                                                    
+        res= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt++);
+    }
+
+    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && &tab[a.x][a.y--] != caseP)
+    {
+        a.y = a.y-1;
+        res= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt++);
+    }
+
+    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && &tab[a.x++][a.y] != caseP)
+    {
+        a.x = a.x-1;
+        res= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt++);
+    }
+
+    return res;
+}

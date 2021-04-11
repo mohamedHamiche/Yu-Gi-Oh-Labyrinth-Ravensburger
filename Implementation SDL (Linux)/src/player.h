@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <SDL2/SDL.h>
-#include "SDL2/SDL_image.h"
+#include <SDL2/SDL_image.h>
 //----------------
 typedef struct coordonnees CORD;
 struct coordonnees

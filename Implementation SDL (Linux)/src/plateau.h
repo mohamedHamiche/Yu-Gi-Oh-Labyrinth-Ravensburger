@@ -21,7 +21,9 @@ void creerTextures(SDL_Window *window ,SDL_Renderer *renderer, TUILE *tuileEnMai
 void initRectangles(SDL_Rect *tuileEnMainRect ,SDL_Rect caseSdl[7][7]);
 void listTuilesCouloir(TUILE tuilesCouloir[34]);
 void getCordClick(SDL_Event event, CORD *choixCase);
-void deplacerRect(SDL_Rect *pionRect, CORD a);
+void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a,int index);
+void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect);
+int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt);
 
 
 #endif
