@@ -1,6 +1,6 @@
 #include "plateau.h"
 
-void getCordClick(SDL_Event event, CORD *choixCase)
+void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
 {    
     //si on appuie sur une case du plateau
     if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
@@ -8,6 +8,11 @@ void getCordClick(SDL_Event event, CORD *choixCase)
         choixCase->x= (event.button.y - positionY)/70;
         choixCase->y= (event.button.x - positionX)/70;
         printf("choixCase (%d , %d) \n",choixCase->x, choixCase->y );
+    }    
+    else
+    {
+        choixCase->x=joueurActuel->postion_actuelle.x;
+        choixCase->y=joueurActuel->postion_actuelle.y;
     }
 }
 
@@ -57,7 +62,7 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
             if(pionRect->x < positionX)
             {
                 d = positionX- pionRect->x;
-                pionRect->x= positionX+ 6*70 + d;
+                pionRect->x= positionX+ 7*70 - d;
             }
         }
     }
@@ -81,13 +86,14 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
             if(pionRect->y < positionY)
             {
                 d= positionY - pionRect->y;
-                pionRect->y= positionY + 6*70 + d;
+                pionRect->y= positionY + 7*70 - d;
             }
                 
         }
     }
 }
 
+/*
 int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt) 
     // Tuile case : adresse de la case précedente appelé dans l'appel précedent
     // coordonnees a : position de actuel de l'appel de la fonction
@@ -98,36 +104,189 @@ int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt)
     if(a.x == choix.x && a.y == choix.y)
         return 1;
     
-    int res=0;
+    
     if(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
         return 0;    
 
-    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1)  && (&tab[a.x][a.y++] != caseP ))
+    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1)  && (&tab[a.x][a.y] != caseP ))
     {
      // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
     //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
-        a.y = a.y+1;                                        // On déplace la coordonnees vers la "droite" ...
-        res =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt++); // Appel récursif 
+        // On déplace la coordonnees vers la "droite" ...
+        printf("je suis rentré a droite\n");
+        a.y = a.y+1;                                        
+        COUPVALIDE =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt++); // Appel récursif 
     }
 
-    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && &tab[a.x--][a.y] != caseP)
+    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && &tab[a.x][a.y] != caseP)
     {
+        printf("je suis rentré en haut\n");
         a.x = a.x-1;                                                                    
-        res= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt++);
+        COUPVALIDE= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt++);
     }
 
-    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && &tab[a.x][a.y--] != caseP)
+    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && &tab[a.x][a.y] != caseP)
     {
+        printf("je suis rentré a gauche\n");
         a.y = a.y-1;
-        res= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt++);
+        COUPVALIDE= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt++);
     }
 
-    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && &tab[a.x++][a.y] != caseP)
+    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && &tab[a.x][a.y] != caseP)
     {
+        printf("je suis rentré en bas\n");
         a.x = a.x-1;
-        res= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt++);
+        COUPVALIDE= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt++);
     }
 
+    return COUPVALIDE;
+}
+
+int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int *compt) 
+    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
+    // coordonnees a : position de actuel de l'appel de la fonction
+    // coordonnees choix : La case à atteindre
+    // entier compt : nombre actuel des appels récursif de la fonction
+{
+    printf("compt = %d\n",*compt );
+    if(a.x == choix.x && a.y == choix.y)
+        return 1;
+    
+    
+    if(*compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
+        return 0;    
+
+    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1) && a.y < 7 )
+    {
+     // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
+    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
+        // On déplace la coordonnees vers la "droite" ...
+        printf("je suis rentré a droite\n");
+        a.y = a.y+1;                
+        *compt ++ ;                        
+        COUPVALIDE =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt); // Appel récursif 
+    }
+
+    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && a.x >= 0)
+    {
+        printf("je suis rentré en haut\n");
+        a.x = a.x-1;                                                  
+        *compt ++ ;                  
+        COUPVALIDE= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt);
+    }
+
+    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && a.y >= 0)
+    {
+        printf("je suis rentré a gauche\n");
+        a.y = a.y-1;
+        *compt ++ ;
+        COUPVALIDE= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt);
+    }
+
+    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && a.x < 7)
+    {
+        printf("je suis rentré en bas\n");
+        a.x = a.x-1;
+        *compt ++ ;
+        COUPVALIDE= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt);
+    }
+
+    return COUPVALIDE;
+}
+*/
+int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
+{
+    if(r == NULL)
+        return 0;
+    if(r->a.x < 0 || r->a.y>6)
+        return 0;
+
+    if(r->a.x == choixCase.x && r->a.y == choixCase.y)
+        return 1;
+
+    int res = 0;
+    printf("je suis dans r->a = %d, %d \n",r->a.x, r->a.y );
+
+    if(plateau[r->a.x][r->a.y].d && plateau[r->a.x][r->a.y +1].g && r->d == NULL)
+        {
+            CORD tmp;
+            printf("j'ai un fils d\n");
+            tmp.x = r->a.x;
+            tmp.y = r->a.y +1;
+            if(tmp.x >= 0 && tmp.y<7)
+            {
+                r->d= createNode(tmp);
+                r->d->g=createNode(r->a); 
+                res++; //juste pour savoir si on est rentre ici
+            }           
+            
+        }
+    if(plateau[r->a.x][r->a.y].g && plateau[r->a.x][r->a.y -1].d && r->g == NULL)
+        {
+            CORD tmp;
+            printf("j'ai un fils g\n");
+            tmp.x = r->a.x;
+            tmp.y = r->a.y -1;
+            if(tmp.x >= 0 && tmp.y<7)
+            {
+                r->g= createNode(tmp);
+                r->g->d=createNode(r->a);
+                res++;
+            }            
+            
+        }
+
+    if(plateau[r->a.x][r->a.y].h && plateau[r->a.x -1][r->a.y].b && r->h == NULL)
+        {
+            CORD tmp;
+            printf("j'ai un fils h\n");
+            tmp.x = r->a.x -1;
+            tmp.y = r->a.y;
+            if(tmp.x >= 0 && tmp.y<7)
+            {
+                r->h= createNode(tmp);
+                r->h->b=createNode(r->a);            
+                res++;
+            }
+        }
+    if(plateau[r->a.x][r->a.y].b && plateau[r->a.x+1][r->a.y].h && r->b == NULL)
+        {
+            CORD tmp;
+            printf("j'ai un fils b\n");
+            tmp.x = r->a.x +1;
+            tmp.y = r->a.y;
+            if(tmp.x >= 0 && tmp.y<7)
+            {
+                 r->b= createNode(tmp);
+                r->b->h=createNode(r->a);            
+                res++;
+            }           
+        }
+    if(res == 0) //on n'a créé aucun nouveau fils
+        return 0;
+    else
+        res=0;
+    
+    if(validationCoup(plateau, choixCase, r->g))
+        return 1;
+    else
+    {
+        if(validationCoup(plateau, choixCase, r->d))
+            return 1;
+        else
+        {
+           if(validationCoup(plateau, choixCase, r->h))
+            return 1;
+            else
+            {
+                if(validationCoup(plateau, choixCase, r->b))
+                    return 1;
+                else return 0;
+            } 
+        }
+    }
+    
+    
     return res;
 }
 
@@ -715,7 +874,7 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
     for(int i=0; i<12; i++) //les 12 premieres sont des tuiles droites
     {           
         tuilesCouloir[i].angle= 0;
-        temp = rand()%2; 
+        temp = rand()%2;
         tuilesCouloir[i].fixe =0;
         tuilesCouloir[i].posee =0;
         tuilesCouloir[i].tresor =0;
@@ -724,7 +883,7 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
 
         if(temp == 0)
         {
-            tuilesCouloir[i].id = 1; //a quoi ca sert ??
+         
             tuilesCouloir[i].angle = 0;
             tuilesCouloir[i].d = 0;
             tuilesCouloir[i].g = 0;
@@ -733,7 +892,7 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
         }
         else
         {
-            tuilesCouloir[i].id = 1;
+            
             tuilesCouloir[i].angle =90;
             tuilesCouloir[i].d = 1;
             tuilesCouloir[i].g = 1;
@@ -762,24 +921,24 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
         }
         if(temp == 1)
         {
-            tuilesCouloir[i].g=1;
-            tuilesCouloir[i].d=0;
-            tuilesCouloir[i].h=0;
-            tuilesCouloir[i].b=1;
+            tuilesCouloir[i].g=0;
+            tuilesCouloir[i].d=1;
+            tuilesCouloir[i].h=1;
+            tuilesCouloir[i].b=0;
             tuilesCouloir[i].angle=90;
         }
         if(temp == 2)
         {
             tuilesCouloir[i].g=0;
             tuilesCouloir[i].d=1;
-            tuilesCouloir[i].h=1;
-            tuilesCouloir[i].b=0;
+            tuilesCouloir[i].h=0;
+            tuilesCouloir[i].b=1;
             tuilesCouloir[i].angle=180;
         }
         if(temp == 3)
         {
-            tuilesCouloir[i].g=0;
-            tuilesCouloir[i].d=1;
+            tuilesCouloir[i].g=1;
+            tuilesCouloir[i].d=0;
             tuilesCouloir[i].h=0;
             tuilesCouloir[i].b=1;
             tuilesCouloir[i].angle=270; 
@@ -798,6 +957,7 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
      {
         temp = rand()%4; // 4 cas possibles
         tuilesCouloir[i].fixe =0;
+        tuilesCouloir[i].angle= 0;
         tuilesCouloir[i].posee =0; 
         tuilesCouloir[i].type ='T'; 
         tuilesCouloir[i].tresor =nbTresors;

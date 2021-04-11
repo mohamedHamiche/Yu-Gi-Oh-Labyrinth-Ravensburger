@@ -118,8 +118,11 @@ int main(int argc, char *argv[]){
     int deplacement = 0;
 	int exit=SDL_FALSE;
 	SDL_Event event;	
+
+    
 	while(!exit)
     {
+        
 		while(SDL_PollEvent(&event))
         { 
 			switch(event.type)
@@ -135,13 +138,24 @@ int main(int argc, char *argv[]){
                     }
 					if(event.button.button == 3 && insertion){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
+                       int tmpH = tuileEnMain.h;
+                       int tmpD = tuileEnMain.d;
+                       int tmpG = tuileEnMain.g;
+                       int tmpB = tuileEnMain.b;
+                       tuileEnMain.h = tmpG;
+                       tuileEnMain.d = tmpH;
+                       tuileEnMain.b = tmpD;
+                       tuileEnMain.g = tmpB;
+
                         fprintf(stdout,"%d\n",event.button.y); 
 					}
                     if(event.button.button == 1 && deplacement){  
 
-                        getCordClick(event, &choixCase); 
+                        getCordClick(event, &choixCase,joueurActuel); 
                         //si le coup est valide
-                         if(validationCoup(plateau,&plateau[joueurActuel->postion_actuelle.x][joueurActuel->postion_actuelle.y],joueurActuel->postion_actuelle, choixCase, 0))
+       
+                        Node *r= createNode(joueurActuel->postion_actuelle);
+                        if(validationCoup(plateau,choixCase,r))
                         {
                             printf("******************* valide \n");                         
                         }
@@ -149,8 +163,11 @@ int main(int argc, char *argv[]){
                         {
                             printf("NON valide\n");
                           }
+                        freeTree(r);
                         joueurActuel->postion_actuelle.x=choixCase.x;
-                        joueurActuel->postion_actuelle.y=choixCase.y;                        
+                        joueurActuel->postion_actuelle.y=choixCase.y; 
+                        printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
+                                               
                         deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
                         //alterner tour 
                         i=(i+1)%nbTotal;

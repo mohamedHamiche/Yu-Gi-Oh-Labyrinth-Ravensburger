@@ -11,8 +11,7 @@
 typedef struct tuile TUILE;
 struct tuile
 {
-    unsigned int angleTuile;
-    int id;
+    unsigned int angleTuile;    
     int fixe ;
     int tresor; 
     char type; // I L T
@@ -57,6 +56,12 @@ struct joueur
     SDL_Rect pionRect;
 };
 
+typedef struct Node Node;
+struct Node
+{
+    CORD a;
+    Node *g, *d, *h, *b;
+};
 
 //variables globales
 #define WINDOW_WIDTH 1080
@@ -64,6 +69,8 @@ struct joueur
 
 #define positionX (WINDOW_WIDTH-(70*7))/2
 #define positionY (WINDOW_HEIGHT-(70*7))/2
+
+int COUPVALIDE;
 //--------------
 
 
