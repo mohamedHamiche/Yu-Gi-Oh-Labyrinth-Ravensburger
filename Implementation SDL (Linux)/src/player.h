@@ -8,22 +8,6 @@
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"
 //----------------
-typedef struct tuile TUILE;
-struct tuile
-{
-    unsigned int angleTuile;
-    int id;
-    int fixe ;
-    int tresor; 
-    char type; // I L T
-    int g, d, h, b;  
-    int posee;
-    int angle;
-
-    SDL_Surface *image;
-    SDL_Texture *texture;
-};
-
 typedef struct coordonnees CORD;
 struct coordonnees
 {
@@ -56,6 +40,26 @@ struct joueur
     SDL_Texture *texture;
     SDL_Rect pionRect;
 };
+
+typedef struct tuile TUILE;
+struct tuile
+{
+    unsigned int angleTuile;
+    int id;
+    int fixe ;
+    int tresor; 
+    char type; // I L T
+    int g, d, h, b;  
+    int posee;
+    int angle;
+    JOUEUR J;
+
+    SDL_Surface *image;
+    SDL_Texture *texture;
+};
+
+
+
 
 
 //variables globales

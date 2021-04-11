@@ -79,9 +79,11 @@ int main(int argc, char *argv[]){
     }
     printf("fin chargement\n");
     //initialistion des rectangles
+    CORD nul;
+    nul.x =-1; nul.y = -1;
     for (int i = 0; i < nbTotal; ++i)
     {        
-        printf("bonjour\n");
+       printf("bonjour\n");
        tabJoueur[i]->pionRect.h = 25;
        tabJoueur[i]->pionRect.w = 25;
        tabJoueur[i]->pionRect.x=0;
@@ -92,7 +94,6 @@ int main(int argc, char *argv[]){
        printf("position rect: %d %d \n",tabJoueur[i]->pionRect.x,tabJoueur[i]->pionRect.y );
     }
     //------------------------------------------------ GAME LOOP
-
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
     CORD choix, choixPrecedent;
@@ -126,12 +127,12 @@ int main(int argc, char *argv[]){
                     }
 					if(event.button.button == 3){
 					   tuileEnMain.angle = (tuileEnMain.angle + 90)%360;
-                        fprintf(stdout,"%d\n",event.button.y);
+                       fprintf(stdout,"%d\n",event.button.y);
  
 					}
                     
 				case SDL_KEYDOWN:
-                    if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent))
+                    if(event.key.keysym.sym == SDLK_UP && validationCouloir(&choix, &choixPrecedent))
                     {
                         tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
                         sortirTuileEnMain(&tuileEnMainRect, i);
@@ -140,6 +141,8 @@ int main(int argc, char *argv[]){
                         joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
+                        deplacerRect(&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle);
+                        printf("choix.x = %u, choix.y = %u\n", choixPrecedent, tabJoueur[i]->postion_actuelle.y);
                     }
 
                 //case SDL_MOUSEMOTION:
@@ -147,11 +150,12 @@ int main(int argc, char *argv[]){
 
 				default:
 					break;
-			}            
+			}
 			SDL_RenderClear(renderer);
 						
-		}  
-   //----------------------------------------- affiche rendu
+		}
+
+//----------------------------------------- affiche rendu
         for(int i=0; i<7; i++)
         {
         	for(int j=0; j<7; j++)

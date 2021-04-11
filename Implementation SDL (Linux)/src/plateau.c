@@ -12,9 +12,13 @@ void getCordClick(SDL_Event event, CORD *choixCase)
 }
 
 void deplacerRect(SDL_Rect *pionRect, CORD a)
-{
-    pionRect->y=positionY+ a.x*70 +25;
-    pionRect->x=positionX+ a.y*70 +25; 
+{   
+    
+ 
+        pionRect->y=positionY+ a.x*70+25;
+        pionRect->x=positionX+ a.y*70+25;
+ 
+
 }
 
 void SDL_ExitWithError(const char *message)
@@ -195,12 +199,12 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
                             (tuileEnMain->x) = positionX+70;
                             (tuileEnMain->y) = positionY-70;
                             (choix->y) = 1;
-                           (choix->x) = 0;
+                            (choix->x) = 0;
                         }
                         if(event.button.x > positionX+(70*3) &&  event.button.x < positionX+(70*4) && event.button.y > positionY-70 && event.button.y < positionY){
                             (tuileEnMain->x) = positionX+(70*3);
-                           (tuileEnMain->y) = positionY-70;
-                           (choix->y) = 3;
+                            (tuileEnMain->y) = positionY-70;
+                            (choix->y) = 3;
                             (choix->x) = 0;
                         }
                         if(event.button.x >  positionX+(70*5) &&  event.button.x < positionX+(70*6) && event.button.y > positionY-70 && event.button.y < positionY){

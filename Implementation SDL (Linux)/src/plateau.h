@@ -23,4 +23,5 @@ void listTuilesCouloir(TUILE tuilesCouloir[34]);
 void getCordClick(SDL_Event event, CORD *choixCase);
 void deplacerRect(SDL_Rect *pionRect, CORD a);
 
+
 #endif
