@@ -23,5 +23,6 @@ void listTuilesCouloir(TUILE tuilesCouloir[34]);
 void getCordClick(SDL_Event event, CORD *choixCase);
 void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index);
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect);
+int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt);
 
 #endif

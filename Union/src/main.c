@@ -138,8 +138,17 @@ int main(int argc, char *argv[]){
                         fprintf(stdout,"%d\n",event.button.y); 
 					}
                     if(event.button.button == 1 && deplacement){  
+
                         getCordClick(event, &choixCase); 
                         //si le coup est valide
+                         if(validationCoup(plateau,&plateau[joueurActuel->postion_actuelle.x][joueurActuel->postion_actuelle.y],joueurActuel->postion_actuelle, choixCase, 0))
+                        {
+                            printf("******************* valide \n");                         
+                        }
+                        else
+                        {
+                            printf("NON valide\n");
+                          }
                         joueurActuel->postion_actuelle.x=choixCase.x;
                         joueurActuel->postion_actuelle.y=choixCase.y;                        
                         deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
@@ -148,9 +157,9 @@ int main(int argc, char *argv[]){
                         joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
-      
-                        insertion = 1;
-                        deplacement = 0;                        
+                       deplacement=0;
+                       insertion =1;
+                       
                     }                                            
                        
 

@@ -88,6 +88,49 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
     }
 }
 
+int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt) 
+    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
+    // coordonnees a : position de actuel de l'appel de la fonction
+    // coordonnees choix : La case à atteindre
+    // entier compt : nombre actuel des appels récursif de la fonction
+{
+    printf("compt = %d\n",compt );
+    if(a.x == choix.x && a.y == choix.y)
+        return 1;
+    
+    int res=0;
+    if(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
+        return 0;    
+
+    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1)  && (&tab[a.x][a.y++] != caseP ))
+    {
+     // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
+    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
+        a.y = a.y+1;                                        // On déplace la coordonnees vers la "droite" ...
+        res =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt++); // Appel récursif 
+    }
+
+    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && &tab[a.x--][a.y] != caseP)
+    {
+        a.x = a.x-1;                                                                    
+        res= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt++);
+    }
+
+    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && &tab[a.x][a.y--] != caseP)
+    {
+        a.y = a.y-1;
+        res= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt++);
+    }
+
+    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && &tab[a.x++][a.y] != caseP)
+    {
+        a.x = a.x-1;
+        res= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt++);
+    }
+
+    return res;
+}
+
 void SDL_ExitWithError(const char *message)
 {
 	SDL_Log("ERREUR : %s > %s\n",message, SDL_GetError());
