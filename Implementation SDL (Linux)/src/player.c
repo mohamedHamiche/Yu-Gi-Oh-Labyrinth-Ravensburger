@@ -2,6 +2,7 @@
 #include "pile.h"
  
 
+
 char *lirePseudo( int numJoueur)
 {
 	char *pseudo= malloc(25*sizeof(char));

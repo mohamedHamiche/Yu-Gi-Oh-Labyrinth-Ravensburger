@@ -5,9 +5,25 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 //----------------
+typedef struct tuile TUILE;
+struct tuile
+{
+    unsigned int angleTuile;    
+    int fixe ;
+    int tresor; 
+    char type; // I L T
+    int g, d, h, b;  
+    int posee;
+    int angle;
+    int parcouru;
+
+    SDL_Surface *image;
+    SDL_Texture *texture;
+};
+
 typedef struct coordonnees CORD;
 struct coordonnees
 {
@@ -41,26 +57,12 @@ struct joueur
     SDL_Rect pionRect;
 };
 
-typedef struct tuile TUILE;
-struct tuile
+typedef struct Node Node;
+struct Node
 {
-    unsigned int angleTuile;
-    int id;
-    int fixe ;
-    int tresor; 
-    char type; // I L T
-    int g, d, h, b;  
-    int posee;
-    int angle;
-    JOUEUR J;
-
-    SDL_Surface *image;
-    SDL_Texture *texture;
+    CORD a;
+    Node *g, *d, *h, *b;
 };
-
-
-
-
 
 //variables globales
 #define WINDOW_WIDTH 1080
@@ -68,6 +70,8 @@ struct tuile
 
 #define positionX (WINDOW_WIDTH-(70*7))/2
 #define positionY (WINDOW_HEIGHT-(70*7))/2
+
+int COUPVALIDE;
 //--------------
 
 
