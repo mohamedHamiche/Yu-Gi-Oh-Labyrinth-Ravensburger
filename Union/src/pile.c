@@ -23,16 +23,16 @@ void freeTree(Node *r)
     if(r == NULL)
         return;
     printf("free de r->a = %d, %d \n",r->a.x, r->a.y );
-    if(r->g)
+    if(r->g && r->g->d != r)
         freeTree(r->g);
 
-    if(r->d)
+    if(r->d && r->d->g != r)
         freeTree(r->d);
 
-    if(r->h)
+    if(r->h && r->h->b != r)
         freeTree(r->h);
 
-    if(r->b)
+    if(r->b && r->b->h != r)
         freeTree(r->b);
 
     free(r);

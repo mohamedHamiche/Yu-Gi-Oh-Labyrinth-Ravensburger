@@ -151,10 +151,10 @@ int main(int argc, char *argv[]){
 					}
                     if(event.button.button == 1 && deplacement){  
 
-                        getCordClick(event, &choixCase,joueurActuel); 
+                        getCordClick(event, &choixCase,tabJoueur[i]); 
                         //si le coup est valide
        
-                        Node *r= createNode(joueurActuel->postion_actuelle);
+                        Node *r= createNode(tabJoueur[i]->postion_actuelle);
                         if(validationCoup(plateau,choixCase,r))
                         {
                             printf("******************* valide \n");                         
@@ -164,8 +164,8 @@ int main(int argc, char *argv[]){
                             printf("NON valide\n");
                           }
                         freeTree(r);
-                        joueurActuel->postion_actuelle.x=choixCase.x;
-                        joueurActuel->postion_actuelle.y=choixCase.y; 
+                        tabJoueur[i]->postion_actuelle.x=choixCase.x;
+                        tabJoueur[i]->postion_actuelle.y=choixCase.y; 
                         printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
                                                
                         deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
@@ -195,7 +195,7 @@ int main(int argc, char *argv[]){
 
                 //case SDL_MOUSEMOTION:
                      //printf("%d ; %d\n",event.motion.x, event.motion.y );
-
+                    printf("case (0,1) : h= %d /d= %d/ b= %d/ g= %d \n",plateau[0][1].h,plateau[0][1].d, plateau[0][1].b,plateau[0][1].g );
 				default:
 					break;
 			}            

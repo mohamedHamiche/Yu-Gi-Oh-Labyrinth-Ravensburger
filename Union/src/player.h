@@ -63,6 +63,12 @@ struct Node
     Node *g, *d, *h, *b;
 };
 
+typedef struct NodeI NodeI;
+struct NodeI
+{
+    CORD a, h,b,g,d;
+};
+
 //variables globales
 #define WINDOW_WIDTH 1080
 #define WINDOW_HEIGHT 700
