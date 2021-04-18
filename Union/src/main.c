@@ -119,7 +119,7 @@ int main(int argc, char *argv[]){
 	int exit=SDL_FALSE;
 	SDL_Event event;	
 
-    
+    int temporaire=0;
 	while(!exit)
     {
         
@@ -153,25 +153,24 @@ int main(int argc, char *argv[]){
 
                         getCordClick(event, &choixCase,tabJoueur[i]); 
                         //si le coup est valide
-       
-                        Node *r= createNode(tabJoueur[i]->postion_actuelle);
-                        if(validationCoup(plateau,choixCase,r))
-                        {
-                            printf("******************* valide \n");                         
+       					for(int i=0;i<7;i++){
+                            for(int j=0; j<7; j++){                           
+                                plateau[i][j].parcouru  = 0;
+                            }
                         }
-                        else
-                        {
-                            printf("NON valide\n");
-                          }
-                        freeTree(r);
+                        int compt=0;
+                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire,joueurActuel->postion_actuelle,&compt);
+                        printf("validation : %d\n",temporaire);
+                        
+                        temporaire =0;
                         tabJoueur[i]->postion_actuelle.x=choixCase.x;
                         tabJoueur[i]->postion_actuelle.y=choixCase.y; 
                         printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
                                                
                         deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
                         //alterner tour 
-                        i=(i+1)%nbTotal;
-                        joueurActuel=tabJoueur[i];
+                       // i=(i+1)%nbTotal;
+                       // joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
                        deplacement=0;

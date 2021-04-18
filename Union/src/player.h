@@ -18,7 +18,8 @@ struct tuile
     int g, d, h, b;  
     int posee;
     int angle;
-
+    int parcouru;
+    
     SDL_Surface *image;
     SDL_Texture *texture;
 };
