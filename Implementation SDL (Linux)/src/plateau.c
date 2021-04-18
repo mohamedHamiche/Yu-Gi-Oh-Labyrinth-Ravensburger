@@ -1070,43 +1070,56 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
      }      
  }
 
-void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
+void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp, CORD prec, int *compt){
+    printf("-------- appel numero %d -------\n",(*compt) );
     printf("temp = %d ; cord actuel (%u,%u)\n ",(*temp), actuel.x, actuel.y);
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
     else{
         if(actuel.y != 6){
-            if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 3 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru = 1;
-                actuel.y++;
+            //if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && (plateau[actuel.x][actuel.y+1].parcouru < 2 || (actuel.x== prec.x && actuel.y+1 == prec.y) )&& (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 2 && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
-                validationCoup(plateau, actuel,choix,temp);
+                prec.x = actuel.x;
+                prec.y = actuel.y;
+                actuel.y++;
+                
+                validationCoup(plateau, actuel,choix,temp, prec,compt);
                 printf(" 1");
             }
         }
 
         if(actuel.x != 6){
-            if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 3 && (*temp) != 1){
-                actuel.x++;
+            //if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && (plateau[actuel.x+1][actuel.y].parcouru < 2 || (actuel.x+1== prec.x && actuel.y == prec.y) )&& (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 2 && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
-                validationCoup(plateau, actuel,choix,temp);
+                prec.x = actuel.x;
+                prec.y = actuel.y;
+                actuel.x++;                
+                validationCoup(plateau, actuel,choix,temp,prec,compt);
                 
                 printf(" 2");
             }
         }
         if(actuel.y != 0){
-            if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 3 && (*temp) != 1){
-                actuel.y--;
+            //if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && (plateau[actuel.x][actuel.y-1].parcouru < 2 || (actuel.x== prec.x && actuel.y-1 == prec.y) )&& (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 2 && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
-                validationCoup(plateau, actuel,choix,temp);
+                prec.x = actuel.x;
+                prec.y = actuel.y;
+                actuel.y--;                
+                validationCoup(plateau, actuel,choix,temp,prec,compt);
                 printf(" 3");
             }
         }
         if(actuel.x != 0){
-            if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 3 && (*temp) != 1){
-                actuel.x--;
+            //if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && (plateau[actuel.x-1][actuel.y].parcouru < 2 || (actuel.x-1== prec.x && actuel.y == prec.y))&& (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 2 && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
-                validationCoup(plateau, actuel,choix,temp);
+                prec.x = actuel.x;
+                prec.y = actuel.y;
+                actuel.x--;                
+                validationCoup(plateau, actuel,choix,temp,prec,compt);
                 printf(" 4");
             }
         }
@@ -1114,7 +1127,8 @@ void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
     }
     if((*temp) == 0)
             (*temp) = -1;
-
+        
+        (*compt)++;
 
 }
    

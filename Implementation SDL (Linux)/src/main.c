@@ -165,7 +165,8 @@ int main(int argc, char *argv[]){
 
                         getCordClick(event, &choixCase,joueurActuel); 
                         //si le coup est valide
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
+                        int compt=0;
+                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire,joueurActuel->postion_actuelle,&compt);
                         printf("validation : %d\n",temporaire);
                         for(int i=0;i<7;i++){
                             for(int j=0; j<7; j++){                           
