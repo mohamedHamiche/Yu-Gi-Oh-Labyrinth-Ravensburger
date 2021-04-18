@@ -218,7 +218,7 @@ int listNodes(TUILE plateau[7][7], NodeI list[49])
     }
 
 }
-*/
+
 int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
 {
     if(r == NULL)
@@ -326,6 +326,7 @@ int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
     
     return res;
 }
+*/
 
 void SDL_ExitWithError(const char *message)
 {
@@ -1025,6 +1026,7 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
     nbTresors=7;
     for (int i = 16+12; i < 34; ++i)
      {
+        
         temp = rand()%4; // 4 cas possibles
         tuilesCouloir[i].fixe =0;
         tuilesCouloir[i].angle= 0;
@@ -1066,5 +1068,56 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
         }
 
      }      
+ }
+
+void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
+    printf("temp = %d ; cord actuel (%u,%u)\n ",(*temp), actuel.x, actuel.y);
+    if(actuel.x == choix.x && actuel.y == choix.y)
+        (*temp) = 1;
+    else{
+        if(actuel.y != 6){
+            if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 3 && (*temp) != 1){
+                plateau[actuel.x][actuel.y].parcouru = 1;
+                actuel.y++;
+                plateau[actuel.x][actuel.y].parcouru++;
+                validationCoup(plateau, actuel,choix,temp);
+                printf(" 1");
+            }
+        }
+
+        if(actuel.x != 6){
+            if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 3 && (*temp) != 1){
+                actuel.x++;
+                plateau[actuel.x][actuel.y].parcouru++;
+                validationCoup(plateau, actuel,choix,temp);
+                
+                printf(" 2");
+            }
+        }
+        if(actuel.y != 0){
+            if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 3 && (*temp) != 1){
+                actuel.y--;
+                plateau[actuel.x][actuel.y].parcouru++;
+                validationCoup(plateau, actuel,choix,temp);
+                printf(" 3");
+            }
+        }
+        if(actuel.x != 0){
+            if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 3 && (*temp) != 1){
+                actuel.x--;
+                plateau[actuel.x][actuel.y].parcouru++;
+                validationCoup(plateau, actuel,choix,temp);
+                printf(" 4");
+            }
+        }
+        
+    }
+    if((*temp) == 0)
+            (*temp) = -1;
+
+
 }
+   
+
+   
 
