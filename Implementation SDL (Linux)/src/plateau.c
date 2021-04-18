@@ -195,6 +195,30 @@ int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int *compt)
 }
 */
 /*
+int listNodes(TUILE plateau[7][7], NodeI list[49])
+{
+    for (int i = 0; i < 49; ++i)
+    {
+        list[i].a.x=0;
+        list[i].a.y=0;
+
+        list[i].h.x=0;
+        list[i].h.y=0;
+
+        list[i].d.x=0;
+        list[i].d.y=0;
+
+        list[i].g.x=0;
+        list[i].g.y=0;
+
+        list[i].b.x=0;
+        list[i].b.y=0;
+        x=i%7;
+
+    }
+
+}
+*/
 int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
 {
     if(r == NULL)
@@ -208,81 +232,93 @@ int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
     int res = 0;
     printf("je suis dans r->a = %d, %d \n",r->a.x, r->a.y );
 
-    if(plateau[r->a.x][r->a.y].d && plateau[r->a.x][r->a.y +1].g && r->d == NULL)
+    if(plateau[r->a.x][r->a.y].d && plateau[r->a.x][r->a.y +1].g && r->d == NULL && r->a.y +1 < 7)
         {
             CORD tmp;
             printf("j'ai un fils d\n");
             tmp.x = r->a.x;
             tmp.y = r->a.y +1;
-            if(tmp.x >= 0 && tmp.y<7)
-            {
+            
                 r->d= createNode(tmp);
-                r->d->g=createNode(r->a); 
+                r->d->g=r; 
                 res++; //juste pour savoir si on est rentre ici
-            }           
+                    
             
         }
-    if(plateau[r->a.x][r->a.y].g && plateau[r->a.x][r->a.y -1].d && r->g == NULL)
+    if(plateau[r->a.x][r->a.y].g && plateau[r->a.x][r->a.y -1].d && r->g == NULL && r->a.y -1 >= 0)
         {
             CORD tmp;
             printf("j'ai un fils g\n");
             tmp.x = r->a.x;
             tmp.y = r->a.y -1;
-            if(tmp.x >= 0 && tmp.y<7)
-            {
+            
                 r->g= createNode(tmp);
-                r->g->d=createNode(r->a);
+                r->g->d=r;
                 res++;
-            }            
+                     
             
         }
 
-    if(plateau[r->a.x][r->a.y].h && plateau[r->a.x -1][r->a.y].b && r->h == NULL)
+    if(plateau[r->a.x][r->a.y].h && plateau[r->a.x -1][r->a.y].b && r->h == NULL && r->a.x -1 >= 0)
         {
             CORD tmp;
             printf("j'ai un fils h\n");
             tmp.x = r->a.x -1;
             tmp.y = r->a.y;
-            if(tmp.x >= 0 && tmp.y<7)
-            {
+           
                 r->h= createNode(tmp);
-                r->h->b=createNode(r->a);            
+                r->h->b=r;            
                 res++;
-            }
+            
         }
-    if(plateau[r->a.x][r->a.y].b && plateau[r->a.x+1][r->a.y].h && r->b == NULL)
+    if(plateau[r->a.x][r->a.y].b && plateau[r->a.x+1][r->a.y].h && r->b == NULL && r->a.x+1 < 7)
         {
             CORD tmp;
             printf("j'ai un fils b\n");
             tmp.x = r->a.x +1;
             tmp.y = r->a.y;
-            if(tmp.x >= 0 && tmp.y<7)
-            {
+            
                  r->b= createNode(tmp);
-                r->b->h=createNode(r->a);            
+                r->b->h=r;            
                 res++;
-            }           
+                   
         }
+        printf("res = %d \n",res );
     if(res == 0) //on n'a créé aucun nouveau fils
+       {
         return 0;
+       }
     else
         res=0;
     
-    if(validationCoup(plateau, choixCase, r->g))
+    if(validationCoup(plateau, choixCase, r->g) && r->g->d != r)
+    {
+        printf("j'ai validé g\n");
         return 1;
+    }
     else
     {
-        if(validationCoup(plateau, choixCase, r->d))
+        if(validationCoup(plateau, choixCase, r->d) && r->d->g != r)
+        {
+            printf("j'ai validé d\n");
             return 1;
+        }
         else
         {
-           if(validationCoup(plateau, choixCase, r->h))
-            return 1;
+           if(validationCoup(plateau, choixCase, r->h) && r->h->b != r)
+           {
+                printf("j'ai validé h\n");
+                return 1;
+           }            
             else
             {
-                if(validationCoup(plateau, choixCase, r->b))
+                if(validationCoup(plateau, choixCase, r->b) && r->b->h != r)
+                {
+                    printf("j'ai validé b\n");
                     return 1;
-                else return 0;
+                }
+                else 
+                    return 0;
             } 
         }
     }
@@ -290,7 +326,6 @@ int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
     
     return res;
 }
-*/
 
 void SDL_ExitWithError(const char *message)
 {
@@ -757,12 +792,45 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
    
     
     //charger tuile en main
-    char bmpNameX[]="img/1.bmp";
-    unsigned int last = rand()%3;
-    bmpNameX[4]=last+'1';
-
+    char *bmpNameX= "img/3.bmp\0";
+    unsigned int last = rand()%34;
+    printf("rand = %d\n",last );
     TUILE tmp = tuilesCouloir[last];
-    tmp.image=SDL_LoadBMP(bmpNameX);
+    printf("tmp.tresor = %d\n",tmp.tresor );
+    if(!tmp.tresor)
+    {
+        int nbOuvertures=0;
+        if(tmp.g)
+            nbOuvertures++;
+        if(tmp.d)
+            nbOuvertures++;
+        if(tmp.h)
+            nbOuvertures++;
+        if(tmp.b)
+            nbOuvertures++;
+        if(nbOuvertures == 2 && tmp.g != tmp.d)
+        {
+            bmpNameX="img/3.bmp\0";
+        }
+        else if(nbOuvertures == 2 && tmp.g == tmp.d)
+        {
+            bmpNameX="img/1.bmp\0";
+        }
+        else if(nbOuvertures == 3)
+        {
+            bmpNameX="img/2.bmp\0";
+        }
+        tmp.image=SDL_LoadBMP(bmpNameX);
+    }
+    else
+    {
+        char bmpNameXC[] ="img/C/cA.bmp";
+        bmpNameXC[7]=tmp.tresor+'A'-1;    
+        tmp.image=SDL_LoadBMP(bmpNameXC);    
+    }
+    printf("bmpNameX= %s\n",bmpNameX );
+    
+    
     if(tmp.image == NULL)
         SDL_ExitWithError("Erreur chargement image tuile en main");
 
@@ -1000,43 +1068,3 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
      }      
 }
 
-unsigned int validationCoup(TUILE plateau[7][7],CORD actuel, CORD choix, unsigned int *temp){
-    if(choix.x == actuel.x && choix.y == actuel.y){
-        (*temp) =  1;
-        return 1;
-    }
-
-    if(actuel.y != 6){
-        if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru == 0 && (*temp) != 0){
-            plateau[actuel.x][actuel.y].parcouru = 1;
-            actuel.y++;
-            printf("a\n");
-            (*temp) = validationCoup(plateau, actuel,choix,temp);
-        }
-    }
-    if(actuel.x != 6){
-        if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru == 0 && (*temp) != 0){
-            plateau[actuel.x][actuel.y].parcouru = 1;
-            actuel.x++;
-            printf("b\n");
-            (*temp)  = validationCoup(plateau, actuel,choix,temp);
-        }
-    }
-    if(actuel.y != 0){
-        if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru == 0 && (*temp) != 0){
-            plateau[actuel.x][actuel.y].parcouru = 1;
-            actuel.y--;
-            printf("d\n");
-            (*temp) = validationCoup(plateau, actuel,choix, temp);
-        }
-    }
-    if(actuel.x != 0){
-        if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y-1].b == 1) && plateau[actuel.x-1][actuel.y].parcouru == 0 && (*temp) != 0){
-            plateau[actuel.x][actuel.y].parcouru = 1;
-            actuel.x--;
-            printf("d\n");
-            (*temp) = validationCoup(plateau, actuel,choix,temp);
-        }
-    }
-        return (*temp);
-}
