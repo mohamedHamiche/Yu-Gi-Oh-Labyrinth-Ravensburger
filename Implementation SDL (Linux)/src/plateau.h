@@ -24,6 +24,8 @@ void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel);
 void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index);
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect);
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp, CORD prec, int *compt);
+void tournerTuile(TUILE *tuileEnMain);
+void initRectPions(JOUEUR **tabJoueur, int nbTotal);
 
 
 #endif

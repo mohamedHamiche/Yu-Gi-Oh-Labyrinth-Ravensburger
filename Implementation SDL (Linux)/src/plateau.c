@@ -15,6 +15,18 @@ void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
         choixCase->y=joueurActuel->postion_actuelle.y;
     }
 }
+void tournerTuile(TUILE *tuileEnMain)
+{
+    tuileEnMain->angle = (tuileEnMain->angle + 90)%360;
+    int tmpH = tuileEnMain->h;
+    int tmpD = tuileEnMain->d;
+    int tmpG = tuileEnMain->g;
+    int tmpB = tuileEnMain->b;
+    tuileEnMain->h = tmpG;
+    tuileEnMain->d = tmpH;
+    tuileEnMain->b = tmpD;
+    tuileEnMain->g = tmpB;
+}
 
 void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
 {
@@ -38,6 +50,19 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
     {   
         pionRect->y=positionY+ a.x*70 + decalageX;
         pionRect->x=positionX+ a.y*70 + decalageY; 
+    }
+}
+void initRectPions(JOUEUR **tabJoueur, int nbTotal)
+{
+    for (int i = 0; i < nbTotal; ++i)
+    {        
+        printf("bonjour\n");
+       tabJoueur[i]->pionRect.h = 25;
+       tabJoueur[i]->pionRect.w = 25;
+       tabJoueur[i]->pionRect.x=0;
+       tabJoueur[i]->pionRect.y=0;       
+       tabJoueur[i]->pionRect.y=positionY+ tabJoueur[i]->postion_actuelle.x*70 +40;
+       tabJoueur[i]->pionRect.x=positionX+ tabJoueur[i]->postion_actuelle.y*70 +10; 
     }
 }
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
@@ -450,7 +475,6 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
     TUILE tmp,dec;
     unsigned int i = 0;
     if(choixCouloir.x == 0 || choixCouloir.x == 6){
-
         if(choixCouloir.x == 0){
             tmp = plateau[choixCouloir.x][choixCouloir.y];
             plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;

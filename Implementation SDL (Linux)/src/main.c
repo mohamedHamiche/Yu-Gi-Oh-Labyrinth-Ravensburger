@@ -132,13 +132,9 @@ int main(int argc, char *argv[]){
         }
    int temporaire =0;
 
-    while(!exit)
-    {
-        
-        while(SDL_PollEvent(&event))
-        { 
-            switch(event.type)
-            {
+    while(!exit){
+        while(SDL_PollEvent(&event)){ 
+            switch(event.type){
                 case SDL_QUIT:
                     exit=SDL_TRUE;
                     break;
