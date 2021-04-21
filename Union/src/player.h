@@ -49,7 +49,7 @@ struct joueur
 {
     char *pseudo;
     CORD postion_actuelle;
-    Pile *pile_tresor;
+    int pile_tresor[12];
     int nombre_de_points;
     int machine;
     SDL_Surface *image;

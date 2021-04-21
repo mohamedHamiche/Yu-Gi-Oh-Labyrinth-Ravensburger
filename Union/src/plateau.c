@@ -1,5 +1,18 @@
 #include "plateau.h"
 
+void tournerTuile(TUILE *tuileEnMain)
+{
+    tuileEnMain->angle = (tuileEnMain->angle + 90)%360;
+    int tmpH = tuileEnMain->h;
+    int tmpD = tuileEnMain->d;
+    int tmpG = tuileEnMain->g;
+    int tmpB = tuileEnMain->b;
+    tuileEnMain->h = tmpG;
+    tuileEnMain->d = tmpH;
+    tuileEnMain->b = tmpD;
+    tuileEnMain->g = tmpB;
+}
+
 void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
 {    
     //si on appuie sur une case du plateau
@@ -40,6 +53,21 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
         pionRect->x=positionX+ a.y*70 + decalageY; 
     }
 }
+
+void initRectPions(JOUEUR **tabJoueur, int nbTotal)
+{
+    for (int i = 0; i < nbTotal; ++i)
+    {        
+        printf("bonjour\n");
+       tabJoueur[i]->pionRect.h = 25;
+       tabJoueur[i]->pionRect.w = 25;
+       tabJoueur[i]->pionRect.x=0;
+       tabJoueur[i]->pionRect.y=0;       
+       tabJoueur[i]->pionRect.y=positionY+ tabJoueur[i]->postion_actuelle.x*70 +40;
+       tabJoueur[i]->pionRect.x=positionX+ tabJoueur[i]->postion_actuelle.y*70 +10; 
+    }
+}
+
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 {
     int d=0;
@@ -330,64 +358,65 @@ int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
 */
 
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp, CORD prec, int *compt){
+    (*compt)++;
     printf("-------- appel numero %d -------\n",(*compt) );
     printf("temp = %d ; cord actuel (%u,%u)\n ",(*temp), actuel.x, actuel.y);
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
-    else{
-        if(actuel.y != 6){
+    else
+        if(actuel.y < 7 && actuel.y >= 0 && actuel.x >= 0 && actuel.x < 7) {
             //if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && (plateau[actuel.x][actuel.y+1].parcouru < 2 || (actuel.x== prec.x && actuel.y+1 == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 2 && (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 3 && (actuel.y+1 < 7) && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
                 prec.x = actuel.x;
                 prec.y = actuel.y;
                 actuel.y++;
                 
                 validationCoup(plateau, actuel,choix,temp, prec,compt);
-                printf(" 1");
+                printf(" d");
             }
-        }
+        
 
-        if(actuel.x != 6){
+      
             //if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && (plateau[actuel.x+1][actuel.y].parcouru < 2 || (actuel.x+1== prec.x && actuel.y == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 2 && (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 3 && (actuel.x+1 < 7) && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
                 prec.x = actuel.x;
                 prec.y = actuel.y;
                 actuel.x++;                
                 validationCoup(plateau, actuel,choix,temp,prec,compt);
                 
-                printf(" 2");
+                printf(" b");
             }
-        }
-        if(actuel.y != 0){
+        
+       
             //if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && (plateau[actuel.x][actuel.y-1].parcouru < 2 || (actuel.x== prec.x && actuel.y-1 == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 2 && (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 3 && (actuel.y-1 >=0) && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
                 prec.x = actuel.x;
                 prec.y = actuel.y;
                 actuel.y--;                
                 validationCoup(plateau, actuel,choix,temp,prec,compt);
-                printf(" 3");
+                printf(" g");
             }
-        }
-        if(actuel.x != 0){
+        
+       
             //if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && (plateau[actuel.x-1][actuel.y].parcouru < 2 || (actuel.x-1== prec.x && actuel.y == prec.y))&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 2 && (*temp) != 1){
+              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 3 && (actuel.x-1 >=0)  && (*temp) != 1){
                 plateau[actuel.x][actuel.y].parcouru++;
                 prec.x = actuel.x;
                 prec.y = actuel.y;
                 actuel.x--;                
                 validationCoup(plateau, actuel,choix,temp,prec,compt);
-                printf(" 4");
+                printf(" h");
             }
-        }
+        
         
     }
     if((*temp) == 0)
             (*temp) = -1;
         
-        (*compt)++;
+        
 
 }
 
@@ -830,6 +859,24 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[6][6].posee=1;
     Plateau[6][6].fixe=1;
     Plateau[6][6].angle=0;
+    /*
+    0,0 : 25 a
+    0,2 : 24 b
+    0,4 : 23 c
+    0,6 : 27 d
+    2,0 : 22 e
+    2,2 : 21 f
+    2,4 : 20 g
+    2,6 : 19 h
+    4,0 : 18 i
+    4,2 : 17 j
+    4,4 : 16 k
+    4,6 : 15 l
+    6,0 : 28 m
+    6,2 : 14 n
+    6,4 : 13 o
+    6,6 : 26 p
+    */
 }
 
 void chargerImageTuileFixe(TUILE plateau[7][7], SDL_Window *window, SDL_Renderer *renderer)

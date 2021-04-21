@@ -96,7 +96,10 @@ JOUEUR *initJoueurM(int index)
    tmplayer->machine=1;
    tmplayer->pseudo=chaine;
    tmplayer->nombre_de_points=0;
-   tmplayer->pile_tresor=NULL;
+   for (int i = 0; i < 12; ++i)
+    {
+      tmplayer->pile_tresor[i]=0;
+    }
    //printf("init jm pseudo %s**\n", tmplayer->pseudo);
  return tmplayer;                        
 }
@@ -114,7 +117,11 @@ JOUEUR *initJoueurH(int index)
     tmplayer->machine=0;                  
     tmplayer->pseudo= lirePseudo(index);
     tmplayer->nombre_de_points=0;
-    tmplayer->pile_tresor=NULL;
+    for (int i = 0; i < 12; ++i)
+    {
+      tmplayer->pile_tresor[i]=0;
+    }
+    
     //printf("initJoueurH pseudo %s--\n",tmplayer->pseudo );
   return tmplayer;
 }                            
@@ -168,8 +175,8 @@ void freeJoueur(JOUEUR *Player)
 {
  
   free(Player->pseudo);
-  if(Player->pile_tresor != NULL)
-    freePile(Player->pile_tresor);
+  //if(Player->pile_tresor != NULL)
+    //freePile(Player->pile_tresor);
   free(Player);
 }
 
@@ -207,7 +214,7 @@ void randomTresors(int tabTresor[24])
           }        
     }
 }
-
+/*
 void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
 {
   //remplir aléatoirement avec un entier entre 1 et 24
@@ -229,6 +236,37 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
     {
             for(j=depart; j<arrivee; j++)
                 empiler(tabJoueur[i]->pile_tresor,tabTresor[j]);              
+
+            depart+=(24/nbTotal);
+            arrivee+=(24/nbTotal);
+    }
+}
+*/
+void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
+{
+  //remplir aléatoirement avec un entier entre 1 et 24
+  int tabTresor[24]={-1};
+  randomTresors(tabTresor);
+
+  int i=0,j=0;
+    //initialiser la pile des deux joueurs à leur position de départ 
+    for (i=0; i<nbTotal; i++)
+        tabJoueur[i]->pile_tresor[24/nbTotal]=(24+i+1);
+    
+
+    //remplir la pile des joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24
+
+    //-------- nbTotal de joueurs  
+    int depart=0;
+    int arrivee=24/nbTotal;
+    for (i=0; i<nbTotal; i++)
+    {
+      int k=0;
+            for(j=depart; j<arrivee; j++)
+            {
+               tabJoueur[i]->pile_tresor[k]= tabTresor[j];
+               k++;                              
+            }
 
             depart+=(24/nbTotal);
             arrivee+=(24/nbTotal);
