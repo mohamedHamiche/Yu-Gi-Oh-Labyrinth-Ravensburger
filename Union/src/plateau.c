@@ -904,8 +904,8 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     
     //charger tuile en main
     char *bmpNameX= "img/3.bmp\0";
-    //unsigned int last = rand()%34;
-    unsigned int last = 28;
+    unsigned int last = rand()%34;
+    
     printf("rand = %d\n",last );
     TUILE tmp = tuilesCouloir[last];
     printf("tmp.tresor = %d\n",tmp.tresor );

@@ -1,6 +1,6 @@
 #include "player.h"
 #include "pile.h"
- 
+#include "plateau.h"
 
 
 char *lirePseudo( int numJoueur)
@@ -98,7 +98,7 @@ JOUEUR *initJoueurM(int index)
    tmplayer->nombre_de_points=0;
    for (int i = 0; i < 12; ++i)
     {
-      tmplayer->pile_tresor[i]=0;
+      tmplayer->pile_tresor[i]=0;      
     }
    //printf("init jm pseudo %s**\n", tmplayer->pseudo);
  return tmplayer;                        
@@ -119,7 +119,7 @@ JOUEUR *initJoueurH(int index)
     tmplayer->nombre_de_points=0;
     for (int i = 0; i < 12; ++i)
     {
-      tmplayer->pile_tresor[i]=0;
+      tmplayer->pile_tresor[i]=0;      
     }
     
     //printf("initJoueurH pseudo %s--\n",tmplayer->pseudo );
@@ -177,6 +177,8 @@ void freeJoueur(JOUEUR *Player)
   free(Player->pseudo);
   //if(Player->pile_tresor != NULL)
     //freePile(Player->pile_tresor);
+  free(Player->imgTresors);
+  free(Player->textureTresors);
   free(Player);
 }
 
@@ -249,9 +251,22 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
   randomTresors(tabTresor);
 
   int i=0,j=0;
-    //initialiser la pile des deux joueurs à leur position de départ 
+   
     for (i=0; i<nbTotal; i++)
-        tabJoueur[i]->pile_tresor[24/nbTotal]=(24+i+1);
+    {
+       //initialiser la pile des deux joueurs à leur position de départ 
+      tabJoueur[i]->pile_tresor[24/nbTotal]=(24+i+1);
+      //allocation des surfaces et textures 
+        tabJoueur[i]->imgTresors =(SDL_Surface **) malloc( ((24/nbTotal)+1) * sizeof(SDL_Surface *) );
+        tabJoueur[i]->textureTresors =(SDL_Texture **) malloc( ((24/nbTotal)+1) * sizeof(SDL_Texture *) );
+        if(tabJoueur[i]->imgTresors == NULL)
+          {
+            printf("Erreur distribuerCartes malloc\n");
+            exit(1);
+          }
+          
+        
+    }
     
 
     //remplir la pile des joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24
@@ -259,12 +274,32 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
     //-------- nbTotal de joueurs  
     int depart=0;
     int arrivee=24/nbTotal;
+    char bmpName[]= "img/T/TA.bmp";
     for (i=0; i<nbTotal; i++)
     {
       int k=0;
-            for(j=depart; j<arrivee; j++)
+            for(j=depart; j<=arrivee; j++)
             {
-               tabJoueur[i]->pile_tresor[k]= tabTresor[j];
+               if(j < arrivee)
+               {
+                tabJoueur[i]->pile_tresor[k]= tabTresor[j];
+               }               
+               
+               if(j == arrivee)
+               {
+                bmpName[6]='D';
+                bmpName[7]='A'+i;
+               }
+               else{
+                bmpName[6]='T';
+                bmpName[7]='A'+tabTresor[j]-1;
+               }
+               tabJoueur[i]->imgTresors[k]= SDL_LoadBMP(bmpName);
+               if(tabJoueur[i]->imgTresors[k] == NULL)
+               {
+                SDL_ExitWithError("erreur chargement images");
+               }
+               printf("%d chargement de %s\n",j,bmpName );
                k++;                              
             }
 
@@ -272,3 +307,54 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
             arrivee+=(24/nbTotal);
     }
 }
+
+void createTexturesCartes(JOUEUR **tabJoueur, int nbTotal, SDL_Renderer *renderer)
+{
+  for (int i=0; i<nbTotal; i++)
+    {
+       for (int k = 0; k <= (24/nbTotal); k++)
+       {
+         tabJoueur[i]->textureTresors[k] = SDL_CreateTextureFromSurface(renderer, tabJoueur[i]->imgTresors[k]);
+          SDL_FreeSurface(tabJoueur[i]->imgTresors[k]);
+          if(tabJoueur[i]->textureTresors[k]  == NULL)
+          {
+              SDL_ExitWithError("Impossible de creer la texture de tabJoueur[i]->textureTresors[k]");
+          }       
+          printf("texture %d du joueur %s cree\n",k , tabJoueur[i]->pseudo);
+       }    
+    }     
+}
+
+void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal)
+{
+  if(tabJoueur[0])
+  {
+    tabJoueur[0]->tresorRect.x= 20;
+    tabJoueur[0]->tresorRect.y= 20;
+    tabJoueur[0]->tresorRect.h= 70;
+    tabJoueur[0]->tresorRect.w= 70;
+  }
+  if(tabJoueur[1])
+  {
+    tabJoueur[1]->tresorRect.x= WINDOW_WIDTH - 20-70;
+    tabJoueur[1]->tresorRect.y= 20;
+    tabJoueur[1]->tresorRect.h= 70;
+    tabJoueur[1]->tresorRect.w= 70;
+  }
+  if(tabJoueur[2] && nbTotal >= 3)
+  {
+    tabJoueur[2]->tresorRect.x= 20;
+    tabJoueur[2]->tresorRect.y= WINDOW_HEIGHT - 20-70;
+    tabJoueur[2]->tresorRect.h= 70;
+    tabJoueur[2]->tresorRect.w= 70;
+  }
+  if(tabJoueur[3] && nbTotal == 4)
+  {
+    tabJoueur[3]->tresorRect.x= WINDOW_WIDTH - 20-70;
+    tabJoueur[3]->tresorRect.y= WINDOW_HEIGHT - 20-70;
+    tabJoueur[3]->tresorRect.h= 70;
+    tabJoueur[3]->tresorRect.w= 70;
+  }
+  
+}
+

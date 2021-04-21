@@ -55,6 +55,10 @@ struct joueur
     SDL_Surface *image;
     SDL_Texture *texture;
     SDL_Rect pionRect;
+
+    SDL_Surface** imgTresors;
+    SDL_Texture** textureTresors;
+    SDL_Rect tresorRect;
 };
 
 typedef struct Node Node;
@@ -92,6 +96,8 @@ void printPlayers(JOUEUR **tabJoueur, int nbTotal);
 int appartientTab(int tab[24], int x);
 void randomTresors(int tabTresor[24]);
 void distribuerCartes(JOUEUR **tabJoueur, int nbTotal);
+void createTexturesCartes(JOUEUR **tabJoueur, int nbTotal, SDL_Renderer *renderer);
+void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal);
 
 #endif // PLAYER_H_INCLUDED
 

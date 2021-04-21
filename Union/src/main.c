@@ -17,19 +17,10 @@ int main(int argc, char *argv[]){
 
 
 	srand(time(NULL));
-    int nbTotal=0;      
+    
+     int nbTotal=0;      
     JOUEUR **tabJoueur= initTabJoueur(&nbTotal);
     initPositions(tabJoueur,nbTotal);
-    //printPlayers(tabJoueur,nbTotal);
-    distribuerCartes(tabJoueur,nbTotal);
-    /*for (int i = 0; i < nbTotal; ++i)
-    {
-        printf("tresors de %s\n",tabJoueur[i]->pseudo);
-        afficherPile(tabJoueur[i]->pile_tresor);
-    }
-    
-   */
-    
 	//----------------------------------  init window
     SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
@@ -54,6 +45,17 @@ int main(int argc, char *argv[]){
 	
 	SDL_RenderClear(renderer); // pour la fenetre entiere
     //-----------------------------------------
+
+    //printPlayers(tabJoueur,nbTotal);
+    distribuerCartes(tabJoueur,nbTotal);
+    createTexturesCartes(tabJoueur,nbTotal, renderer);
+    /*for (int i = 0; i < nbTotal; ++i)
+    {
+        printf("tresors de %s\n",tabJoueur[i]->pseudo);
+        afficherPile(tabJoueur[i]->pile_tresor);
+    }
+    
+   */
     //----------------------------------------- init plateau
 	
 	TUILE plateau[7][7];	
@@ -90,8 +92,8 @@ int main(int argc, char *argv[]){
     }
     printf("fin chargement\n");
     //initialistion des rectangles
-    initRectPions(tabJoueur, nbTotal);    
-    
+    initRectPions(tabJoueur, nbTotal);        
+    initRectanglesCartes(tabJoueur,nbTotal);
     
     //------------------------------------------------ GAME LOOP
 
@@ -217,6 +219,7 @@ int main(int argc, char *argv[]){
         for (int i = 0; i < nbTotal; ++i)
         {
             SDL_RenderCopyEx(renderer, tabJoueur[i]->texture,NULL,&tabJoueur[i]->pionRect,0,NULL,flip);
+            SDL_RenderCopyEx(renderer, tabJoueur[i]->textureTresors[tabJoueur[i]->nombre_de_points],NULL,&tabJoueur[i]->tresorRect,0,NULL,flip);
         }
         
     	SDL_RenderPresent(renderer);
