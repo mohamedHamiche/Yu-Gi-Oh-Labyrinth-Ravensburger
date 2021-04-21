@@ -1,5 +1,5 @@
 #include "player.h"
-#include "pile.h"
+
 #include "plateau.h"
 
 
@@ -16,8 +16,7 @@ void printPlayers(JOUEUR **tabJoueur, int nbTotal)
 	for (int i = 0; i < nbTotal; ++i)
 	{
 		printf("Joueur %d : %s\n",i+1, tabJoueur[i]->pseudo);
-		printf("\tPosition : ( %d , %d ) \n", tabJoueur[i]->postion_actuelle.x, tabJoueur[i]->postion_actuelle.y);
-		//printf("Prochain trésor : %d\n",tabJoueur[i]->pile_tresor.premier->nombre);
+		printf("\tPosition : ( %d , %d ) \n", tabJoueur[i]->postion_actuelle.x, tabJoueur[i]->postion_actuelle.y);		
 		printf("\tNombre de points : %d\n",tabJoueur[i]->nombre_de_points);
 	}
 }
@@ -216,34 +215,7 @@ void randomTresors(int tabTresor[24])
           }        
     }
 }
-/*
-void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
-{
-  //remplir aléatoirement avec un entier entre 1 et 24
-  int tabTresor[24]={-1};
-  randomTresors(tabTresor);
 
-  int i=0,j=0;
-    //initialiser la pile des deux joueurs à leur position de départ 
-    for (i=0; i<nbTotal; i++)
-        tabJoueur[i]->pile_tresor=initPile(24+i+1);
-    
-
-    //remplir la pile des joueurs avec le tableau[24] de valeur aléatoire comprises entre 1 et 24
-
-    //-------- nbTotal de joueurs  
-    int depart=0;
-    int arrivee=24/nbTotal;
-    for (i=0; i<nbTotal; i++)
-    {
-            for(j=depart; j<arrivee; j++)
-                empiler(tabJoueur[i]->pile_tresor,tabTresor[j]);              
-
-            depart+=(24/nbTotal);
-            arrivee+=(24/nbTotal);
-    }
-}
-*/
 void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
 {
   //remplir aléatoirement avec un entier entre 1 et 24

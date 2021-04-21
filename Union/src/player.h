@@ -31,18 +31,6 @@ struct coordonnees
     unsigned int y;
 };
 
-//----------------- Piles
-typedef struct Element Element;
-struct Element 
-{
-    int nombre;
-    Element *suivant;
-};
-typedef struct Pile Pile;
-struct Pile
-{
-    Element *premier;
-};
 //---------------
 typedef struct joueur JOUEUR; 
 struct joueur
@@ -61,18 +49,7 @@ struct joueur
     SDL_Rect tresorRect;
 };
 
-typedef struct Node Node;
-struct Node
-{
-    CORD a;
-    Node *g, *d, *h, *b;
-};
 
-typedef struct NodeI NodeI;
-struct NodeI
-{
-    CORD a, h,b,g,d;
-};
 
 //variables globales
 #define WINDOW_WIDTH 1080
@@ -81,7 +58,6 @@ struct NodeI
 #define positionX (WINDOW_WIDTH-(70*7))/2
 #define positionY (WINDOW_HEIGHT-(70*7))/2
 
-int COUPVALIDE;
 //--------------
 
 

@@ -1,6 +1,6 @@
 #include "plateau.h"
 #include "player.h"
-#include "pile.h"
+
 
 
 
@@ -49,13 +49,7 @@ int main(int argc, char *argv[]){
     //printPlayers(tabJoueur,nbTotal);
     distribuerCartes(tabJoueur,nbTotal);
     createTexturesCartes(tabJoueur,nbTotal, renderer);
-    /*for (int i = 0; i < nbTotal; ++i)
-    {
-        printf("tresors de %s\n",tabJoueur[i]->pseudo);
-        afficherPile(tabJoueur[i]->pile_tresor);
-    }
     
-   */
     //----------------------------------------- init plateau
 	
 	TUILE plateau[7][7];	
@@ -145,7 +139,7 @@ int main(int argc, char *argv[]){
                             }
                         }
                         int compt=0;
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire,joueurActuel->postion_actuelle,&compt);
+                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
                         printf("validation : %d\n",temporaire);                        
                         if(temporaire == 1)
                         {
@@ -169,8 +163,8 @@ int main(int argc, char *argv[]){
                         }
 
                         //alterner tour 
-                       // i=(i+1)%nbTotal;
-                       // joueurActuel=tabJoueur[i];
+                        //i=(i+1)%nbTotal;
+                        //joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
                         for (int k = 0; k <= 24/nbTotal; ++k)
                         {
