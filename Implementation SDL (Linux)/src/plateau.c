@@ -118,240 +118,6 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
     }
 }
 
-/*
-int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int compt) 
-    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
-    // coordonnees a : position de actuel de l'appel de la fonction
-    // coordonnees choix : La case à atteindre
-    // entier compt : nombre actuel des appels récursif de la fonction
-{
-    printf("compt = %d\n",compt );
-    if(a.x == choix.x && a.y == choix.y)
-        return 1;
-    
-    
-    if(compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
-        return 0;    
-
-    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1)  && (&tab[a.x][a.y] != caseP ))
-    {
-     // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
-    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
-        // On déplace la coordonnees vers la "droite" ...
-        printf("je suis rentré a droite\n");
-        a.y = a.y+1;                                        
-        COUPVALIDE =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt++); // Appel récursif 
-    }
-
-    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && &tab[a.x][a.y] != caseP)
-    {
-        printf("je suis rentré en haut\n");
-        a.x = a.x-1;                                                                    
-        COUPVALIDE= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt++);
-    }
-
-    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && &tab[a.x][a.y] != caseP)
-    {
-        printf("je suis rentré a gauche\n");
-        a.y = a.y-1;
-        COUPVALIDE= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt++);
-    }
-
-    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && &tab[a.x][a.y] != caseP)
-    {
-        printf("je suis rentré en bas\n");
-        a.x = a.x-1;
-        COUPVALIDE= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt++);
-    }
-
-    return COUPVALIDE;
-}
-
-int validationCoup(TUILE tab[7][7], TUILE *caseP,CORD a,CORD choix,int *compt) 
-    // Tuile case : adresse de la case précedente appelé dans l'appel précedent
-    // coordonnees a : position de actuel de l'appel de la fonction
-    // coordonnees choix : La case à atteindre
-    // entier compt : nombre actuel des appels récursif de la fonction
-{
-    printf("compt = %d\n",*compt );
-    if(a.x == choix.x && a.y == choix.y)
-        return 1;
-    
-    
-    if(*compt == 300) // Le plus long chemin possible pour être certain que la fonction parcours tous les chemins possible à partir de la coordonnees et  pour que ça s'arrête.
-        return 0;    
-
-    if( (tab[a.x][a.y].d == 1 && tab[a.x][a.y++].g == 1) && a.y < 7 )
-    {
-     // Si c'est "ouvert" à droite et si à droite c'est "ouvert" à     
-    //..gauche et que ce n'est pas la case précedente alors déplacer a (a.y incrémenté -> vers la droite)
-        // On déplace la coordonnees vers la "droite" ...
-        printf("je suis rentré a droite\n");
-        a.y = a.y+1;                
-        *compt ++ ;                        
-        COUPVALIDE =validationCoup(tab, &tab[a.x][a.y--],a,choix,compt); // Appel récursif 
-    }
-
-    if ((tab[a.x][a.y].h == 1 && tab[a.x--][a.y].b == 1) && a.x >= 0)
-    {
-        printf("je suis rentré en haut\n");
-        a.x = a.x-1;                                                  
-        *compt ++ ;                  
-        COUPVALIDE= validationCoup(tab, &tab[a.x++][a.y],a,choix,compt);
-    }
-
-    if ((tab[a.x][a.y].g == 1 && tab[a.x][a.y--].d == 1) && a.y >= 0)
-    {
-        printf("je suis rentré a gauche\n");
-        a.y = a.y-1;
-        *compt ++ ;
-        COUPVALIDE= validationCoup(tab, &tab[a.x][a.y++],a,choix,compt);
-    }
-
-    if ((tab[a.x][a.y].b == 1 && tab[a.x++][a.y].h == 1) && a.x < 7)
-    {
-        printf("je suis rentré en bas\n");
-        a.x = a.x-1;
-        *compt ++ ;
-        COUPVALIDE= validationCoup(tab, &tab[a.x--][a.y],a,choix,compt);
-    }
-
-    return COUPVALIDE;
-}
-*/
-/*
-int listNodes(TUILE plateau[7][7], NodeI list[49])
-{
-    for (int i = 0; i < 49; ++i)
-    {
-        list[i].a.x=0;
-        list[i].a.y=0;
-
-        list[i].h.x=0;
-        list[i].h.y=0;
-
-        list[i].d.x=0;
-        list[i].d.y=0;
-
-        list[i].g.x=0;
-        list[i].g.y=0;
-
-        list[i].b.x=0;
-        list[i].b.y=0;
-        x=i%7;
-
-    }
-
-}
-
-int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
-{
-    if(r == NULL)
-        return 0;
-    if(r->a.x < 0 || r->a.y>6)
-        return 0;
-
-    if(r->a.x == choixCase.x && r->a.y == choixCase.y)
-        return 1;
-
-    int res = 0;
-    printf("je suis dans r->a = %d, %d \n",r->a.x, r->a.y );
-
-    if(plateau[r->a.x][r->a.y].d && plateau[r->a.x][r->a.y +1].g && r->d == NULL && r->a.y +1 < 7)
-        {
-            CORD tmp;
-            printf("j'ai un fils d\n");
-            tmp.x = r->a.x;
-            tmp.y = r->a.y +1;
-            
-                r->d= createNode(tmp);
-                r->d->g=r; 
-                res++; //juste pour savoir si on est rentre ici
-                    
-            
-        }
-    if(plateau[r->a.x][r->a.y].g && plateau[r->a.x][r->a.y -1].d && r->g == NULL && r->a.y -1 >= 0)
-        {
-            CORD tmp;
-            printf("j'ai un fils g\n");
-            tmp.x = r->a.x;
-            tmp.y = r->a.y -1;
-            
-                r->g= createNode(tmp);
-                r->g->d=r;
-                res++;
-                     
-            
-        }
-
-    if(plateau[r->a.x][r->a.y].h && plateau[r->a.x -1][r->a.y].b && r->h == NULL && r->a.x -1 >= 0)
-        {
-            CORD tmp;
-            printf("j'ai un fils h\n");
-            tmp.x = r->a.x -1;
-            tmp.y = r->a.y;
-           
-                r->h= createNode(tmp);
-                r->h->b=r;            
-                res++;
-            
-        }
-    if(plateau[r->a.x][r->a.y].b && plateau[r->a.x+1][r->a.y].h && r->b == NULL && r->a.x+1 < 7)
-        {
-            CORD tmp;
-            printf("j'ai un fils b\n");
-            tmp.x = r->a.x +1;
-            tmp.y = r->a.y;
-            
-                 r->b= createNode(tmp);
-                r->b->h=r;            
-                res++;
-                   
-        }
-        printf("res = %d \n",res );
-    if(res == 0) //on n'a créé aucun nouveau fils
-       {
-        return 0;
-       }
-    else
-        res=0;
-    
-    if(validationCoup(plateau, choixCase, r->g) && r->g->d != r)
-    {
-        printf("j'ai validé g\n");
-        return 1;
-    }
-    else
-    {
-        if(validationCoup(plateau, choixCase, r->d) && r->d->g != r)
-        {
-            printf("j'ai validé d\n");
-            return 1;
-        }
-        else
-        {
-           if(validationCoup(plateau, choixCase, r->h) && r->h->b != r)
-           {
-                printf("j'ai validé h\n");
-                return 1;
-           }            
-            else
-            {
-                if(validationCoup(plateau, choixCase, r->b) && r->b->h != r)
-                {
-                    printf("j'ai validé b\n");
-                    return 1;
-                }
-                else 
-                    return 0;
-            } 
-        }
-    }
-    
-    
-    return res;
-}
-*/
 
 void SDL_ExitWithError(const char *message)
 {
@@ -1094,67 +860,48 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
      }      
  }
 
-void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp, CORD prec, int *compt){
-    printf("-------- appel numero %d -------\n",(*compt) );
-    printf("temp = %d ; cord actuel (%u,%u)\n ",(*temp), actuel.x, actuel.y);
+void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
-    else{
-        if(actuel.y != 6){
-            //if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && (plateau[actuel.x][actuel.y+1].parcouru < 2 || (actuel.x== prec.x && actuel.y+1 == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 2 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                prec.x = actuel.x;
-                prec.y = actuel.y;
-                actuel.y++;
-                
-                validationCoup(plateau, actuel,choix,temp, prec,compt);
-                printf(" 1");
-            }
-        }
 
-        if(actuel.x != 6){
-            //if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && (plateau[actuel.x+1][actuel.y].parcouru < 2 || (actuel.x+1== prec.x && actuel.y == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 2 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                prec.x = actuel.x;
-                prec.y = actuel.y;
-                actuel.x++;                
-                validationCoup(plateau, actuel,choix,temp,prec,compt);
-                
-                printf(" 2");
-            }
+    if(actuel.y != 6){
+        if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (*temp) != 1){
+            plateau[actuel.x][actuel.y].parcouru++;
+            actuel.y++;
+            validationCoup(plateau, actuel,choix,temp);
+            actuel.y--;
+
         }
-        if(actuel.y != 0){
-            //if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && (plateau[actuel.x][actuel.y-1].parcouru < 2 || (actuel.x== prec.x && actuel.y-1 == prec.y) )&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 2 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                prec.x = actuel.x;
-                prec.y = actuel.y;
-                actuel.y--;                
-                validationCoup(plateau, actuel,choix,temp,prec,compt);
-                printf(" 3");
-            }
-        }
-        if(actuel.x != 0){
-            //if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && (plateau[actuel.x-1][actuel.y].parcouru < 2 || (actuel.x-1== prec.x && actuel.y == prec.y))&& (*temp) != 1){
-              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 2 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                prec.x = actuel.x;
-                prec.y = actuel.y;
-                actuel.x--;                
-                validationCoup(plateau, actuel,choix,temp,prec,compt);
-                printf(" 4");
-            }
-        }
-        
     }
-    if((*temp) == 0)
-            (*temp) = -1;
-        
-        (*compt)++;
 
+    if(actuel.x != 6){
+        if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (*temp) != 1){
+            plateau[actuel.x][actuel.y].parcouru++;
+            actuel.x++;                
+            validationCoup(plateau, actuel,choix,temp);
+            actuel.x--;
+        }
+    }
+    if(actuel.y != 0){
+        if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (*temp) != 1){
+            plateau[actuel.x][actuel.y].parcouru++;
+            actuel.y--;                
+            validationCoup(plateau, actuel,choix,temp);
+            actuel.y++;
+        }
+    }
+        if(actuel.x != 0){
+            if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (*temp) != 1){
+            plateau[actuel.x][actuel.y].parcouru++;
+            actuel.x--;                
+            validationCoup(plateau, actuel,choix,temp);
+            actuel.x++;
+        }
+    }
+        
 }
+
+
    
 
    

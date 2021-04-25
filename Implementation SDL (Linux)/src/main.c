@@ -162,20 +162,20 @@ int main(int argc, char *argv[]){
                         getCordClick(event, &choixCase,joueurActuel); 
                         //si le coup est valide
                         int compt=0;
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire,joueurActuel->postion_actuelle,&compt);
+                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
                         printf("validation : %d\n",temporaire);
                         for(int i=0;i<7;i++){
                             for(int j=0; j<7; j++){                           
                                 plateau[i][j].parcouru  = 0;
                             }
                         }
-                        temporaire =0;
-                        joueurActuel->postion_actuelle.x=choixCase.x;
-                        joueurActuel->postion_actuelle.y=choixCase.y; 
-                        printf("choixCase = %d %d\n",choixCase.x, choixCase.y );
+                        if(temporaire){
+                            joueurActuel->postion_actuelle.x=choixCase.x;
+                            joueurActuel->postion_actuelle.y=choixCase.y; 
+                            printf("choixCase = %d %d\n",choixCase.x, choixCase.y );
 
-                        deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
-                        
+                            deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
+                        }
                         
                         //alterner tour 
                         i=(i+1)%nbTotal;
