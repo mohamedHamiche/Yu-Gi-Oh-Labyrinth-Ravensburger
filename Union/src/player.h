@@ -37,12 +37,12 @@ struct joueur
 {
     char *pseudo;
     CORD postion_actuelle;
-    int pile_tresor[12];
+    int pile_tresor[13];
     int nombre_de_points;
     int machine;
     SDL_Surface *image;
     SDL_Texture *texture;
-    SDL_Rect pionRect;
+    SDL_Rect pionRect,pionRectCoin;
 
     SDL_Surface** imgTresors;
     SDL_Texture** textureTresors;
@@ -74,6 +74,7 @@ void randomTresors(int tabTresor[24]);
 void distribuerCartes(JOUEUR **tabJoueur, int nbTotal);
 void createTexturesCartes(JOUEUR **tabJoueur, int nbTotal, SDL_Renderer *renderer);
 void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal);
+void getChoixCouloirMachine(CORD *choixCase,CORD choixPrecedent,JOUEUR joueurActuel, TUILE plateau[7][7], int *nbTours, CORD * cordTresor);
 
 #endif // PLAYER_H_INCLUDED
 

@@ -3,6 +3,92 @@
 #include "plateau.h"
 
 
+void getChoixCouloirMachine(CORD *choixCase,CORD choixPrecedent,JOUEUR joueurActuel, TUILE plateau[7][7], int *nbTours, CORD * cordTresor)
+{
+  
+  CORD choix;
+  TUILE tuileEnMain;
+  int valide =0;
+  int trouvee = 0;
+  
+  //recherche du tresor :
+  for (int i = 0; i < 7 && !trouvee; ++i)
+   {
+     for (int j = 0; j < 7 && !trouvee; ++j)
+     {
+      printf("tresor recherche : %d -- trouve : %d\n",joueurActuel.pile_tresor[joueurActuel.nombre_de_points],plateau[i][j].tresor );
+      printf("cord (%d, %d)\n",i,j );
+       if(plateau[i][j].tresor == joueurActuel.pile_tresor[joueurActuel.nombre_de_points])
+        {
+          cordTresor->x=i;
+          cordTresor->y=j;
+          trouvee=1;          
+        }
+   } 
+ }
+   if(cordTresor->x == -1 || cordTresor->y == -1)
+   {
+    printf("Erreur getChoixCouloirMachine cordTresor non trouvee\n");
+    exit(1);
+   }
+    trouvee = 0;
+   int i=0,j=0;
+   CORD choixOppose;
+  choixOppose.x=-1;
+  choixOppose.y=-1; 
+  while(i<7 && trouvee == 0)
+  {
+    j=0;
+    while(j<7 && trouvee == 0)
+    {
+      choix.x=i;
+      choix.y=j;
+      if(validationCouloir(&choix, &choixPrecedent) ==1)
+      {
+        for(int t=0; t<4 ; t++)
+        {
+
+          tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+          printf("j'ai decale choix %d %d\n",choix.x, choix.y );
+          validationCoup(plateau,joueurActuel.postion_actuelle, *cordTresor,&valide);
+          if (valide == 1)
+          {
+            choixCase->x= i;
+            choixCase->y= j;
+            *nbTours=t;  
+            trouvee = 1;
+          }
+          //trouver l'oppose
+          for (int k = 0; k < 7 &&(!oppose(choixOppose, choix)); ++k)
+          {
+            for (int p = 0; p < 7 && (!oppose(choixOppose, choix)); ++p)
+            {
+              choixOppose.x=k;
+              choixOppose.y=p;                                    
+            }
+          }
+          //recaler
+          tuileEnMain= decalerCouloir(plateau, choixOppose, tuileEnMain);
+          tournerTuile(&tuileEnMain);
+        }
+        
+        
+      }
+      j++;
+    }
+    i++;
+  }
+
+  if(trouvee == 0)
+  {
+    choixCase->x= 0;
+    choixCase->y= 5;
+  }
+  printf("trouvee = %d\n",trouvee );
+}
+
+
+
 char *lirePseudo( int numJoueur)
 {
 	char *pseudo= malloc(25*sizeof(char));
@@ -95,11 +181,11 @@ JOUEUR *initJoueurM(int index)
    tmplayer->machine=1;
    tmplayer->pseudo=chaine;
    tmplayer->nombre_de_points=0;
-   for (int i = 0; i < 12; ++i)
+   for (int i = 0; i <= 12; ++i)
     {
       tmplayer->pile_tresor[i]=0;      
     }
-   //printf("init jm pseudo %s**\n", tmplayer->pseudo);
+   
  return tmplayer;                        
 }
 
@@ -116,12 +202,12 @@ JOUEUR *initJoueurH(int index)
     tmplayer->machine=0;                  
     tmplayer->pseudo= lirePseudo(index);
     tmplayer->nombre_de_points=0;
-    for (int i = 0; i < 12; ++i)
+    for (int i = 0; i <= 12; ++i)
     {
       tmplayer->pile_tresor[i]=0;      
     }
     
-    //printf("initJoueurH pseudo %s--\n",tmplayer->pseudo );
+    
   return tmplayer;
 }                            
 
@@ -227,7 +313,7 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
     for (i=0; i<nbTotal; i++)
     {
        //initialiser la pile des deux joueurs à leur position de départ 
-      tabJoueur[i]->pile_tresor[24/nbTotal]=(24+i+1);
+      tabJoueur[i]->pile_tresor[24/nbTotal +1]=(24+i+1);
       //allocation des surfaces et textures 
         tabJoueur[i]->imgTresors =(SDL_Surface **) malloc( ((24/nbTotal)+1) * sizeof(SDL_Surface *) );
         tabJoueur[i]->textureTresors =(SDL_Texture **) malloc( ((24/nbTotal)+1) * sizeof(SDL_Texture *) );
@@ -301,31 +387,51 @@ void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal)
 {
   if(tabJoueur[0])
   {
-    tabJoueur[0]->tresorRect.x= 20;
-    tabJoueur[0]->tresorRect.y= 20;
-    tabJoueur[0]->tresorRect.h= 70;
-    tabJoueur[0]->tresorRect.w= 70;
+    tabJoueur[0]->tresorRect.x= 40;
+    tabJoueur[0]->tresorRect.y= 40;
+    tabJoueur[0]->tresorRect.h= 100;
+    tabJoueur[0]->tresorRect.w= 66;
+
+    tabJoueur[0]->pionRectCoin.x= 40+66+12;
+    tabJoueur[0]->pionRectCoin.y= 40+38;
+    tabJoueur[0]->pionRectCoin.h= 25;
+    tabJoueur[0]->pionRectCoin.w= 25;
   }
   if(tabJoueur[1])
   {
-    tabJoueur[1]->tresorRect.x= WINDOW_WIDTH - 20-70;
-    tabJoueur[1]->tresorRect.y= 20;
-    tabJoueur[1]->tresorRect.h= 70;
-    tabJoueur[1]->tresorRect.w= 70;
+    tabJoueur[1]->tresorRect.x= WINDOW_WIDTH - 40-66;
+    tabJoueur[1]->tresorRect.y= 40;
+    tabJoueur[1]->tresorRect.h= 100;
+    tabJoueur[1]->tresorRect.w= 66;
+
+    tabJoueur[1]->pionRectCoin.x= WINDOW_WIDTH - 40-66 -45;
+    tabJoueur[1]->pionRectCoin.y= 40 + 38;
+    tabJoueur[1]->pionRectCoin.h= 25;
+    tabJoueur[1]->pionRectCoin.w= 25;
   }
   if(tabJoueur[2] && nbTotal >= 3)
   {
-    tabJoueur[2]->tresorRect.x= 20;
-    tabJoueur[2]->tresorRect.y= WINDOW_HEIGHT - 20-70;
-    tabJoueur[2]->tresorRect.h= 70;
-    tabJoueur[2]->tresorRect.w= 70;
+    tabJoueur[2]->tresorRect.x= WINDOW_WIDTH - 40-66;
+    tabJoueur[2]->tresorRect.y= WINDOW_HEIGHT - 40-100;
+    tabJoueur[2]->tresorRect.h= 100;
+    tabJoueur[2]->tresorRect.w= 66;
+
+    tabJoueur[2]->pionRectCoin.x= WINDOW_WIDTH - 40-66 -45;
+    tabJoueur[2]->pionRectCoin.y= WINDOW_HEIGHT - 40-100 +25;
+    tabJoueur[2]->pionRectCoin.h= 25;
+    tabJoueur[2]->pionRectCoin.w= 25;
   }
   if(tabJoueur[3] && nbTotal == 4)
   {
-    tabJoueur[3]->tresorRect.x= WINDOW_WIDTH - 20-70;
-    tabJoueur[3]->tresorRect.y= WINDOW_HEIGHT - 20-70;
-    tabJoueur[3]->tresorRect.h= 70;
-    tabJoueur[3]->tresorRect.w= 70;
+    tabJoueur[3]->tresorRect.x= 40;
+    tabJoueur[3]->tresorRect.y= WINDOW_HEIGHT - 40-100;
+    tabJoueur[3]->tresorRect.h= 100;
+    tabJoueur[3]->tresorRect.w= 66;
+
+    tabJoueur[3]->pionRectCoin.x= 40+66+10;
+    tabJoueur[3]->pionRectCoin.y= WINDOW_HEIGHT - 40-100 +25;
+    tabJoueur[3]->pionRectCoin.h= 25;
+    tabJoueur[3]->pionRectCoin.w= 25;
   }
   
 }

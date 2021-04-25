@@ -19,8 +19,7 @@ void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
     if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
     {
         choixCase->x= (event.button.y - positionY)/70;
-        choixCase->y= (event.button.x - positionX)/70;
-        printf("choixCase (%d , %d) \n",choixCase->x, choixCase->y );
+        choixCase->y= (event.button.x - positionX)/70;        
     }    
     else
     {
@@ -57,8 +56,7 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
 void initRectPions(JOUEUR **tabJoueur, int nbTotal)
 {
     for (int i = 0; i < nbTotal; ++i)
-    {        
-        printf("bonjour\n");
+    {                
        tabJoueur[i]->pionRect.h = 25;
        tabJoueur[i]->pionRect.w = 25;
        tabJoueur[i]->pionRect.x=0;
@@ -122,141 +120,6 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 }
 
 
-
-/*
-int listNodes(TUILE plateau[7][7], NodeI list[49])
-{
-    for (int i = 0; i < 49; ++i)
-    {
-        list[i].a.x=0;
-        list[i].a.y=0;
-
-        list[i].h.x=0;
-        list[i].h.y=0;
-
-        list[i].d.x=0;
-        list[i].d.y=0;
-
-        list[i].g.x=0;
-        list[i].g.y=0;
-
-        list[i].b.x=0;
-        list[i].b.y=0;
-        x=i%7;
-
-    }
-
-}
-*/
-/*
-int validationCoup(TUILE plateau[7][7], CORD choixCase, Node *r)
-{
-    if(r == NULL)
-        return 0;
-    if(r->a.x < 0 || r->a.y>6)
-        return 0;
-
-    if(r->a.x == choixCase.x && r->a.y == choixCase.y)
-        return 1;
-
-    int res = 0;
-    printf("je suis dans r->a = %d, %d \n",r->a.x, r->a.y );
-
-    if(plateau[r->a.x][r->a.y].d && plateau[r->a.x][r->a.y +1].g && r->d == NULL && r->a.y +1 < 7)
-        {
-            CORD tmp;
-            printf("j'ai un fils d\n");
-            tmp.x = r->a.x;
-            tmp.y = r->a.y +1;
-            
-                r->d= createNode(tmp);
-                r->d->g=r; 
-                res++; //juste pour savoir si on est rentre ici
-                    
-            
-        }
-    if(plateau[r->a.x][r->a.y].g && plateau[r->a.x][r->a.y -1].d && r->g == NULL && r->a.y -1 >= 0)
-        {
-            CORD tmp;
-            printf("j'ai un fils g\n");
-            tmp.x = r->a.x;
-            tmp.y = r->a.y -1;
-            
-                r->g= createNode(tmp);
-                r->g->d=r;
-                res++;
-                     
-            
-        }
-
-    if(plateau[r->a.x][r->a.y].h && plateau[r->a.x -1][r->a.y].b && r->h == NULL && r->a.x -1 >= 0)
-        {
-            CORD tmp;
-            printf("j'ai un fils h\n");
-            tmp.x = r->a.x -1;
-            tmp.y = r->a.y;
-           
-                r->h= createNode(tmp);
-                r->h->b=r;            
-                res++;
-            
-        }
-    if(plateau[r->a.x][r->a.y].b && plateau[r->a.x+1][r->a.y].h && r->b == NULL && r->a.x+1 < 7)
-        {
-            CORD tmp;
-            printf("j'ai un fils b\n");
-            tmp.x = r->a.x +1;
-            tmp.y = r->a.y;
-            
-                 r->b= createNode(tmp);
-                r->b->h=r;            
-                res++;
-                   
-        }
-        printf("res = %d \n",res );
-    if(res == 0) //on n'a créé aucun nouveau fils
-       {
-        return 0;
-       }
-    else
-        res=0;
-    
-    if(validationCoup(plateau, choixCase, r->g) && r->g->d != r)
-    {
-        printf("j'ai validé g\n");
-        return 1;
-    }
-    else
-    {
-        if(validationCoup(plateau, choixCase, r->d) && r->d->g != r)
-        {
-            printf("j'ai validé d\n");
-            return 1;
-        }
-        else
-        {
-           if(validationCoup(plateau, choixCase, r->h) && r->h->b != r)
-           {
-                printf("j'ai validé h\n");
-                return 1;
-           }            
-            else
-            {
-                if(validationCoup(plateau, choixCase, r->b) && r->b->h != r)
-                {
-                    printf("j'ai validé b\n");
-                    return 1;
-                }
-                else 
-                    return 0;
-            } 
-        }
-    }
-    
-    
-    return res;
-}
-*/
 
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp)
 {        
@@ -332,10 +195,25 @@ void initPlateau(TUILE plateau[7][7])
 }
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
-    if(choixActuel->x <0 || choixActuel->y <0)
+    if(choixActuel->x <0 || choixActuel->y <0 || choixActuel->x > 6 || choixActuel->y > 6)
        {
         return 0;
        } 
+  if(!( (choixActuel->x == 1 && choixActuel->y == 0 )||
+        (choixActuel->x == 1 && choixActuel->y == 6 )||
+       (choixActuel->x == 3 && choixActuel->y == 0 )||
+       (choixActuel->x == 3 && choixActuel->y == 6 )||
+       (choixActuel->x == 5 && choixActuel->y == 0 )||
+       (choixActuel->x == 5 && choixActuel->y == 6 )||
+       (choixActuel->x == 0 && choixActuel->y == 1 )||
+       (choixActuel->x == 6 && choixActuel->y == 1 )||
+       (choixActuel->x == 0 && choixActuel->y == 3 )||
+       (choixActuel->x == 6 && choixActuel->y == 3 )||
+       (choixActuel->x == 0 && choixActuel->y == 5 )||
+       (choixActuel->x == 6 && choixActuel->y == 5 )) ){
+
+        return 0;
+    }
 
 	if(!oppose(*choixActuel, *choixPrecedent)){
 		choixPrecedent->x = choixActuel->x;
@@ -566,7 +444,74 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
                             (choix->x) = 5;
                         }
 }
+void deplacerRectTuile(SDL_Rect *tuileEnMainRect,CORD choix)
+{
+    if(choix.x== 0 && choix.y== 1)
+    {
+        tuileEnMainRect->x = positionX+70;
+        tuileEnMainRect->y = positionY-70;                          
+    }
+    if(choix.x== 0 && choix.y== 3)
+    {
+        tuileEnMainRect->x = positionX+(70*3);
+        tuileEnMainRect->y = positionY-70;                                
+    }
+    if(choix.x== 0 && choix.y== 5)
+    {
+        tuileEnMainRect->x = positionX+(70*5);
+        tuileEnMainRect->y = positionY-70;                          
+    }
+    if(choix.x== 1 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);
+        tuileEnMainRect->y = positionY+70;                                   
+    }
+    if(choix.x== 3 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);
+        tuileEnMainRect->y = positionY+(3*70);                              
+    }
 
+    if(choix.x== 5 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);;
+        tuileEnMainRect->y = positionY+(5*70);                              
+    }
+
+    if(choix.x== 6 && choix.y== 1)
+    {
+        tuileEnMainRect->x = positionX+70;
+        tuileEnMainRect->y = positionY+(7*70);                            
+    }
+
+    if(choix.x== 6 && choix.y== 3)
+    {
+        tuileEnMainRect->x = positionX+(3*70);
+        tuileEnMainRect->y = positionY+(7*70);                                  
+    }
+
+    if(choix.x== 6 && choix.y== 5)
+    {
+        tuileEnMainRect->x = positionX+(5*70);
+        tuileEnMainRect->y = positionY+(7*70);                                
+    }
+
+    if(choix.x== 1 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+70;                               
+    }
+    if(choix.x== 3 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+(3*70);                                  
+    }
+    if(choix.x== 5 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+(5*70);                          
+    }
+}
 void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice)
 {	
 	if(indice == 0) //joueur du coté 0,0
@@ -791,9 +736,9 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     char *bmpNameX= "img/3.bmp\0";
     unsigned int last = rand()%34;
     
-    printf("rand = %d\n",last );
+    
     TUILE tmp = tuilesCouloir[last];
-    printf("tmp.tresor = %d\n",tmp.tresor );
+    
     if(!tmp.tresor)
     {
         int nbOuvertures=0;
@@ -825,7 +770,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
         bmpNameXC[7]=tmp.tresor+'A'-1;    
         tmp.image=SDL_LoadBMP(bmpNameXC);    
     }
-    printf("bmpNameX= %s\n",bmpNameX );
+    
     
     
     if(tmp.image == NULL)
@@ -851,7 +796,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
             if(numTresor!=0) //chargement des image tresors
             {
             	bmpName[7]=numTresor+'A'-1;
-                printf("%s\n",bmpName);
+                
             	if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP(bmpName)) == NULL)
             		SDL_ExitWithError("Erreur chargement image");           
             }
