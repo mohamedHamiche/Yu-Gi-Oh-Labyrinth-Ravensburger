@@ -178,13 +178,13 @@ int main(int argc, char *argv[]){
                         }
                         
                         //alterner tour 
-                        i=(i+1)%nbTotal;
+                       /* i=(i+1)%nbTotal;
                         joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s \n",tabJoueur[i]->pseudo);
                         afficherPile(tabJoueur[i]->pile_tresor);
-                       deplacement=0;
+                       deplacement=0;*/
                        insertion =1;
-                       
+                       temporaire = 0;                       
                     }                                            
                        
 

@@ -863,39 +863,44 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
+    else{
+        if(actuel.y != 6){
+            if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (*temp) != 1){
+                plateau[actuel.x][actuel.y].parcouru++;
+                actuel.y++;
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.y--;
+                printf("a");
 
-    if(actuel.y != 6){
-        if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (*temp) != 1){
-            plateau[actuel.x][actuel.y].parcouru++;
-            actuel.y++;
-            validationCoup(plateau, actuel,choix,temp);
-            actuel.y--;
+            }
+        }
 
+        if(actuel.x != 6){
+            if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (*temp) != 1){
+                plateau[actuel.x][actuel.y].parcouru++;
+                actuel.x++;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.x--;
+                printf("b");
+            }
         }
-    }
-
-    if(actuel.x != 6){
-        if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (*temp) != 1){
-            plateau[actuel.x][actuel.y].parcouru++;
-            actuel.x++;                
-            validationCoup(plateau, actuel,choix,temp);
-            actuel.x--;
+        if(actuel.y != 0){
+            if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (*temp) != 1){
+                plateau[actuel.x][actuel.y].parcouru++;
+                actuel.y--;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.y++;
+                printf("c");
+            }
         }
-    }
-    if(actuel.y != 0){
-        if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (*temp) != 1){
-            plateau[actuel.x][actuel.y].parcouru++;
-            actuel.y--;                
-            validationCoup(plateau, actuel,choix,temp);
-            actuel.y++;
-        }
-    }
-        if(actuel.x != 0){
-            if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (*temp) != 1){
-            plateau[actuel.x][actuel.y].parcouru++;
-            actuel.x--;                
-            validationCoup(plateau, actuel,choix,temp);
-            actuel.x++;
+            if(actuel.x != 0){
+                if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (*temp) != 1){
+                plateau[actuel.x][actuel.y].parcouru++;
+                actuel.x--;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.x++;
+                printf("d");
+            }
         }
     }
         
