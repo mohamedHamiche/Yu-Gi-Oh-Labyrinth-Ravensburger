@@ -2,8 +2,8 @@
 
 Labyrinthe Ravensburger sous le thème du manga Yu-Gi-Oh, exectuable sous linux et Windows, 
 ## Environnement Linux
-## bibliothèque SDL2
-Si vous n'avez pas la bibliothèque SDL2 installée nous vous reccommandons de l'installer pour la suite du projet.
+## bibliothèque requise (SDL2)
+Si vous n'avez pas la bibliothèque SDL2 installée nous vous reccommandons de l'installer pour le bon fonctionnement du projet.
 ```shell
 sudo apt-get install libsdl2-image-dev
 ```
@@ -15,16 +15,21 @@ Update & upgrade:
 ```shell
 sudo apt-get update && sudo apt-get upgrade
 ```
-## Running
-Pour executer le jeu entrez:
+## Execution
+Building
 ```shell
 make
 ```
-Ensuite,
+### Run
 ```shell
 ./bin/jeu
 ```
-Suivez les instructions dans le terminal et Enjoy!
+### Tests unitaires
+```shell
+./bin/test_game
+```
+Suivez les instructions dans le terminal pour jouer.
 
 # Contact
+Vous pouvez nous contacter : 
 
