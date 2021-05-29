@@ -1,7 +1,7 @@
 # Labyrinthe Yu-Gi-Oh [![UPVD Logo](https://upload.wikimedia.org/wikipedia/fr/e/e6/UPVD_logo.svg)](https://www.univ-perp.fr)
 
-# Environnement Linux
-
+Labyrinthe Ravensburger sous le thème du manga Yu-Gi-Oh, exectuable sous linux et Windows, 
+## Environnement Linux
 ## bibliothèque SDL2
 Si vous n'avez pas la bibliothèque SDL2 installée nous vous reccommandons de l'installer pour la suite du projet.
 ```shell
@@ -15,7 +15,6 @@ Update & upgrade:
 ```shell
 sudo apt-get update && sudo apt-get upgrade
 ```
-
 ## Running
 Pour executer le jeu entrez:
 ```shell
@@ -27,5 +26,5 @@ Ensuite,
 ```
 Suivez les instructions dans le terminal et Enjoy!
 
-#Contact
+# Contact
 
