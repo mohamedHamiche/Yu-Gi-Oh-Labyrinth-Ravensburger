@@ -115,79 +115,9 @@ int main(int argc, char *argv[]){
 	while(!exit)
     {     
 
-                    /*
-            if(joueurActuel->machine == 1 && deplacement)
-                    {                         
-                        for(int i=0;i<7;i++){
-                            for(int j=0; j<7; j++){                           
-                                plateau[i][j].parcouru  = 0;
-                            }
-                        }            
-                        choixCase.x=cordTresor.x;
-                        choixCase.y=cordTresor.y;        
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
-                        printf("validation : %d\n",temporaire);                        
-                        if(temporaire == 1)
-                        {
-                            tabJoueur[i]->postion_actuelle.x=choixCase.x;
-                            tabJoueur[i]->postion_actuelle.y=choixCase.y; 
-                           // printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
-                                                   
-                            deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
-
-                            if(plateau[tabJoueur[i]->postion_actuelle.x][tabJoueur[i]->postion_actuelle.y].tresor == tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points])
-                            {
-                                printf("tresor trouve !!!!!\n");
-                                tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points]*= -1;
-                                tabJoueur[i]->nombre_de_points++;
-                            }
-                            if(tabJoueur[i]->nombre_de_points == (24/nbTotal) +1)
-                            {
-                                printf("%s a gange la partie\n",tabJoueur[i]->pseudo);
-                                exit= SDL_TRUE;                             
-                            }
-                            //alterner tour 
-                        i=(i+1)%nbTotal;
-                        joueurActuel=tabJoueur[i];
-                        printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
-                        for (int k = 0; k <= 24/nbTotal; ++k)
-                        {
-                            printf("%d\n",tabJoueur[i]->pile_tresor[k]);
-                        }                        
-                        //afficherPile(tabJoueur[i]->pile_tresor);
-                       temporaire =0;
-                       deplacement=0;
-                       insertion =1;
-                        }
-                    }
-        */
-
 		while(SDL_PollEvent(&event))
         { 
-             if(joueurActuel->machine == 1 && insertion)
-                    {
-                        
-                        getChoixCouloirMachine(&choix,choixPrecedent,(*joueurActuel),plateau,&nbTours,&cordTresor);
-                        deplacerRectTuile(&tuileEnMainRect,choix);
-                        if(validationCouloir(&choix, &choixPrecedent))
-                        {
-                            printf("couloir valide %d %d\n",choix.x, choix.y );
-                             for (int i = 0; i < nbTours; ++i)
-                            {
-                                tournerTuile(&tuileEnMain);
-                            } 
-                            tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
-                            for (int i = 0; i < nbTotal; ++i)
-                            {
-                                decalerPion(&tabJoueur[i]->postion_actuelle,choix, &tabJoueur[i]->pionRect);
-                            }
-
-                            insertion = 0;
-                            deplacement = 1;
-                            //sortirTuileEnMain(&tuileEnMainRect, i);                                      
-                        }
-   
-                    }
+            
 			switch(event.type)
             {
 				case SDL_QUIT:
@@ -206,9 +136,9 @@ int main(int argc, char *argv[]){
 						tournerTuile(&tuileEnMain);
 					      fprintf(stdout,"%d\n",event.button.y); 
 					}
-                    if(event.button.button == 1 && deplacement){  
+                    if(event.button.button == 1){  
                        
-                            getCordClick(event, &choixCase,tabJoueur[i]); 
+                        getCordClick(event, &choixCase,tabJoueur[i]); 
                                                     
                         
                         //si le coup est valide
@@ -216,7 +146,7 @@ int main(int argc, char *argv[]){
                             for(int j=0; j<7; j++){                           
                                 plateau[i][j].parcouru  = 0;
                             }
-                        }                    
+                        }                  
                         validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
                         printf("validation : %d\n",temporaire);                        
                         if(temporaire == 1)
@@ -239,20 +169,19 @@ int main(int argc, char *argv[]){
 	                        	exit= SDL_TRUE;	                        	
 	                        }
 	                        //alterner tour 
-                        i=(i+1)%nbTotal;
-                        joueurActuel=tabJoueur[i];
+                        //i=(i+1)%nbTotal;
+                       // joueurActuel=tabJoueur[i];
                         printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
                         for (int k = 0; k <= 24/nbTotal; ++k)
                         {
                         	printf("%d\n",tabJoueur[i]->pile_tresor[k]);
-                        }                        
+                        }                      
                         //afficherPile(tabJoueur[i]->pile_tresor);
                        temporaire =0;
-                       deplacement=0;
                        insertion =1;
                         }
          
-                    }                                            
+                    }                                           
                        
 
 				case SDL_KEYDOWN:
@@ -270,56 +199,12 @@ int main(int argc, char *argv[]){
 
 				default:                
 					break;
-			}  
+			} 
            
-                    /*
-                    if(joueurActuel->machine == 1 && deplacement)
-                    {                         
-                        for(int i=0;i<7;i++){
-                            for(int j=0; j<7; j++){                           
-                                plateau[i][j].parcouru  = 0;
-                            }
-                        }            
-                        choixCase.x=cordTresor.x;
-                        choixCase.y=cordTresor.y;        
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
-                        printf("validation : %d\n",temporaire);                        
-                        if(temporaire == 1)
-                        {
-                            tabJoueur[i]->postion_actuelle.x=choixCase.x;
-                            tabJoueur[i]->postion_actuelle.y=choixCase.y; 
-                           // printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
-                                                   
-                            deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
-
-                            if(plateau[tabJoueur[i]->postion_actuelle.x][tabJoueur[i]->postion_actuelle.y].tresor == tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points])
-                            {
-                                printf("tresor trouve !!!!!\n");
-                                tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points]*= -1;
-                                tabJoueur[i]->nombre_de_points++;
-                            }
-                            if(tabJoueur[i]->nombre_de_points == (24/nbTotal) +1)
-                            {
-                                printf("%s a gange la partie\n",tabJoueur[i]->pseudo);
-                                exit= SDL_TRUE;                             
-                            }
-                            //alterner tour 
-                        i=(i+1)%nbTotal;
-                        joueurActuel=tabJoueur[i];
-                        printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
-                        for (int k = 0; k <= 24/nbTotal; ++k)
-                        {
-                            printf("%d\n",tabJoueur[i]->pile_tresor[k]);
-                        }                        
-                        //afficherPile(tabJoueur[i]->pile_tresor);
-                       temporaire =0;
-                       deplacement=0;
-                       insertion =1;
-                        }
-                    }*/
+                  
 			SDL_RenderClear(renderer);
 						
-		}  
+		}
          
    //----------------------------------------- affiche rendu
         for(int i=0; i<7; i++)

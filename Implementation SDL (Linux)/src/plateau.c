@@ -2,7 +2,6 @@
 
 void tournerTuile(TUILE *tuileEnMain)
 {
-	
     tuileEnMain->angle = (tuileEnMain->angle + 90)%360;
     int tmpH = tuileEnMain->h;
     int tmpD = tuileEnMain->d;
