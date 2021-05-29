@@ -2,6 +2,7 @@ CC = gcc
 EXEC = prog
 CFLAGS= -Wall 
 LDFLAGS= `sdl2-config --cflags --libs` -lSDL2_image
+OBJ = $(addprefix obj/, $(SRC:.c=.o))
 
 default: $(EXEC) test
 
