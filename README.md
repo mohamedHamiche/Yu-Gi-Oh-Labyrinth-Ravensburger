@@ -16,11 +16,11 @@ Update & upgrade:
 sudo apt-get update && sudo apt-get upgrade
 ```
 ## Execution
-Building
+#### Building
 ```shell
 make
 ```
-### Run
+#### Run
 ```shell
 ./bin/jeu
 ```
