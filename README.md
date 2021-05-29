@@ -1,6 +1,6 @@
 # Labyrinthe Yu-Gi-Oh [![UPVD Logo](https://upload.wikimedia.org/wikipedia/fr/e/e6/UPVD_logo.svg)](https://www.univ-perp.fr)
 
-Labyrinthe Ravensburger sous le thème du manga Yu-Gi-Oh, exectuable sous linux et Windows 
+Labyrinthe Ravensburger sous le thème du manga Yu-Gi-Oh, exectuable sous linux et Windows.
 ## Environnement Linux
 ### bibliothèque requise (SDL2)
 Bibliothèque SDL2 requise pour le fonctionnement du programme, voici quelques ligne de commande pour l'installer.
@@ -15,7 +15,7 @@ sudo apt install libsdl2-dev libsdl2-2.0-0 -y
 ```shell
 sudo apt-get update && sudo apt-get upgrade
 ```
-Pour mettre à jour vos bibliothèque
+Pour mettre à jour vos bibliothèques.
 ## Execution
 #### Building
 ```shell
