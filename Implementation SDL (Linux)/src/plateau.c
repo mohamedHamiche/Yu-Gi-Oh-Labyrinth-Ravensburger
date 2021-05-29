@@ -124,7 +124,7 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
     /*
     *Cette fonction vérifie récursivement en parcourant toutes les tuiles accessible (chemin valide),
-    *sans jamais revenir sur la même tuile en incrémantant à 1 le champ 'parcouru', si tuile est trouvée alors la variable renvoie sur la variable temp la valeur 1.
+    *sans jamais revenir sur la même tuile en incrémantant à 1 le champ 'parcouru' de la tuile parcouru, si la tuile est trouvée alors la variable renvoie sur la variable temp la valeur 1.
     */
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
