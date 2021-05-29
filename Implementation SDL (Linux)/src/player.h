@@ -19,7 +19,7 @@ struct tuile
     int posee;
     int angle;
     int parcouru;
-
+    
     SDL_Surface *image;
     SDL_Texture *texture;
 };
@@ -31,38 +31,25 @@ struct coordonnees
     unsigned int y;
 };
 
-//----------------- Piles
-typedef struct Element Element;
-struct Element 
-{
-    int nombre;
-    Element *suivant;
-};
-typedef struct Pile Pile;
-struct Pile
-{
-    Element *premier;
-};
 //---------------
 typedef struct joueur JOUEUR; 
 struct joueur
 {
     char *pseudo;
     CORD postion_actuelle;
-    Pile *pile_tresor;
+    int pile_tresor[13];
     int nombre_de_points;
     int machine;
     SDL_Surface *image;
     SDL_Texture *texture;
-    SDL_Rect pionRect;
+    SDL_Rect pionRect,pionRectCoin;
+
+    SDL_Surface** imgTresors;
+    SDL_Texture** textureTresors;
+    SDL_Rect tresorRect;
 };
 
-typedef struct Node Node;
-struct Node
-{
-    CORD a;
-    Node *g, *d, *h, *b;
-};
+
 
 //variables globales
 #define WINDOW_WIDTH 1080
@@ -71,7 +58,6 @@ struct Node
 #define positionX (WINDOW_WIDTH-(70*7))/2
 #define positionY (WINDOW_HEIGHT-(70*7))/2
 
-int COUPVALIDE;
 //--------------
 
 
@@ -86,6 +72,9 @@ void printPlayers(JOUEUR **tabJoueur, int nbTotal);
 int appartientTab(int tab[24], int x);
 void randomTresors(int tabTresor[24]);
 void distribuerCartes(JOUEUR **tabJoueur, int nbTotal);
+void createTexturesCartes(JOUEUR **tabJoueur, int nbTotal, SDL_Renderer *renderer);
+void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal);
+void getChoixCouloirMachine(CORD *choixCase,CORD choixPrecedent,JOUEUR joueurActuel, TUILE plateau[7][7], int *nbTours, CORD * cordTresor);
 
 #endif // PLAYER_H_INCLUDED
 

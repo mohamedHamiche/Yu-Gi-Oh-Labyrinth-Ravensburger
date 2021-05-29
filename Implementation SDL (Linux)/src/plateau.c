@@ -1,20 +1,5 @@
 #include "plateau.h"
 
-void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
-{    
-    //si on appuie sur une case du plateau
-    if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
-    {
-        choixCase->x= (event.button.y - positionY)/70;
-        choixCase->y= (event.button.x - positionX)/70;
-        printf("choixCase (%d , %d) \n",choixCase->x, choixCase->y );
-    }    
-    else
-    {
-        choixCase->x=joueurActuel->postion_actuelle.x;
-        choixCase->y=joueurActuel->postion_actuelle.y;
-    }
-}
 void tournerTuile(TUILE *tuileEnMain)
 {
     tuileEnMain->angle = (tuileEnMain->angle + 90)%360;
@@ -26,6 +11,21 @@ void tournerTuile(TUILE *tuileEnMain)
     tuileEnMain->d = tmpH;
     tuileEnMain->b = tmpD;
     tuileEnMain->g = tmpB;
+}
+
+void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
+{    
+    //si on appuie sur une case du plateau
+    if(event.button.x > positionX && event.button.x < WINDOW_WIDTH - positionX && event.button.y > positionY && event.button.y < WINDOW_HEIGHT - positionY )
+    {
+        choixCase->x= (event.button.y - positionY)/70;
+        choixCase->y= (event.button.x - positionX)/70;        
+    }    
+    else
+    {
+        choixCase->x=joueurActuel->postion_actuelle.x;
+        choixCase->y=joueurActuel->postion_actuelle.y;
+    }
 }
 
 void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
@@ -52,11 +52,11 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
         pionRect->x=positionX+ a.y*70 + decalageY; 
     }
 }
+
 void initRectPions(JOUEUR **tabJoueur, int nbTotal)
 {
     for (int i = 0; i < nbTotal; ++i)
-    {        
-        printf("bonjour\n");
+    {                
        tabJoueur[i]->pionRect.h = 25;
        tabJoueur[i]->pionRect.w = 25;
        tabJoueur[i]->pionRect.x=0;
@@ -65,6 +65,7 @@ void initRectPions(JOUEUR **tabJoueur, int nbTotal)
        tabJoueur[i]->pionRect.x=positionX+ tabJoueur[i]->postion_actuelle.y*70 +10; 
     }
 }
+
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 {
     int d=0;
@@ -119,6 +120,54 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 }
 
 
+
+void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp)
+{        
+    //printf("temp = %d ; cord actuel (%u,%u) : %d\n ",(*temp), actuel.x, actuel.y, plateau[actuel.x][actuel.y].parcouru);
+    if(actuel.x == choix.x && actuel.y == choix.y)
+        (*temp) = 1;
+    else
+        if(actuel.y < 7 && actuel.y >= 0 && actuel.x >= 0 && actuel.x < 7) {            
+              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (actuel.y+1 < 7) && (*temp) != 1){               
+                plateau[actuel.x][actuel.y].parcouru++;                
+                actuel.y++;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.y--;
+                
+            }
+
+            
+              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (actuel.x+1 < 7) && (*temp) != 1){                
+                plateau[actuel.x][actuel.y].parcouru++;          
+                actuel.x++;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.x--;
+            }
+        
+       
+            
+              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (actuel.y-1 >=0) && (*temp) != 1){              
+                plateau[actuel.x][actuel.y].parcouru++;                
+                actuel.y--;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.y++;  
+            }
+        
+    
+              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (actuel.x-1 >=0)  && (*temp) != 1){                               
+                plateau[actuel.x][actuel.y].parcouru++;               
+                actuel.x--;                
+                validationCoup(plateau, actuel,choix,temp);
+                actuel.x++;  
+            }
+        
+        
+    }
+  
+        
+
+}
+
 void SDL_ExitWithError(const char *message)
 {
 	SDL_Log("ERREUR : %s > %s\n",message, SDL_GetError());
@@ -146,10 +195,25 @@ void initPlateau(TUILE plateau[7][7])
 }
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
-    if(choixActuel->x <0 || choixActuel->y <0)
+    if(choixActuel->x <0 || choixActuel->y <0 || choixActuel->x > 6 || choixActuel->y > 6)
        {
         return 0;
        } 
+  if(!( (choixActuel->x == 1 && choixActuel->y == 0 )||
+        (choixActuel->x == 1 && choixActuel->y == 6 )||
+       (choixActuel->x == 3 && choixActuel->y == 0 )||
+       (choixActuel->x == 3 && choixActuel->y == 6 )||
+       (choixActuel->x == 5 && choixActuel->y == 0 )||
+       (choixActuel->x == 5 && choixActuel->y == 6 )||
+       (choixActuel->x == 0 && choixActuel->y == 1 )||
+       (choixActuel->x == 6 && choixActuel->y == 1 )||
+       (choixActuel->x == 0 && choixActuel->y == 3 )||
+       (choixActuel->x == 6 && choixActuel->y == 3 )||
+       (choixActuel->x == 0 && choixActuel->y == 5 )||
+       (choixActuel->x == 6 && choixActuel->y == 5 )) ){
+
+        return 0;
+    }
 
 	if(!oppose(*choixActuel, *choixPrecedent)){
 		choixPrecedent->x = choixActuel->x;
@@ -241,6 +305,7 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
     TUILE tmp,dec;
     unsigned int i = 0;
     if(choixCouloir.x == 0 || choixCouloir.x == 6){
+
         if(choixCouloir.x == 0){
             tmp = plateau[choixCouloir.x][choixCouloir.y];
             plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
@@ -379,7 +444,74 @@ void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
                             (choix->x) = 5;
                         }
 }
+void deplacerRectTuile(SDL_Rect *tuileEnMainRect,CORD choix)
+{
+    if(choix.x== 0 && choix.y== 1)
+    {
+        tuileEnMainRect->x = positionX+70;
+        tuileEnMainRect->y = positionY-70;                          
+    }
+    if(choix.x== 0 && choix.y== 3)
+    {
+        tuileEnMainRect->x = positionX+(70*3);
+        tuileEnMainRect->y = positionY-70;                                
+    }
+    if(choix.x== 0 && choix.y== 5)
+    {
+        tuileEnMainRect->x = positionX+(70*5);
+        tuileEnMainRect->y = positionY-70;                          
+    }
+    if(choix.x== 1 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);
+        tuileEnMainRect->y = positionY+70;                                   
+    }
+    if(choix.x== 3 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);
+        tuileEnMainRect->y = positionY+(3*70);                              
+    }
 
+    if(choix.x== 5 && choix.y== 6)
+    {
+        tuileEnMainRect->x = positionX+(70*7);;
+        tuileEnMainRect->y = positionY+(5*70);                              
+    }
+
+    if(choix.x== 6 && choix.y== 1)
+    {
+        tuileEnMainRect->x = positionX+70;
+        tuileEnMainRect->y = positionY+(7*70);                            
+    }
+
+    if(choix.x== 6 && choix.y== 3)
+    {
+        tuileEnMainRect->x = positionX+(3*70);
+        tuileEnMainRect->y = positionY+(7*70);                                  
+    }
+
+    if(choix.x== 6 && choix.y== 5)
+    {
+        tuileEnMainRect->x = positionX+(5*70);
+        tuileEnMainRect->y = positionY+(7*70);                                
+    }
+
+    if(choix.x== 1 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+70;                               
+    }
+    if(choix.x== 3 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+(3*70);                                  
+    }
+    if(choix.x== 5 && choix.y== 0)
+    {
+        tuileEnMainRect->x = positionX-70;
+        tuileEnMainRect->y = positionY+(5*70);                          
+    }
+}
 void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice)
 {	
 	if(indice == 0) //joueur du coté 0,0
@@ -557,6 +689,24 @@ void tuilesFixes(TUILE Plateau[7][7]){
     Plateau[6][6].posee=1;
     Plateau[6][6].fixe=1;
     Plateau[6][6].angle=0;
+    /*
+    0,0 : 25 a
+    0,2 : 24 b
+    0,4 : 23 c
+    0,6 : 27 d
+    2,0 : 22 e
+    2,2 : 21 f
+    2,4 : 20 g
+    2,6 : 19 h
+    4,0 : 18 i
+    4,2 : 17 j
+    4,4 : 16 k
+    4,6 : 15 l
+    6,0 : 28 m
+    6,2 : 14 n
+    6,4 : 13 o
+    6,6 : 26 p
+    */
 }
 
 void chargerImageTuileFixe(TUILE plateau[7][7], SDL_Window *window, SDL_Renderer *renderer)
@@ -585,9 +735,10 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
     //charger tuile en main
     char *bmpNameX= "img/3.bmp\0";
     unsigned int last = rand()%34;
-    printf("rand = %d\n",last );
+    
+    
     TUILE tmp = tuilesCouloir[last];
-    printf("tmp.tresor = %d\n",tmp.tresor );
+    
     if(!tmp.tresor)
     {
         int nbOuvertures=0;
@@ -619,7 +770,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
         bmpNameXC[7]=tmp.tresor+'A'-1;    
         tmp.image=SDL_LoadBMP(bmpNameXC);    
     }
-    printf("bmpNameX= %s\n",bmpNameX );
+    
     
     
     if(tmp.image == NULL)
@@ -645,7 +796,7 @@ TUILE tuilesCouloir(TUILE Plateau[7][7]){
             if(numTresor!=0) //chargement des image tresors
             {
             	bmpName[7]=numTresor+'A'-1;
-                printf("%s\n",bmpName);
+                
             	if((Plateau[pAleatoire.x][pAleatoire.y].image= SDL_LoadBMP(bmpName)) == NULL)
             		SDL_ExitWithError("Erreur chargement image");           
             }
@@ -816,7 +967,6 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
     nbTresors=7;
     for (int i = 16+12; i < 34; ++i)
      {
-        
         temp = rand()%4; // 4 cas possibles
         tuilesCouloir[i].fixe =0;
         tuilesCouloir[i].angle= 0;
@@ -858,56 +1008,5 @@ void listTuilesCouloir(TUILE tuilesCouloir[34])
         }
 
      }      
- }
-
-void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
-    if(actuel.x == choix.x && actuel.y == choix.y)
-        (*temp) = 1;
-    else{
-        if(actuel.y != 6){
-            if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                actuel.y++;
-                validationCoup(plateau, actuel,choix,temp);
-                actuel.y--;
-                printf("a");
-
-            }
-        }
-
-        if(actuel.x != 6){
-            if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                actuel.x++;                
-                validationCoup(plateau, actuel,choix,temp);
-                actuel.x--;
-                printf("b");
-            }
-        }
-        if(actuel.y != 0){
-            if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                actuel.y--;                
-                validationCoup(plateau, actuel,choix,temp);
-                actuel.y++;
-                printf("c");
-            }
-        }
-            if(actuel.x != 0){
-                if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                actuel.x--;                
-                validationCoup(plateau, actuel,choix,temp);
-                actuel.x++;
-                printf("d");
-            }
-        }
-    }
-        
 }
-
-
-   
-
-   
 

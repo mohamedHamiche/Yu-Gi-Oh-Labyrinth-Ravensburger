@@ -2,7 +2,7 @@
 #define PLATEAU_H_INCLUDED
 
 #include "player.h"
-#include "pile.h"
+
 
 
 void SDL_ExitWithError(const char *message);
@@ -26,6 +26,6 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect);
 void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp);
 void tournerTuile(TUILE *tuileEnMain);
 void initRectPions(JOUEUR **tabJoueur, int nbTotal);
-
+void deplacerRectTuile(SDL_Rect *tuileEnMainRect,CORD choix);
 
 #endif

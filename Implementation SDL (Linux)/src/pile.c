@@ -2,42 +2,6 @@
 #include <stdio.h>
 #include "player.h"
 
-Node *createNode(CORD pos)
-{
-    Node *r=malloc(sizeof(Node *));
-    if(r == NULL)
-    {
-        exit(EXIT_FAILURE);
-    }
-    r->a.x = pos.x;
-    r->a.y = pos.y;
-    r->g=NULL;
-    r->d=NULL;
-    r->h=NULL;
-    r->b=NULL;
-    return r;
-}
-
-void freeTree(Node *r)
-{
-    if(r == NULL)
-        return;
-    printf("free de r->a = %d, %d \n",r->a.x, r->a.y );
-    if(r->g)
-        freeTree(r->g);
-
-    if(r->d)
-        freeTree(r->d);
-
-    if(r->h)
-        freeTree(r->h);
-
-    if(r->b)
-        freeTree(r->b);
-
-    free(r);
-}
-
 Pile *initPile(int n)
 {
     Pile *maPile= malloc(sizeof(Pile *));
