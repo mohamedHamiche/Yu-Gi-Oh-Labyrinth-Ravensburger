@@ -31,7 +31,7 @@ unity.o: unity/src/unity.c
 .PHONY: clean
 
 clean:
-	$(RM) build/*.o bin/*.exe
+	$(RM) build/*.o bin/prog bin/test_game
 
 
 
