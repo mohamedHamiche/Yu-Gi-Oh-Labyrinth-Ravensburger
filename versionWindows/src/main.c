@@ -1,6 +1,9 @@
 #include "plateau.h"
 #include "player.h"
 
+//Pour le test: le jeu marche bien avec 3 ou 4 joueurs, il reste des problèmes à regler pour 2 joueurs
+//exemple 2 machines 1 humain : abcd
+//les machines ne marchent, on va jouer à leur place
 
 
 int main(int argc, char *argv[]){
