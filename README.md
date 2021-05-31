@@ -25,8 +25,7 @@ make
 ```shell
 ./bin/jeu
 ```
-Suivez les instructions dans le terminal.
-Pour jouer: il faut choisir sur une des douzes emplacement d'insertion de la tuile en main avec le `clique gauche`, vous pouvez changer l'orientation de la tuile avec le `clique droit` et pour insérerer la tuile en main c'est `flèche du haut`, puis choisir la tuile du plateau dans laquel vous souhaiter déplacer votre pion.
+Pour insérer la tuile en main: choisir une des douzes insertion possible de la tuile en main avec le `clique gauche`, changez l'orientation de la tuile avec le `clique droit` et pour insérerer la tuile en main appueyz sur la `flèche du haut`, et choisir la tuile du plateau dans laquel vous souhaitez déplacer le pion.
 ### Tests unitaires
 ```shell
 ./bin/test_game
