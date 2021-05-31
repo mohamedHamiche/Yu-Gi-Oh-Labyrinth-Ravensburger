@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "player.h"
+
 #include "plateau.h"
 
 
@@ -141,7 +142,7 @@ void test_distribuerCartes(void)
     JOUEUR **tabJoueur=initTabJoueur(&nbTotal);
     initPositions(tabJoueur,nbTotal);
     /* When */
-    distribuerCartes(tabJoueur,nbTotal);
+   // distribuerCartes(tabJoueur,nbTotal);
 
     /* Then */
     TEST_ASSERT_NOT_NULL(tabJoueur[0]->pile_tresor);
@@ -217,9 +218,7 @@ int main(int argc, char **argv)
     //Executer ./bin/test_game pour voir le résultat des test 
     //Décommenter pour tester le tout
     
-    RUN_TEST(test_lirePseudo_should_return_Pseudo);
-    RUN_TEST(test_initJoueurM_should_return_JOUEUR);
-    RUN_TEST(test_initJoueurH_should_return_JOUEUR);   
+  
     RUN_TEST(test_initTabJoueur_should_return_TabJOUEUR_and_NombreTotal);
     RUN_TEST(test_initPositions);
     RUN_TEST(test_appartientTab_should_return_boolean);
