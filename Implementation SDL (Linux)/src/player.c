@@ -1,92 +1,5 @@
 #include "player.h"
-
 #include "plateau.h"
-
-
-void getChoixCouloirMachine(CORD *choixCase,CORD choixPrecedent,JOUEUR joueurActuel, TUILE plateau[7][7], int *nbTours, CORD * cordTresor)
-{
-  
-  CORD choix;
-  TUILE tuileEnMain;
-  int valide =0;
-  int trouvee = 0;
-  
-  //recherche du tresor :
-  for (int i = 0; i < 7 && !trouvee; ++i)
-   {
-     for (int j = 0; j < 7 && !trouvee; ++j)
-     {
-      printf("tresor recherche : %d -- trouve : %d\n",joueurActuel.pile_tresor[joueurActuel.nombre_de_points],plateau[i][j].tresor );
-      printf("cord (%d, %d)\n",i,j );
-       if(plateau[i][j].tresor == joueurActuel.pile_tresor[joueurActuel.nombre_de_points])
-        {
-          cordTresor->x=i;
-          cordTresor->y=j;
-          trouvee=1;          
-        }
-   } 
- }
-   if(cordTresor->x == -1 || cordTresor->y == -1)
-   {
-    printf("Erreur getChoixCouloirMachine cordTresor non trouvee\n");
-    exit(1);
-   }
-    trouvee = 0;
-   int i=0,j=0;
-   CORD choixOppose;
-  choixOppose.x=-1;
-  choixOppose.y=-1; 
-  while(i<7 && trouvee == 0)
-  {
-    j=0;
-    while(j<7 && trouvee == 0)
-    {
-      choix.x=i;
-      choix.y=j;
-      if(validationCouloir(&choix, &choixPrecedent) ==1)
-      {
-        for(int t=0; t<4 ; t++)
-        {
-
-          tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
-          printf("j'ai decale choix %d %d\n",choix.x, choix.y );
-          validationCoup(plateau,joueurActuel.postion_actuelle, *cordTresor,&valide);
-          if (valide == 1)
-          {
-            choixCase->x= i;
-            choixCase->y= j;
-            *nbTours=t;  
-            trouvee = 1;
-          }
-          //trouver l'oppose
-          for (int k = 0; k < 7 &&(!oppose(choixOppose, choix)); ++k)
-          {
-            for (int p = 0; p < 7 && (!oppose(choixOppose, choix)); ++p)
-            {
-              choixOppose.x=k;
-              choixOppose.y=p;                                    
-            }
-          }
-          //recaler
-          tuileEnMain= decalerCouloir(plateau, choixOppose, tuileEnMain);
-          tournerTuile(&tuileEnMain);
-        }
-        
-        
-      }
-      j++;
-    }
-    i++;
-  }
-
-  if(trouvee == 0)
-  {
-    choixCase->x= 0;
-    choixCase->y= 5;
-  }
-  printf("trouvee = %d\n",trouvee );
-}
-
 
 
 char *lirePseudo( int numJoueur)
@@ -118,15 +31,15 @@ JOUEUR **initTabJoueur(int *nombreTotal)
   
    int nombreMachines;
    int nombreHumains;
-  printf("Donner le nombre de machines\n");
-  scanf(" %d",&nombreMachines);
-  printf("Donner le nombre des Humains\n");
-  scanf(" %d",&nombreHumains);
-  *nombreTotal= nombreMachines+nombreHumains;
-  //printf("nombre total %d\n",*nombreTotal );
-  int index=0;
-  if(*nombreTotal <=4 && *nombreTotal >1)
-  {
+    printf("Donner le nombre de machines\n");
+    scanf(" %d",&nombreMachines);
+    printf("Donner le nombre des Humains\n");
+    scanf(" %d",&nombreHumains);
+    *nombreTotal= nombreMachines+nombreHumains;
+    //printf("nombre total %d\n",*nombreTotal );
+    int index=0;
+    if(*nombreTotal <=4 && *nombreTotal >1)
+    {
     
             while(index<nombreMachines)
             {                
@@ -139,23 +52,23 @@ JOUEUR **initTabJoueur(int *nombreTotal)
                 tabJoueurs[index]=initJoueurH(index+1);               
                 index++;
             }   
-  } 
-  else
-  {
-  	printf("un peu de concentration svp\n"); 
-  	exit(1);
-  }   
-  if(*nombreTotal == 2)
+    } 
+    else
     {
-      free(tabJoueurs[2]);
+    	printf("un peu de concentration svp\n"); 
+    	exit(1);
+    }   
+    if(*nombreTotal == 2)
+      {
+        free(tabJoueurs[2]);
+        free(tabJoueurs[3]);
+      }
+     
+    if(*nombreTotal == 3)
       free(tabJoueurs[3]);
-    }
-   
-  if(*nombreTotal == 3)
-    free(tabJoueurs[3]);
 
 
-  return tabJoueurs;
+    return tabJoueurs;
 }
 
 JOUEUR *initJoueurM(int index)
@@ -357,7 +270,7 @@ void distribuerCartes(JOUEUR **tabJoueur, int nbTotal)
                {
                 SDL_ExitWithError("erreur chargement images");
                }
-               printf("%d chargement de %s\n",j,bmpName );
+               //printf("%d chargement de %s\n",j,bmpName );
                k++;                              
             }
 
@@ -378,7 +291,7 @@ void createTexturesCartes(JOUEUR **tabJoueur, int nbTotal, SDL_Renderer *rendere
           {
               SDL_ExitWithError("Impossible de creer la texture de tabJoueur[i]->textureTresors[k]");
           }       
-          printf("texture %d du joueur %s cree\n",k , tabJoueur[i]->pseudo);
+        //  printf("texture %d du joueur %s cree\n",k , tabJoueur[i]->pseudo);
        }    
     }     
 }
@@ -436,3 +349,88 @@ void initRectanglesCartes(JOUEUR **tabJoueur, int nbTotal)
   
 }
 
+//fonction qui retourne le choix du couloir par la machine !! 
+//on l'a pas utilisé car on n'a pas mis au point le deplacement d'un pion pour le cas de la machine
+
+void getChoixCouloirMachine(CORD *choixCase,CORD choixPrecedent,JOUEUR joueurActuel, TUILE plateau[7][7], int *nbTours, CORD * cordTresor)
+{  
+  CORD choix;
+  TUILE tuileEnMain;
+  int valide =0;
+  int trouvee = 0;
+  
+  //recherche du tresor :
+  for (int i = 0; i < 7 && !trouvee; ++i)
+   {
+     for (int j = 0; j < 7 && !trouvee; ++j)
+     {
+      printf("tresor recherche : %d -- trouve : %d\n",joueurActuel.pile_tresor[joueurActuel.nombre_de_points],plateau[i][j].tresor );
+      printf("cord (%d, %d)\n",i,j );
+       if(plateau[i][j].tresor == joueurActuel.pile_tresor[joueurActuel.nombre_de_points])
+        {
+          cordTresor->x=i;
+          cordTresor->y=j;
+          trouvee=1;          
+        }
+   } 
+ }
+   if(cordTresor->x == -1 || cordTresor->y == -1)
+   {
+    printf("Erreur getChoixCouloirMachine cordTresor non trouvee\n");
+    exit(1);
+   }
+    trouvee = 0;
+   int i=0,j=0;
+   CORD choixOppose;
+  choixOppose.x=-1;
+  choixOppose.y=-1; 
+  while(i<7 && trouvee == 0)
+  {
+    j=0;
+    while(j<7 && trouvee == 0)
+    {
+      choix.x=i;
+      choix.y=j;
+      if(validationCouloir(&choix, &choixPrecedent) ==1)
+      {
+        for(int t=0; t<4 ; t++)
+        {
+
+          tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+          printf("j'ai decale choix %d %d\n",choix.x, choix.y );
+          validationCoup(plateau,joueurActuel.postion_actuelle, *cordTresor,&valide);
+          if (valide == 1)
+          {
+            choixCase->x= i;
+            choixCase->y= j;
+            *nbTours=t;  
+            trouvee = 1;
+          }
+          //trouver l'oppose
+          for (int k = 0; k < 7 &&(!oppose(choixOppose, choix)); ++k)
+          {
+            for (int p = 0; p < 7 && (!oppose(choixOppose, choix)); ++p)
+            {
+              choixOppose.x=k;
+              choixOppose.y=p;                                    
+            }
+          }
+          //recaler
+          tuileEnMain= decalerCouloir(plateau, choixOppose, tuileEnMain);
+          tournerTuile(&tuileEnMain);
+        }
+        
+        
+      }
+      j++;
+    }
+    i++;
+  }
+
+  if(trouvee == 0)
+  {
+    choixCase->x= 0;
+    choixCase->y= 5;
+  }
+  printf("trouvee = %d\n",trouvee );
+}

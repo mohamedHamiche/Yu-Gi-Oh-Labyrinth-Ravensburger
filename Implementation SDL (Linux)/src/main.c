@@ -1,16 +1,9 @@
 #include "plateau.h"
 #include "player.h"
 
-
-
-
-//Linux
-//#include "SDL2/SDL_image.h
-//#include <SDL2/SDL_ttf.h>
-//sudo apt-get install libsdl2-ttf-dev
-//sudo apt-get update && sudo apt-get upgrade
-//sudo apt-get install libsdl2-image-dev
-//gcc main.c $(sdl2-config --cflags --libs)
+//Pour le test: le jeu marche bien avec 3 ou 4 joueurs, il reste des problèmes à regler pour 2 joueurs
+//exemple 2 machines 1 humain : abcd
+//les machines ne marchent, on va jouer à leur place
 
 
 int main(int argc, char *argv[]){
@@ -18,10 +11,10 @@ int main(int argc, char *argv[]){
 
 	srand(time(NULL));
     
-     int nbTotal=0;      
+    int nbTotal=0;      
     JOUEUR **tabJoueur= initTabJoueur(&nbTotal);
     initPositions(tabJoueur,nbTotal);
-	//----------------------------------  init window
+	//----------------------------------  initialisation de la fenetre window
     SDL_Window *window = NULL;
 	SDL_Renderer *renderer = NULL;
 
@@ -43,28 +36,36 @@ int main(int argc, char *argv[]){
 	if(SDL_SetRenderDrawColor(renderer,0, 0, 0, 255) != 0)
 		SDL_ExitWithErrorAndDestroy("Impossible de changer la couleur",window, renderer);
 	
-	SDL_RenderClear(renderer); // pour la fenetre entiere
-    //-----------------------------------------
+	SDL_RenderClear(renderer); 
+
+    //----------------------------------------- distribution des cartes et création du rendu des cartes
 
     //printPlayers(tabJoueur,nbTotal);
-    distribuerCartes(tabJoueur,nbTotal);
+    distribuerCartes(tabJoueur,nbTotal); //distribue et charge les images
     createTexturesCartes(tabJoueur,nbTotal, renderer);
+    initRectanglesCartes(tabJoueur,nbTotal);
     
-    //----------------------------------------- init plateau
+    //----------------------------------------- initialisation du plateau et de la tuile en main
 	
 	TUILE plateau[7][7];	
-   	initPlateau(plateau);
-	tuilesFixes(plateau);
+   	initPlateau(plateau); // met les champs posee et angle à 0
+	tuilesFixes(plateau);      //pose les tuiles fixes dans la matrice plateau
+
+     //etape 1 chargement des images bmp
 	chargerImageTuileFixe(plateau, window, renderer);
+	TUILE tuileEnMain = tuilesCouloir(plateau); //poser les tuiles couloirs, charge les images des couloirs et renvoie la tuile en main
 
-	TUILE tuileEnMain = tuilesCouloir(plateau); //rempli les couloirs, charge les images et renvoie la tuile en main
-
-    creerTextures(window, renderer, &tuileEnMain, plateau);
+    //etape 2 creation des textures
+    creerTextures(window, renderer, &tuileEnMain, plateau);     //créer les textures des tuiles du plateau et tuile en main
  	
+    //etape 3 creation des rectangles  
     SDL_Rect tuileEnMainRect;
     SDL_Rect caseSdl[7][7];
     initRectangles(&tuileEnMainRect, caseSdl);
 
+    //----------- on a un plateau qui s'affiche avec la tuile en main
+
+    //-------------------------- images des pions pour chaque joueur 
     char bmpName[] ="img/P1.bmp";
     for (int i = 0; i < nbTotal; ++i)
     {
@@ -73,8 +74,7 @@ int main(int argc, char *argv[]){
         tabJoueur[i]->image=SDL_LoadBMP(bmpName);
         if(tabJoueur[i]->image == NULL)
             SDL_ExitWithErrorAndDestroy("Impossible de charger les pions bmp",window, renderer); 
-
-       // printf("images charges %s \n",bmpName );
+       
         tabJoueur[i]->texture=NULL;
         tabJoueur[i]->texture=SDL_CreateTextureFromSurface(renderer, tabJoueur[i]->image);
         SDL_FreeSurface(tabJoueur[i]->image);
@@ -82,131 +82,136 @@ int main(int argc, char *argv[]){
         {
             SDL_ExitWithError("Impossible de creer la texture de tuile en main");
         }       
-       // printf("tectures crees %s \n",bmpName );
-    }
-    //printf("fin chargement\n");
+       
+    }    
+
     //initialistion des rectangles
-    initRectPions(tabJoueur, nbTotal);        
-    initRectanglesCartes(tabJoueur,nbTotal);
-    
+    initRectPions(tabJoueur, nbTotal);  
+
     //------------------------------------------------ GAME LOOP
 
 
     SDL_RendererFlip flip = SDL_FLIP_NONE;
-    CORD choix, choixPrecedent,cordTresor;
+   //les choix des couloirs
+    CORD choix, choixPrecedent;
     choix.x =-1;
     choix.y =-1;
     choixPrecedent.x=-1;
     choixPrecedent.x=-1;
-    cordTresor.x=-1;
-    cordTresor.y=-1;
 
+    //de la case où mettre le pion
     CORD choixCase;
+
     int i=0;
     JOUEUR *joueurActuel= tabJoueur[0];
-    int nbTours=0;
+
     //etats: 
     int insertion=1;
     int deplacement = 0;
 	int exit=SDL_FALSE;
-	SDL_Event event;	
+    int coupValide=0;
 
-    int temporaire=0;
+	SDL_Event event;	
 	while(!exit)
     {     
-
-		while(SDL_PollEvent(&event))
+		while(SDL_PollEvent(&event)) //attend les evenements du clavier et souris
         { 
-            
 			switch(event.type)
             {
 				case SDL_QUIT:
 					exit=SDL_TRUE;
 					break;
 
-				case SDL_MOUSEBUTTONDOWN:         
- 					if(event.button.button == 1 && insertion){  
-                         if(joueurActuel->machine == 0)
-                            choixEvent(event, &tuileEnMainRect,&choix);
-                            
+				case SDL_MOUSEBUTTONDOWN:   
 
-                        //la tuile est rentrée                        
-                    }
+                    //etat d'insertion 
+ 					if(event.button.button == 1 && insertion){                          
+                            choixEvent(event, &tuileEnMainRect,&choix);
+                          //renvoie le choix du couloir ou inserer quand on fait un click gauche dessus                    
+                    }                    
 					if(event.button.button == 3 && insertion){
-						tournerTuile(&tuileEnMain);
-					      fprintf(stdout,"%d\n",event.button.y); 
+						tournerTuile(&tuileEnMain);                        					      
+                        //si on fait click droit on peut tourner la tuile en main
 					}
-                    if(event.button.button == 1){  
-                       
-                        getCordClick(event, &choixCase,tabJoueur[i]); 
-                                                    
-                        
-                        //si le coup est valide
+
+                    //etape de deplacement du pion si on click gauche
+                    if(event.button.button == 1 && deplacement){ 
+
+                            //on recupere les coordonées de la case ciblée
+                            getCordClick(event, &choixCase,tabJoueur[i]); 
+                                                                                                            
+                        //si le coup est valide ?
        					for(int i=0;i<7;i++){
                             for(int j=0; j<7; j++){                           
                                 plateau[i][j].parcouru  = 0;
                             }
-                        }                  
-                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&temporaire);
-                        printf("validation : %d\n",temporaire);                        
-                        if(temporaire == 1)
+                        }                    
+                        validationCoup(plateau,joueurActuel->postion_actuelle, choixCase,&coupValide);
+                        printf("validation : %d\n",coupValide);                        
+                        if(coupValide == 1)
                         {
+                            //mettre à jour la position du joueur actuel
                         	tabJoueur[i]->postion_actuelle.x=choixCase.x;
-	                        tabJoueur[i]->postion_actuelle.y=choixCase.y; 
-	                       // printf("choixCase = %d %d\n",choixCase.x, choixCase.y );          
+	                        tabJoueur[i]->postion_actuelle.y=choixCase.y; 	                                
 	                                               
+                            //deplacer le rectangle de son pion                                                    
 	                        deplacerRect(event,&tabJoueur[i]->pionRect, tabJoueur[i]->postion_actuelle,i);
 
+                            //si la position choisi contient le tresor recherché
 	                        if(plateau[tabJoueur[i]->postion_actuelle.x][tabJoueur[i]->postion_actuelle.y].tresor == tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points])
 	                        {
 	                        	printf("tresor trouve !!!!!\n");
 	                        	tabJoueur[i]->pile_tresor[tabJoueur[i]->nombre_de_points]*= -1;
 	                        	tabJoueur[i]->nombre_de_points++;
 	                        }
+                            //s'il ne reste plus de tresors à trouver on tester si le joueur a pu revenir à sa case de départ
 	                        if(tabJoueur[i]->nombre_de_points == (24/nbTotal) +1)
 	                        {
 	                        	printf("%s a gange la partie\n",tabJoueur[i]->pseudo);
 	                        	exit= SDL_TRUE;	                        	
 	                        }
-	                        //alterner tour 
-                        //i=(i+1)%nbTotal;
-                       // joueurActuel=tabJoueur[i];
-                        printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
-                        for (int k = 0; k <= 24/nbTotal; ++k)
-                        {
-                        	printf("%d\n",tabJoueur[i]->pile_tresor[k]);
-                        }                      
-                        //afficherPile(tabJoueur[i]->pile_tresor);
-                       temporaire =0;
-                       insertion =1;
+	                   
+                           //alterner tour on passe au joueur suivant
+                            i=(i+1)%nbTotal;
+                            joueurActuel=tabJoueur[i];
+                            printf("tour du joueur %s : %d points \n",tabJoueur[i]->pseudo, tabJoueur[i]->nombre_de_points);
+                            for (int k = 0; k <= 24/nbTotal; ++k)
+                            {
+                            	printf("%d\n",tabJoueur[i]->pile_tresor[k]);
+                            }                        
+                            
+                               coupValide =0;
+                               deplacement=0;
+                               insertion =1;
                         }
          
-                    }                                           
+                    }                                            
                        
-
+                //etat d'insertion si le couloir choisi est valide on appuie sur touche du haut pour inserer 
 				case SDL_KEYDOWN:
                     if(event.key.keysym.sym==SDLK_UP && validationCouloir(&choix, &choixPrecedent) && insertion)
                     {
+                        //decaler le couloir est mettre à jour la tuile en main
                         tuileEnMain = decalerCouloir(plateau, choix,tuileEnMain);
+                        //on décale aussi tous les pions qui se trouvent sur le meme couloir
                         for (int i = 0; i < nbTotal; ++i)
                         {
                             decalerPion(&tabJoueur[i]->postion_actuelle,choix, &tabJoueur[i]->pionRect);
                         }
                         insertion = 0;
                         deplacement = 1;
-                        //sortirTuileEnMain(&tuileEnMainRect, i);                                      
+                                                          
                     }
 
 				default:                
 					break;
-			} 
+			}  
            
-                  
 			SDL_RenderClear(renderer);
 						
-		}
+		}  
          
-   //----------------------------------------- affiche rendu
+   //----------------------------------------- affichage du rendu
         for(int i=0; i<7; i++)
         {
         	for(int j=0; j<7; j++)
@@ -215,10 +220,7 @@ int main(int argc, char *argv[]){
     		}
     	}
 		SDL_RenderCopyEx(renderer,tuileEnMain.texture,NULL,&tuileEnMainRect,tuileEnMain.angle,NULL,flip);
-        /*if(joueurActuel->machine == 1)
-        {
-            SDL_Delay(3000);
-        }*/
+      
         for (int i = 0; i < nbTotal; ++i)
         {
             SDL_RenderCopyEx(renderer, tabJoueur[i]->texture,NULL,&tabJoueur[i]->pionRect,0,NULL,flip);

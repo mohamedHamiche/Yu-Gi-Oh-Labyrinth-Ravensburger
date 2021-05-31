@@ -1,5 +1,7 @@
 #include "plateau.h"
 
+
+//on tourne une fois à chaque appel de cette fonction
 void tournerTuile(TUILE *tuileEnMain)
 {
     tuileEnMain->angle = (tuileEnMain->angle + 90)%360;
@@ -13,6 +15,7 @@ void tournerTuile(TUILE *tuileEnMain)
     tuileEnMain->g = tmpB;
 }
 
+//renvoie les coordonées correspondantes à la position où on a appuyé 
 void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
 {    
     //si on appuie sur une case du plateau
@@ -20,7 +23,8 @@ void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
     {
         choixCase->x= (event.button.y - positionY)/70;
         choixCase->y= (event.button.x - positionX)/70;        
-    }    
+    }   
+    //si on appuie ailleurs que sur le plateau on ne deplace pas le pion 
     else
     {
         choixCase->x=joueurActuel->postion_actuelle.x;
@@ -28,6 +32,7 @@ void getCordClick(SDL_Event event, CORD *choixCase, JOUEUR *joueurActuel)
     }
 }
 
+//deplace les postions x et y du rectangle d'un pion
 void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
 {
     int decalageX=5 , decalageY = 5;
@@ -53,6 +58,7 @@ void deplacerRect(SDL_Event event,SDL_Rect *pionRect, CORD a, int index)
     }
 }
 
+//initialise les infromations des rectangles des pions
 void initRectPions(JOUEUR **tabJoueur, int nbTotal)
 {
     for (int i = 0; i < nbTotal; ++i)
@@ -66,6 +72,7 @@ void initRectPions(JOUEUR **tabJoueur, int nbTotal)
     }
 }
 
+//change les coordonnées et le rectangle
 void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 {
     int d=0;
@@ -120,51 +127,52 @@ void decalerPion(CORD *pion, CORD choix, SDL_Rect *pionRect)
 }
 
 
-
-void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp){
-    /*
-    *Cette fonction vérifie récursivement en parcourant toutes les tuiles accessible (chemin valide),
-    *sans jamais revenir sur la même tuile en incrémantant à 1 le champ 'parcouru' de la tuile parcouru, si la tuile est trouvée alors la variable renvoie sur la variable temp la valeur 1.
-    */
+//fonction récursive cherchant s'il existe un chemin entre notre position actuelle et le choix de la cible
+void validationCoup(TUILE plateau[7][7], CORD actuel, CORD choix, int *temp)
+{        
+    //printf("temp = %d ; cord actuel (%u,%u) : %d\n ",(*temp), actuel.x, actuel.y, plateau[actuel.x][actuel.y].parcouru);
     if(actuel.x == choix.x && actuel.y == choix.y)
         (*temp) = 1;
-    else{
-        if(actuel.y != 6){
-            if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
-                actuel.y++;
+    else
+        if(actuel.y < 7 && actuel.y >= 0 && actuel.x >= 0 && actuel.x < 7) {            
+              if((plateau[actuel.x][actuel.y].d == 1 && plateau[actuel.x][actuel.y+1].g == 1) && plateau[actuel.x][actuel.y+1].parcouru < 1 && (actuel.y+1 < 7) && (*temp) != 1){               
+                plateau[actuel.x][actuel.y].parcouru++;                
+                actuel.y++;                
                 validationCoup(plateau, actuel,choix,temp);
                 actuel.y--;
-
+                
             }
-        }
 
-        if(actuel.x != 6){
-            if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
+            
+              if((plateau[actuel.x][actuel.y].b == 1 && plateau[actuel.x+1][actuel.y].h == 1) && plateau[actuel.x+1][actuel.y].parcouru < 1 && (actuel.x+1 < 7) && (*temp) != 1){                
+                plateau[actuel.x][actuel.y].parcouru++;          
                 actuel.x++;                
                 validationCoup(plateau, actuel,choix,temp);
                 actuel.x--;
             }
-        }
-        if(actuel.y != 0){
-            if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
+        
+       
+            
+              if((plateau[actuel.x][actuel.y].g == 1 && plateau[actuel.x][actuel.y-1].d == 1) && plateau[actuel.x][actuel.y-1].parcouru < 1 && (actuel.y-1 >=0) && (*temp) != 1){              
+                plateau[actuel.x][actuel.y].parcouru++;                
                 actuel.y--;                
                 validationCoup(plateau, actuel,choix,temp);
-                actuel.y++;
+                actuel.y++;  
             }
-        }
-            if(actuel.x != 0){
-                if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (*temp) != 1){
-                plateau[actuel.x][actuel.y].parcouru++;
+        
+    
+              if((plateau[actuel.x][actuel.y].h == 1 && plateau[actuel.x-1][actuel.y].b == 1) && plateau[actuel.x-1][actuel.y].parcouru < 1 && (actuel.x-1 >=0)  && (*temp) != 1){                               
+                plateau[actuel.x][actuel.y].parcouru++;               
                 actuel.x--;                
                 validationCoup(plateau, actuel,choix,temp);
-                actuel.x++;
+                actuel.x++;  
             }
-        }
-    }
         
+        
+    }
+  
+        
+
 }
 
 void SDL_ExitWithError(const char *message)
@@ -192,12 +200,15 @@ void initPlateau(TUILE plateau[7][7])
         }
     }
 }
+
+
 unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 {
     if(choixActuel->x <0 || choixActuel->y <0 || choixActuel->x > 6 || choixActuel->y > 6)
        {
         return 0;
        } 
+    //si ce n'est pas un couloir return 0
   if(!( (choixActuel->x == 1 && choixActuel->y == 0 )||
         (choixActuel->x == 1 && choixActuel->y == 6 )||
        (choixActuel->x == 3 && choixActuel->y == 0 )||
@@ -222,11 +233,10 @@ unsigned int validationCouloir(CORD *choixActuel, CORD *choixPrecedent)
 	else return 0;
 }
 
+
+//renvoie si le couloir qu'on a choisi n'est pas l'opposé du couloir precedent
 int oppose(CORD a, CORD choixPrecedent)
 {
-    /*
-    *Cette fonction renvoie 1 si la coordonnées opposée de 'a' est égal à 'choixPrecedent'
-    */
 	CORD temp;    
 
 	if(a.x == 0 || a.x == 6){
@@ -303,15 +313,12 @@ int oppose(CORD a, CORD choixPrecedent)
 
 
 TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
-    /*
-    *Cette fonction décale le couloir du plateau, dans touts les orientations possibles.
-    *la fonction renvoie la nouvelle tuile en main
-    */
+
     TUILE tmp,dec;
     unsigned int i = 0;
-    if(choixCouloir.x == 0 || choixCouloir.x == 6){ // si l'orientation du décalage est Nord ('x == 0') ou Sud ('x == 6')
+    if(choixCouloir.x == 0 || choixCouloir.x == 6){
 
-        if(choixCouloir.x == 0){ // Nord
+        if(choixCouloir.x == 0){
             tmp = plateau[choixCouloir.x][choixCouloir.y];
             plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
             dec = plateau[choixCouloir.x+1][choixCouloir.y];
@@ -324,7 +331,7 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
             }
         }
           
-        if(choixCouloir.x == 6){ // Sud
+        if(choixCouloir.x == 6){
             tmp = plateau[choixCouloir.x][choixCouloir.y];
             plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
             for(i=6; i>0; i--){
@@ -335,9 +342,9 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
         } 
     }
     
-    else if(choixCouloir.y == 0 || choixCouloir.y == 6){ // si l'orientation du décalage est Ouest ('y == 0') ou Est ('y == 6')
+    else if(choixCouloir.y == 0 || choixCouloir.y == 6){
 
-            if(choixCouloir.y == 0){ //Ouest
+            if(choixCouloir.y == 0){
                 tmp = plateau[choixCouloir.x][choixCouloir.y];
                 plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
                 dec = plateau[choixCouloir.x][choixCouloir.y+1];
@@ -350,7 +357,7 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
                 }
             }
         
-            if(choixCouloir.y == 6){ // Est
+            if(choixCouloir.y == 6){
                 tmp = plateau[choixCouloir.x][choixCouloir.y];
                 plateau[choixCouloir.x][choixCouloir.y] = tuileEnMain;
                     for(i=6; i>0; i--){
@@ -366,157 +373,90 @@ TUILE decalerCouloir(TUILE plateau[7][7], CORD choixCouloir, TUILE tuileEnMain){
 
 
 void choixEvent(SDL_Event event, SDL_Rect *tuileEnMain, CORD *choix){
-    //Nord
-    if(event.button.x > positionX+70 &&  event.button.x < positionX+140 && event.button.y > positionY-70 && event.button.y < positionY){
-        (tuileEnMain->x) = positionX+70;
-        (tuileEnMain->y) = positionY-70;
-        (choix->y) = 1;
-        (choix->x) = 0;
-    }
-    if(event.button.x > positionX+(70*3) &&  event.button.x < positionX+(70*4) && event.button.y > positionY-70 && event.button.y < positionY){
-        (tuileEnMain->x) = positionX+(70*3);
-        (tuileEnMain->y) = positionY-70;
-        (choix->y) = 3;
-        (choix->x) = 0;
-    }
-    if(event.button.x >  positionX+(70*5) &&  event.button.x < positionX+(70*6) && event.button.y > positionY-70 && event.button.y < positionY){
-        (tuileEnMain->x) = positionX+(70*5);
-        (tuileEnMain->y) = positionY-70;;
-        (choix->y) = 5;
-        (choix->x) = 0;
-    }
-    //Est
+    //NORD
+                        if(event.button.x > positionX+70 &&  event.button.x < positionX+140 && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+70;
+                            (tuileEnMain->y) = positionY-70;
+                            (choix->y) = 1;
+                           (choix->x) = 0;
+                        }
+                        if(event.button.x > positionX+(70*3) &&  event.button.x < positionX+(70*4) && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+(70*3);
+                           (tuileEnMain->y) = positionY-70;
+                           (choix->y) = 3;
+                            (choix->x) = 0;
+                        }
+                        if(event.button.x >  positionX+(70*5) &&  event.button.x < positionX+(70*6) && event.button.y > positionY-70 && event.button.y < positionY){
+                            (tuileEnMain->x) = positionX+(70*5);
+                            (tuileEnMain->y) = positionY-70;;
+                            (choix->y) = 5;
+                            (choix->x) = 0;
+                        }
 
-    if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+70 && event.button.y < positionY+(2*70)){
-        (tuileEnMain->x) = positionX+(70*7);
-        (tuileEnMain->y) = positionY+70;
-        (choix->y) = 6;
-        (choix->x) = 1;
-    }
-    if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
-        (tuileEnMain->x) = positionX+(70*7);;
-        (tuileEnMain->y) = positionY+(3*70);
-        (choix->y)= 6;
-        (choix->x) = 3;
-    }
+                       //EST
 
-    if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
-        (tuileEnMain->x) = positionX+(70*7);;
-        (tuileEnMain->y) = positionY+(5*70);
-        (choix->y)= 6;
-        (choix->x) = 5;
-    }
+                        if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+70 && event.button.y < positionY+(2*70)){
+                            (tuileEnMain->x) = positionX+(70*7);
+                            (tuileEnMain->y) = positionY+70;
+                            (choix->y) = 6;
+                            (choix->x) = 1;
+                        }
+                        if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
+                            (tuileEnMain->x) = positionX+(70*7);;
+                            (tuileEnMain->y) = positionY+(3*70);
+                            (choix->y)= 6;
+                            (choix->x) = 3;
+                        }
 
-    //Sud
-    if(event.button.x > positionX+70 &&  event.button.x < positionX+(2*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
-        (tuileEnMain->x) = positionX+70;
-        (tuileEnMain->y) = positionY+(7*70);
-        (choix->y) = 1;
-        (choix->x) = 6;
-    }
-    if(event.button.x > positionX+(3*70) &&  event.button.x < positionX+(4*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
-        (tuileEnMain->x) = positionX+(3*70);
-        (tuileEnMain->y) = positionY+(7*70);
-        (choix->y) = 3;
-        (choix->x)= 6;
-    }
-    if(event.button.x > positionX+(5*70) &&  event.button.x < positionX+(6*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
-        (tuileEnMain->x) = positionX+(5*70);
-        (tuileEnMain->y) = positionY+(7*70);
-        (choix->y) = 5;
-        (choix->x) = 6;
-    }
+                          if(event.button.x > positionX+(70*7) &&  event.button.x < positionX+(70*8) && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
+                            (tuileEnMain->x) = positionX+(70*7);;
+                            (tuileEnMain->y) = positionY+(5*70);
+                            (choix->y)= 6;
+                            (choix->x) = 5;
+                        }
 
-    //Ouest
-    if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+70 && event.button.y < positionY+140){
-        (tuileEnMain->x) = positionX-70;
-        (tuileEnMain->y) = positionY+70;
-        (choix->y) = 0;
-        (choix->x) = 1;
-    }
-    if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
-        (tuileEnMain->x) = positionX-70;
-        (tuileEnMain->y) = positionY+(3*70);
-        (choix->y) = 0;
-        (choix->x) = 3;
-    }
+                        //SUD
+                        if(event.button.x > positionX+70 &&  event.button.x < positionX+(2*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+70;
+                            (tuileEnMain->y) = positionY+(7*70);
+                            (choix->y) = 1;
+                            (choix->x) = 6;
+                        }
+                        if(event.button.x > positionX+(3*70) &&  event.button.x < positionX+(4*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+(3*70);
+                            (tuileEnMain->y) = positionY+(7*70);
+                            (choix->y) = 3;
+                            (choix->x)= 6;
+                        }
+                        if(event.button.x > positionX+(5*70) &&  event.button.x < positionX+(6*70) && event.button.y > positionY+(7*70) && event.button.y < positionY+(8*70)){
+                            (tuileEnMain->x) = positionX+(5*70);
+                            (tuileEnMain->y) = positionY+(7*70);
+                            (choix->y) = 5;
+                            (choix->x) = 6;
+                        }
 
-    if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
-        (tuileEnMain->x) = positionX-70;
-        (tuileEnMain->y) = positionY+(5*70);
-        (choix->y) = 0;
-        (choix->x) = 5;
-    }
+                        //OUEST
+                        if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+70 && event.button.y < positionY+140){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+70;
+                            (choix->y) = 0;
+                            (choix->x) = 1;
+                        }
+                        if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(3*70) && event.button.y < positionY+(4*70)){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+(3*70);
+                            (choix->y) = 0;
+                            (choix->x) = 3;
+                        }
+
+                          if(event.button.x > positionX-70 &&  event.button.x < positionX && event.button.y > positionY+(5*70) && event.button.y < positionY+(6*70)){
+                            (tuileEnMain->x) = positionX-70;
+                            (tuileEnMain->y) = positionY+(5*70);
+                            (choix->y) = 0;
+                            (choix->x) = 5;
+                        }
 }
 
-void deplacerRectTuile(SDL_Rect *tuileEnMainRect,CORD choix)
-{
-    if(choix.x== 0 && choix.y== 1)
-    {
-        tuileEnMainRect->x = positionX+70;
-        tuileEnMainRect->y = positionY-70;                          
-    }
-    if(choix.x== 0 && choix.y== 3)
-    {
-        tuileEnMainRect->x = positionX+(70*3);
-        tuileEnMainRect->y = positionY-70;                                
-    }
-    if(choix.x== 0 && choix.y== 5)
-    {
-        tuileEnMainRect->x = positionX+(70*5);
-        tuileEnMainRect->y = positionY-70;                          
-    }
-    if(choix.x== 1 && choix.y== 6)
-    {
-        tuileEnMainRect->x = positionX+(70*7);
-        tuileEnMainRect->y = positionY+70;                                   
-    }
-    if(choix.x== 3 && choix.y== 6)
-    {
-        tuileEnMainRect->x = positionX+(70*7);
-        tuileEnMainRect->y = positionY+(3*70);                              
-    }
-
-    if(choix.x== 5 && choix.y== 6)
-    {
-        tuileEnMainRect->x = positionX+(70*7);;
-        tuileEnMainRect->y = positionY+(5*70);                              
-    }
-
-    if(choix.x== 6 && choix.y== 1)
-    {
-        tuileEnMainRect->x = positionX+70;
-        tuileEnMainRect->y = positionY+(7*70);                            
-    }
-
-    if(choix.x== 6 && choix.y== 3)
-    {
-        tuileEnMainRect->x = positionX+(3*70);
-        tuileEnMainRect->y = positionY+(7*70);                                  
-    }
-
-    if(choix.x== 6 && choix.y== 5)
-    {
-        tuileEnMainRect->x = positionX+(5*70);
-        tuileEnMainRect->y = positionY+(7*70);                                
-    }
-
-    if(choix.x== 1 && choix.y== 0)
-    {
-        tuileEnMainRect->x = positionX-70;
-        tuileEnMainRect->y = positionY+70;                               
-    }
-    if(choix.x== 3 && choix.y== 0)
-    {
-        tuileEnMainRect->x = positionX-70;
-        tuileEnMainRect->y = positionY+(3*70);                                  
-    }
-    if(choix.x== 5 && choix.y== 0)
-    {
-        tuileEnMainRect->x = positionX-70;
-        tuileEnMainRect->y = positionY+(5*70);                          
-    }
-}
 void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice)
 {	
 	if(indice == 0) //joueur du coté 0,0
@@ -546,9 +486,7 @@ void sortirTuileEnMain(SDL_Rect *tuileEnMain,int indice)
 }
 
 void tuilesFixes(TUILE Plateau[7][7]){
-    /*
-    *Initialisations des tuiles fixes
-    */
+    //LIGNE 0:
     Plateau[0][0].fixe=1;
     Plateau[0][0].tresor= 25; //depart joueur 1
     Plateau[0][0].g=0;
@@ -733,9 +671,6 @@ void chargerImageTuileFixe(TUILE plateau[7][7], SDL_Window *window, SDL_Renderer
 }
 
 TUILE tuilesCouloir(TUILE Plateau[7][7]){
-    /*
-    *Initialiations des tuiles couloirs
-    */
     srand(time(NULL));
 
     TUILE tuilesCouloir[34];
